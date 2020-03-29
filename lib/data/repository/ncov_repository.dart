@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
-import 'package:ncov_tracker_ph/data/models/ncov_infected.dart';
-import 'package:ncov_tracker_ph/data/models/ncov_statistic_basic.dart';
-import 'package:ncov_tracker_ph/interceptors/ncov_retry_interceptors.dart';
-import 'package:ncov_tracker_ph/retriers/dio_connectivity_request_trier.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../interceptors/ncov_retry_interceptors.dart';
+import '../../retriers/dio_connectivity_request_trier.dart';
+import '../models/age_category_statistic.dart';
+import '../models/ncov_infected.dart';
+import '../models/ncov_statistic_basic.dart';
 
 // Deaths - https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22deaths%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true
 // Recovered - https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22recovered%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true
@@ -73,6 +76,33 @@ class NcovRepository {
       totalPUMs: numberOfPUMs,
       totalTestsConducted: numberOfTestsConducted,
     );
+  }
+
+  Future<Map<String, dynamic>> fetchedAgeData() async {
+    dioClient.interceptors.add(
+      NcovRetryOnConnectionChangeInterceptors(
+        requestRetrier: DioConnectivityRequestRetrier(
+          dio: dioClient,
+          connectivity: Connectivity(),
+        ),
+      ),
+    );
+    final ageData = await jsonDecode(
+      await dioClient
+          .get(
+              'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/age_group/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=age_categ%2Csex&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22FID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&outSR=102100&cacheHint=true')
+          .then((response) => response.data),
+    )['features'];
+
+    final List<dynamic> ageDataConverted = ageData.map((raw) {
+      final attr = raw['attributes'];
+      return AgeCategoryStatistic(
+        value: attr['value'],
+        category: attr['age_categ'],
+        sex: attr['sex'],
+      );
+    }).toList();
+    return groupBy(ageDataConverted, (obj) => obj.category);
   }
 
   Future<List<NcovInfected>> fetchInfectedByCities() async {

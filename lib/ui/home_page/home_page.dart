@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
@@ -6,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../data/models/ncov_infected.dart';
 import '../../data/models/ncov_statistic_basic.dart';
 import 'bloc/home_page_bloc.dart';
+import 'widgets/age_category_widget.dart';
 import 'widgets/basic_statistics_widget.dart';
 import 'widgets/cities_list_widget.dart';
 import 'widgets/search_bar_widget.dart';
@@ -86,11 +88,25 @@ class HomePage extends StatelessWidget {
                   statisticBasic: statisticBasic,
                 ),
                 Center(
-                  child: Text(
-                    'List of Cities Infected',
+                  child: AutoSizeText(
+                    'Confirmed Cases By Age Group',
                     style: GoogleFonts.raleway(
                       fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setSp(50),
+                      fontSize: ScreenUtil().setSp(40),
+                    ),
+                    maxLines: 1,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                AgeCategoryWidget(),
+                Center(
+                  child: Text(
+                    'Cities Infected',
+                    style: GoogleFonts.raleway(
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(40),
                     ),
                   ),
                 ),
