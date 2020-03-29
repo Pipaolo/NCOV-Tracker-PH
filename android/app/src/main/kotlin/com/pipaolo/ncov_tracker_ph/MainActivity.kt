@@ -1,4 +1,4 @@
-package com.example.ncov_tracker_ph
+package com.pipaolo.ncov_tracker_ph
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
