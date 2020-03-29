@@ -33,6 +33,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
           ncovStatisticBasic: ncovStatisticBasic,
         );
       } catch (e) {
+        print(e);
         yield HomePageError(
           errorText: e.toString(),
         );

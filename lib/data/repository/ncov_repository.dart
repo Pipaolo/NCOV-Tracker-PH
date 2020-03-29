@@ -113,11 +113,12 @@ class NcovRepository {
 
     return rawListOfCities.map((rawInfected) {
       final infected = rawInfected['attributes'];
+      final rawAge = int.tryParse(infected['edad']);
       return NcovInfected(
           fID: infected['FID'],
           sequ: infected['sequ'],
           phMasterList: infected['PH_masterl'],
-          age: infected['edad'],
+          age: rawAge ?? 0,
           gender: infected['kasarian'],
           nationality: infected['nationalit'],
           residence: infected['residence'],

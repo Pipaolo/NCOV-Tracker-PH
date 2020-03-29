@@ -31,7 +31,7 @@ class CaseDialogWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'Age: ${ncovInfected.age}',
+                      'Age: ${(ncovInfected.age == 0) ? 'For Validation' : ncovInfected.age}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
