@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../data/repository/ncov_repository.dart';
@@ -45,20 +46,23 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
       final List<BarChartGroupData> chartData = [];
       int index = 0;
       ageData.forEach((k, v) {
-        chartData.add(BarChartGroupData(x: index, barsSpace: 4, barRods: [
-          BarChartRodData(
-            y: v[0].value.toDouble() ?? 0.0,
-            color: leftBarColor,
-            borderRadius: BorderRadius.circular(10),
-            width: 8,
-          ),
-          BarChartRodData(
-            y: (v.length > 1) ? v[1].value.toDouble() : 0.0,
-            color: rightBarColor,
-            borderRadius: BorderRadius.circular(10),
-            width: 8,
-          )
-        ]));
+        chartData.add(BarChartGroupData(
+            x: index,
+            barsSpace: ScreenUtil().setWidth(10),
+            barRods: [
+              BarChartRodData(
+                y: v[0].value.toDouble() ?? 0.0,
+                color: leftBarColor,
+                borderRadius: BorderRadius.circular(10),
+                width: ScreenUtil().setWidth(20),
+              ),
+              BarChartRodData(
+                y: (v.length > 1) ? v[1].value.toDouble() : 0.0,
+                color: rightBarColor,
+                borderRadius: BorderRadius.circular(10),
+                width: ScreenUtil().setWidth(20),
+              )
+            ]));
       });
 
       yield GraphSuccess(chartData: chartData);

@@ -2,17 +2,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ncov_tracker_ph/ui/home_page/widgets/info_dialog_widget.dart';
 
-import '../../data/models/ncov_infected.dart';
 import '../../data/models/ncov_statistic_basic.dart';
 import 'bloc/home_page_bloc.dart';
 import 'widgets/age_category_widget.dart';
 import 'widgets/basic_statistics_widget.dart';
-import 'widgets/cities_list_widget.dart';
-import 'widgets/search_bar_widget.dart';
+import 'widgets/info_dialog_widget.dart';
+import 'widgets/region_list_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
@@ -93,7 +90,7 @@ class HomePage extends StatelessWidget {
   }
 
   _buildSuccess(NcovStatisticBasic statisticBasic,
-      List<NcovInfected> ncovInfecteds, BuildContext context) {
+      Map<String, dynamic> ncovInfecteds, BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async => BlocProvider.of<HomePageBloc>(context)
         ..add(
@@ -123,7 +120,7 @@ class HomePage extends StatelessWidget {
                 AgeCategoryWidget(),
                 Center(
                   child: Text(
-                    'Cities Infected',
+                    'Regions Infected',
                     style: GoogleFonts.raleway(
                       fontWeight: FontWeight.bold,
                       fontSize: ScreenUtil().setSp(40),
@@ -133,10 +130,7 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          SliverToBoxAdapter(
-            child: SearchBarWidget(),
-          ),
-          CitiesListWidget(
+          RegionListWidget(
             ncovInfecteds: ncovInfecteds,
           ),
         ],

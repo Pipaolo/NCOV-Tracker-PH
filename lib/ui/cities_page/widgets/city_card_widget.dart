@@ -3,23 +3,27 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ncov_tracker_ph/data/models/ncov_infected.dart';
-import 'package:ncov_tracker_ph/routes/router.gr.dart';
+
+import '../../../data/models/ncov_infected.dart';
+import '../../../routes/router.gr.dart';
 
 class CityCardWidget extends StatelessWidget {
   final List<NcovInfected> ncovInfected;
   final String city;
-  const CityCardWidget({Key key, this.ncovInfected, this.city})
+  final String region;
+  const CityCardWidget({Key key, this.ncovInfected, this.city, this.region})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () => ExtendedNavigator.rootNavigator.pushNcovCasesCityPageRoute(
-          ncovInfecteds: ncovInfected,
-          city: city,
-        ),
+        onTap: () {
+          return ExtendedNavigator.rootNavigator.pushNcovCasesCityPageRoute(
+            ncovInfecteds: ncovInfected,
+            city: city,
+          );
+        },
         child: Stack(
           children: <Widget>[
             Positioned(

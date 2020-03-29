@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../bloc/graph_bloc/graph_bloc.dart';
 import 'age_category_legend_widget.dart';
@@ -36,11 +37,11 @@ class _AgeCategoryWidgetState extends State<AgeCategoryWidget> {
               Container(
                 height: 200,
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: BarChart(
                   BarChartData(
-                    alignment: BarChartAlignment.center,
                     maxY: 400,
+                    alignment: BarChartAlignment.spaceEvenly,
                     barTouchData: BarTouchData(
                       enabled: true,
                       allowTouchBarBackDraw: true,
@@ -79,10 +80,14 @@ class _AgeCategoryWidgetState extends State<AgeCategoryWidget> {
                         showTitles: true,
                         margin: 10,
                         textStyle: TextStyle(
-                          fontSize: 10,
+                          fontSize: ScreenUtil().setSp(
+                            20,
+                          ),
                           color: Colors.black,
                           wordSpacing: 10,
                         ),
+                        rotateAngle: 30,
+                        reservedSize: 30,
                         getTitles: (double value) {
                           switch (value.toInt()) {
                             case 0:
@@ -129,13 +134,13 @@ class _AgeCategoryWidgetState extends State<AgeCategoryWidget> {
                       checkToShowHorizontalLine: (value) => value % 40 == 0,
                       getDrawingHorizontalLine: (value) => const FlLine(
                         color: Color(0xffe7e8ec),
-                        strokeWidth: 1,
+                        strokeWidth: 2,
                       ),
                     ),
                     borderData: FlBorderData(
                       show: false,
                     ),
-                    groupsSpace: 15,
+                    groupsSpace: MediaQuery.of(context).size.width * 0.01,
                     barGroups: state.chartData,
                   ),
                 ),

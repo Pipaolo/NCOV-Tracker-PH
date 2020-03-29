@@ -16,7 +16,7 @@ class HomePageLoading extends HomePageState {
 
 class HomePageSuccess extends HomePageState {
   final NcovStatisticBasic ncovStatisticBasic;
-  final List<NcovInfected> ncovInfecteds;
+  final Map<String, dynamic> ncovInfecteds;
   HomePageSuccess({
     this.ncovStatisticBasic,
     this.ncovInfecteds,

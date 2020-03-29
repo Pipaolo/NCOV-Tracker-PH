@@ -10,13 +10,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:ncov_tracker_ph/ui/splash_page/splash_page.dart';
 import 'package:ncov_tracker_ph/ui/introduction_page/introduction_page.dart';
 import 'package:ncov_tracker_ph/ui/home_page/home_page.dart';
-import 'package:ncov_tracker_ph/ui/ncov_cases_city_page/ncov_cases_city_page.dart';
+import 'package:ncov_tracker_ph/ui/cities_page/cities_page.dart';
 import 'package:ncov_tracker_ph/data/models/ncov_infected.dart';
+import 'package:ncov_tracker_ph/ui/ncov_cases_city_page/ncov_cases_city_page.dart';
 
 abstract class Routes {
   static const splashPageRoute = '/';
   static const introductionPageRoute = '/introduction-page-route';
   static const homePageRoute = '/home-page-route';
+  static const citiesPageRoute = '/cities-page-route';
   static const ncovCasesCityPageRoute = '/ncov-cases-city-page-route';
 }
 
@@ -57,6 +59,18 @@ class Router extends RouterBase {
           builder: (_) => HomePage(key: typedArgs),
           settings: settings,
         );
+      case Routes.citiesPageRoute:
+        if (hasInvalidArgs<CitiesPageArguments>(args)) {
+          return misTypedArgsRoute<CitiesPageArguments>(args);
+        }
+        final typedArgs = args as CitiesPageArguments ?? CitiesPageArguments();
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => CitiesPage(
+              key: typedArgs.key,
+              citiesInfected: typedArgs.citiesInfected,
+              regionName: typedArgs.regionName),
+          settings: settings,
+        );
       case Routes.ncovCasesCityPageRoute:
         if (hasInvalidArgs<NcovCasesCityPageArguments>(args)) {
           return misTypedArgsRoute<NcovCasesCityPageArguments>(args);
@@ -79,6 +93,14 @@ class Router extends RouterBase {
 //**************************************************************************
 // Arguments holder classes
 //***************************************************************************
+
+//CitiesPage arguments holder class
+class CitiesPageArguments {
+  final Key key;
+  final List<Map<String, List<NcovInfected>>> citiesInfected;
+  final String regionName;
+  CitiesPageArguments({this.key, this.citiesInfected, this.regionName});
+}
 
 //NcovCasesCityPage arguments holder class
 class NcovCasesCityPageArguments {
@@ -105,6 +127,16 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
     Key key,
   }) =>
       pushNamed(Routes.homePageRoute, arguments: key);
+  Future pushCitiesPageRoute({
+    Key key,
+    List<Map<String, List<NcovInfected>>> citiesInfected,
+    String regionName,
+  }) =>
+      pushNamed(Routes.citiesPageRoute,
+          arguments: CitiesPageArguments(
+              key: key,
+              citiesInfected: citiesInfected,
+              regionName: regionName));
   Future pushNcovCasesCityPageRoute({
     Key key,
     List<NcovInfected> ncovInfecteds,

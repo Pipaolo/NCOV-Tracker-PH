@@ -4,21 +4,13 @@ import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../core/region_matcher.dart';
 import '../../interceptors/ncov_retry_interceptors.dart';
 import '../../retriers/dio_connectivity_request_trier.dart';
 import '../models/age_category_statistic.dart';
 import '../models/ncov_infected.dart';
 import '../models/ncov_statistic_basic.dart';
-
-// Deaths - https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22deaths%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true
-// Recovered - https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22recovered%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true
-// Tests Conducted - https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22tests%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true
-// PUMs - https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22PUMs%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true
-// PUIs - https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22PUIs%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true
-// Infected - https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22confirmed%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true
-// Genders Infected - https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/age_group/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=age_categ%2Csex&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22FID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true
-// Deaths and Recovered Trend - https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/confirmed/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=date%20asc&resultOffset=0&resultRecordCount=2000&cacheHint=true
-// Infected by Citites - https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=sequ%20desc&resultOffset=0&resultRecordCount=1500&cacheHint=true
+import '../models/region.dart';
 
 class NcovRepository {
   final basicStatisticsUrl = {
@@ -37,7 +29,6 @@ class NcovRepository {
   };
 
   final Dio dioClient;
-
   NcovRepository({this.dioClient});
 
   Future<int> fetchBasicStatisticalData(String url) async {
@@ -105,13 +96,13 @@ class NcovRepository {
     return groupBy(ageDataConverted, (obj) => obj.category);
   }
 
-  Future<List<NcovInfected>> fetchInfectedByCities() async {
+  Future<Map<String, Region>> fetchInfectedByCities() async {
     final List<dynamic> rawListOfCities = await jsonDecode(await dioClient
         .get(
             'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=sequ%20desc&resultOffset=0&resultRecordCount=1500&cacheHint=true')
         .then((response) => response.data))['features'];
-
-    return rawListOfCities.map((rawInfected) {
+    final List<NcovInfected> convertedCities =
+        rawListOfCities.map((rawInfected) {
       final infected = rawInfected['attributes'];
       final rawAge = int.tryParse(infected['edad']);
       return NcovInfected(
@@ -121,7 +112,7 @@ class NcovRepository {
           age: rawAge ?? 0,
           gender: infected['kasarian'],
           nationality: infected['nationalit'],
-          residence: infected['residence'],
+          residence: infected['residence'].replaceAll('�', 'n'),
           travelHistory: infected['travel_hx'],
           symptoms: infected['symptoms'],
           confirmed: infected['confirmed'],
@@ -131,5 +122,31 @@ class NcovRepository {
           status: infected['status'],
           date: infected['petsa']);
     }).toList();
+
+    //Group Ncov Cities By Simalirities
+    final groupedResult = groupBy(convertedCities, (obj) => obj.residence);
+    final Map<String, Region> groupedByRegion = {};
+    regions.forEach((k, v) {
+      List<Map<String, List<NcovInfected>>> filteredResults = [];
+      int totalCountPerRegion = 0;
+      v.forEach((province) {
+        groupedResult.keys.forEach((key) {
+          if (key.toString().toLowerCase().contains(province.toLowerCase())) {
+            filteredResults.add({
+              key: groupedResult[key],
+            });
+            totalCountPerRegion += groupedResult[key].length;
+          }
+        });
+      });
+      groupedByRegion[k] = Region(
+        totalCount: totalCountPerRegion,
+        citiesInfected: filteredResults,
+      );
+    });
+    groupedByRegion.removeWhere((k, v) {
+      return v.totalCount == 0;
+    });
+    return groupedByRegion;
   }
 }

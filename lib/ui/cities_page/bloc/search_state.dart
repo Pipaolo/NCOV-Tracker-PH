@@ -15,7 +15,7 @@ class SearchLoading extends SearchState {
 }
 
 class SearchSuccess extends SearchState {
-  final Map<String, dynamic> searchResults;
+  final List<Map<String, List<NcovInfected>>> searchResults;
   SearchSuccess({
     this.searchResults,
   });

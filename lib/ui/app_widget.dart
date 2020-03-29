@@ -2,14 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ncov_tracker_ph/data/repository/ncov_repository.dart';
-import 'package:ncov_tracker_ph/routes/router.gr.dart';
-import 'package:ncov_tracker_ph/ui/home_page/bloc/graph_bloc/graph_bloc.dart';
-import 'package:ncov_tracker_ph/ui/home_page/bloc/search_bloc/search_bloc.dart';
-import 'package:ncov_tracker_ph/ui/splash_page/bloc/splash_page_bloc.dart';
-import 'package:ncov_tracker_ph/ui/splash_page/splash_page.dart';
 
+import '../data/repository/ncov_repository.dart';
+import '../routes/router.gr.dart';
+import 'cities_page/bloc/search_bloc.dart';
+import 'home_page/bloc/graph_bloc/graph_bloc.dart';
 import 'home_page/bloc/home_page_bloc.dart';
+
+import 'splash_page/bloc/splash_page_bloc.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key key}) : super(key: key);
@@ -41,7 +41,7 @@ class AppWidget extends StatelessWidget {
               ..add(
                 AppStarted(),
               ),
-          )
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
