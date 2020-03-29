@@ -2,7 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ncov_tracker_ph/ui/home_page/widgets/info_dialog_widget.dart';
 
 import '../../data/models/ncov_infected.dart';
 import '../../data/models/ncov_statistic_basic.dart';
@@ -15,6 +17,18 @@ import 'widgets/search_bar_widget.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
 
+  _showInfoDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: InfoDialogWidget(),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -22,6 +36,12 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           title: Text('NCOV Tracker PH'),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.info_outline),
+              onPressed: () => _showInfoDialog(context),
+            ),
+          ],
         ),
         body: Container(
           alignment: Alignment.center,

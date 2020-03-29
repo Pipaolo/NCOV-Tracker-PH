@@ -8,12 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:ncov_tracker_ph/ui/splash_page/splash_page.dart';
+import 'package:ncov_tracker_ph/ui/introduction_page/introduction_page.dart';
 import 'package:ncov_tracker_ph/ui/home_page/home_page.dart';
 import 'package:ncov_tracker_ph/ui/ncov_cases_city_page/ncov_cases_city_page.dart';
 import 'package:ncov_tracker_ph/data/models/ncov_infected.dart';
 
 abstract class Routes {
   static const splashPageRoute = '/';
+  static const introductionPageRoute = '/introduction-page-route';
   static const homePageRoute = '/home-page-route';
   static const ncovCasesCityPageRoute = '/ncov-cases-city-page-route';
 }
@@ -35,6 +37,15 @@ class Router extends RouterBase {
         final typedArgs = args as Key;
         return MaterialPageRoute<dynamic>(
           builder: (_) => SplashPage(key: typedArgs),
+          settings: settings,
+        );
+      case Routes.introductionPageRoute:
+        if (hasInvalidArgs<Key>(args)) {
+          return misTypedArgsRoute<Key>(args);
+        }
+        final typedArgs = args as Key;
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => IntroductionPage(key: typedArgs),
           settings: settings,
         );
       case Routes.homePageRoute:
@@ -86,6 +97,10 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
     Key key,
   }) =>
       pushNamed(Routes.splashPageRoute, arguments: key);
+  Future pushIntroductionPageRoute({
+    Key key,
+  }) =>
+      pushNamed(Routes.introductionPageRoute, arguments: key);
   Future pushHomePageRoute({
     Key key,
   }) =>
