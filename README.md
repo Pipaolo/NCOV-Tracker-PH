@@ -1,16 +1,4 @@
-# ncov_tracker_ph
+# NCOV Tracker PH
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This app was build in order to provide information about the current situation in the Philippines.
+The data that is shown in the app came from the Philippines Department of Health. I do not own the data nor claim it.
