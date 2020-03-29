@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ncov_tracker_ph/ui/home_page/widgets/search_bar_widget.dart';
 
 import '../../data/models/ncov_infected.dart';
 import '../../data/models/ncov_statistic_basic.dart';
 import 'bloc/home_page_bloc.dart';
-import 'bloc/search_bloc/search_bloc.dart';
 import 'widgets/basic_statistics_widget.dart';
 import 'widgets/cities_list_widget.dart';
+import 'widgets/search_bar_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
