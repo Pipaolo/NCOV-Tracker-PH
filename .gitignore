@@ -9,7 +9,7 @@
 .history
 .svn/
 /android/key.properties
-.jks
+*.jks
 
 
 # IntelliJ related
