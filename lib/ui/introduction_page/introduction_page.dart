@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
@@ -41,28 +42,34 @@ class IntroductionPage extends StatelessWidget {
                         ),
                         child: Column(
                           children: <Widget>[
-                            SvgPicture.asset(
-                              'assets/images/info.svg',
-                              width: 320,
-                              height: 320,
+                            Expanded(
+                              child: SvgPicture.asset(
+                                'assets/images/info.svg',
+                                width: 320,
+                                height: 320,
+                              ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black38,
-                                        blurRadius: 10,
-                                      ),
-                                    ]),
-                                padding: const EdgeInsets.all(12),
-                                child: Text(
-                                  'This app\'s purpose is to provide updated information about the current epidemic that is the Novel Corona Virus in the Philippines. The data that is shown here is from the Philippine Department of Health Ncov Tracker Website : https://ncovtracker.doh.gov.ph. I do not own nor claim the data shown.',
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: ScreenUtil().setSp(33.5),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black38,
+                                          blurRadius: 10,
+                                        ),
+                                      ]),
+                                  padding: const EdgeInsets.all(12),
+                                  child: AutoSizeText(
+                                    'This app\'s purpose is to provide updated information about the current epidemic that is the Novel Corona Virus in the Philippines. The data that is shown here is from the Philippine Department of Health Ncov Tracker Website (https://ncovtracker.doh.gov.ph). I do not own nor claim the data shown.',
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: ScreenUtil().setSp(35),
+                                    ),
+                                    maxLines: 8,
                                   ),
                                 ),
                               ),

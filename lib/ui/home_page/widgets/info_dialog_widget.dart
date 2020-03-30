@@ -8,8 +8,8 @@ class InfoDialogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(400),
-      width: ScreenUtil().setWidth(400),
+      height: ScreenUtil().setHeight(600),
+      width: ScreenUtil().setWidth(600),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -50,7 +50,7 @@ class InfoDialogWidget extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     Text(
                       'Purpose: This app was made for those people who do not own televisions but has access to the internet.',
@@ -58,7 +58,17 @@ class InfoDialogWidget extends StatelessWidget {
                         fontSize: ScreenUtil().setSp(30),
                         color: Colors.white,
                       ),
-                    )
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'References: \nDepartment of Health NCOV Tracker Website: https://ncovtracker.doh.gov.ph/\n\nThe Icons are from icons8.com and flaticons.com special thanks to them for creating beautiful icons.',
+                      style: GoogleFonts.roboto(
+                        fontSize: ScreenUtil().setSp(30),
+                        color: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
               ),
