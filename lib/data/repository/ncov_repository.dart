@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:html/parser.dart';
+import 'package:ncov_tracker_ph/data/models/hospital.dart';
 
 import '../../core/region_matcher.dart';
 import '../../interceptors/ncov_retry_interceptors.dart';
@@ -148,5 +150,19 @@ class NcovRepository {
       return v.totalCount == 0;
     });
     return groupedByRegion;
+  }
+
+  Future<List<Hospital>> fetchHospitals() async {
+    final response = await dioClient.get('https://endcov.ph/hospitals/');
+    final elements = parse(response.data);
+    final hospitalRaw = elements.getElementsByTagName('tbody').first.children;
+    final hospitals = hospitalRaw.map((e) {
+      return Hospital(
+          name: e.children[0].text.trim(),
+          address: e.children[1].text.trim(),
+          contactInfo: e.children[2].text.split(' / '),
+          type: e.children.last.text.trim());
+    }).toList();
+    return hospitals;
   }
 }

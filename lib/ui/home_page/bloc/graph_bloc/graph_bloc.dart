@@ -24,7 +24,6 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
   }) {
     homePageBloc.listen((state) {
       if (state is HomePageSuccess) {
-        print('wat');
         add(AgeStatisticsDataFetched());
       }
     });

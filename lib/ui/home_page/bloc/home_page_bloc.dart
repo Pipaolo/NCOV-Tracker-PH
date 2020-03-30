@@ -28,6 +28,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
       try {
         final ncovStatisticBasic = await ncovRepository.fetchBasicStatistics();
         final ncovInfecteds = await ncovRepository.fetchInfectedByCities();
+
         yield HomePageSuccess(
           ncovInfecteds: ncovInfecteds,
           ncovStatisticBasic: ncovStatisticBasic,

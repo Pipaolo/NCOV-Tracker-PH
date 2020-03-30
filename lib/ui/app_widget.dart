@@ -8,7 +8,7 @@ import '../routes/router.gr.dart';
 import 'cities_page/bloc/search_bloc.dart';
 import 'home_page/bloc/graph_bloc/graph_bloc.dart';
 import 'home_page/bloc/home_page_bloc.dart';
-
+import 'hospital_listings_page/bloc/hospital_bloc.dart';
 import 'splash_page/bloc/splash_page_bloc.dart';
 
 class AppWidget extends StatelessWidget {
@@ -42,6 +42,11 @@ class AppWidget extends StatelessWidget {
                 AppStarted(),
               ),
           ),
+          BlocProvider<HospitalBloc>(
+            create: (context) => HospitalBloc(
+              ncovRepository: RepositoryProvider.of<NcovRepository>(context),
+            ),
+          )
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

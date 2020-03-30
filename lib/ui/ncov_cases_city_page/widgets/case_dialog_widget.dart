@@ -42,6 +42,24 @@ class CaseDialogWidget extends StatelessWidget {
                         fontSize: ScreenUtil().setSp(30),
                       ),
                     ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          'Symptoms: ',
+                          style: GoogleFonts.roboto(
+                            fontSize: ScreenUtil().setSp(30),
+                          ),
+                        ),
+                        Container(
+                          child: Text(
+                            ncovInfected.symptoms,
+                            style: GoogleFonts.roboto(
+                              fontSize: ScreenUtil().setSp(30),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     Text(
                       'Nationality: ${ncovInfected.nationality}',
                       style: GoogleFonts.roboto(

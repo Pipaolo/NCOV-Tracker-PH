@@ -8,23 +8,11 @@ import '../../data/models/ncov_statistic_basic.dart';
 import 'bloc/home_page_bloc.dart';
 import 'widgets/age_category_widget.dart';
 import 'widgets/basic_statistics_widget.dart';
-import 'widgets/info_dialog_widget.dart';
+import 'widgets/home_page_drawer_widget.dart';
 import 'widgets/region_list_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
-
-  _showInfoDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: InfoDialogWidget(),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +21,8 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           title: Text('NCOV Tracker PH'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.info_outline),
-              onPressed: () => _showInfoDialog(context),
-            ),
-          ],
         ),
+        drawer: HomePageDrawerWidget(),
         body: Container(
           alignment: Alignment.center,
           child: BlocBuilder<HomePageBloc, HomePageState>(
