@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ncov_tracker_ph/data/models/ncov_infected.dart';
+
+import 'package:ncov_tracker_ph/data/models/patient.dart';
 
 class CaseDialogWidget extends StatelessWidget {
-  final NcovInfected ncovInfected;
-  const CaseDialogWidget({Key key, this.ncovInfected}) : super(key: key);
+  final Patient patient;
+  const CaseDialogWidget({Key key, this.patient}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +32,13 @@ class CaseDialogWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'Age: ${(ncovInfected.age == 0) ? 'For Validation' : ncovInfected.age}',
+                      'Age: ${(patient.age == 0) ? 'For Validation' : patient.age}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
                     ),
                     Text(
-                      'Sex: ${ncovInfected.gender}',
+                      'Sex: ${patient.gender}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
@@ -52,7 +53,7 @@ class CaseDialogWidget extends StatelessWidget {
                         ),
                         Container(
                           child: Text(
-                            ncovInfected.symptoms,
+                            patient.symptoms,
                             style: GoogleFonts.roboto(
                               fontSize: ScreenUtil().setSp(30),
                             ),
@@ -61,31 +62,31 @@ class CaseDialogWidget extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      'Nationality: ${ncovInfected.nationality}',
+                      'Nationality: ${patient.nationality}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
                     ),
                     Text(
-                      'Residence: ${ncovInfected.residence}',
+                      'Residence: ${patient.residence}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
                     ),
                     Text(
-                      'Travel History: ${ncovInfected.travelHistory}',
+                      'Travel History: ${patient.travelHistory}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
                     ),
                     Text(
-                      'Date Confirmation: ${(ncovInfected.date.replaceAll(' ', '').isEmpty) ? 'For Validation' : ncovInfected.date}',
+                      'Date Confirmation: ${(patient.date.replaceAll(' ', '').isEmpty) ? 'For Validation' : patient.date}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
                     ),
                     Text(
-                      'Facility of Admission: ${ncovInfected.facility}',
+                      'Facility of Admission: ${patient.facility}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
@@ -113,7 +114,7 @@ class CaseDialogWidget extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            ncovInfected.phMasterList,
+            patient.phMasterList,
             style: GoogleFonts.montserrat(
               fontWeight: FontWeight.bold,
               fontSize: ScreenUtil().setSp(35),

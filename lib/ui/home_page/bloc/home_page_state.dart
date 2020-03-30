@@ -16,15 +16,15 @@ class HomePageLoading extends HomePageState {
 
 class HomePageSuccess extends HomePageState {
   final NcovStatisticBasic ncovStatisticBasic;
-  final Map<String, dynamic> ncovInfecteds;
+  final List<Region> patientsGroupedByRegion;
   HomePageSuccess({
     this.ncovStatisticBasic,
-    this.ncovInfecteds,
+    this.patientsGroupedByRegion,
   });
   @override
   List<Object> get props => [
         ncovStatisticBasic,
-        ncovInfecteds,
+        patientsGroupedByRegion,
       ];
 }
 

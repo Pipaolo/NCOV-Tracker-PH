@@ -12,11 +12,11 @@ T _$identity<T>(T value) => value;
 class _$AgeCategoryStatisticTearOff {
   const _$AgeCategoryStatisticTearOff();
 
-  _AgeCategoryStatistic call({String category, int value, String sex}) {
+  _AgeCategoryStatistic call({String category, String sex, int value}) {
     return _AgeCategoryStatistic(
       category: category,
-      value: value,
       sex: sex,
+      value: value,
     );
   }
 }
@@ -26,8 +26,8 @@ const $AgeCategoryStatistic = _$AgeCategoryStatisticTearOff();
 
 mixin _$AgeCategoryStatistic {
   String get category;
-  int get value;
   String get sex;
+  int get value;
 
   $AgeCategoryStatisticCopyWith<AgeCategoryStatistic> get copyWith;
 }
@@ -36,7 +36,7 @@ abstract class $AgeCategoryStatisticCopyWith<$Res> {
   factory $AgeCategoryStatisticCopyWith(AgeCategoryStatistic value,
           $Res Function(AgeCategoryStatistic) then) =
       _$AgeCategoryStatisticCopyWithImpl<$Res>;
-  $Res call({String category, int value, String sex});
+  $Res call({String category, String sex, int value});
 }
 
 class _$AgeCategoryStatisticCopyWithImpl<$Res>
@@ -50,13 +50,13 @@ class _$AgeCategoryStatisticCopyWithImpl<$Res>
   @override
   $Res call({
     Object category = freezed,
-    Object value = freezed,
     Object sex = freezed,
+    Object value = freezed,
   }) {
     return _then(_value.copyWith(
       category: category == freezed ? _value.category : category as String,
-      value: value == freezed ? _value.value : value as int,
       sex: sex == freezed ? _value.sex : sex as String,
+      value: value == freezed ? _value.value : value as int,
     ));
   }
 }
@@ -67,7 +67,7 @@ abstract class _$AgeCategoryStatisticCopyWith<$Res>
           $Res Function(_AgeCategoryStatistic) then) =
       __$AgeCategoryStatisticCopyWithImpl<$Res>;
   @override
-  $Res call({String category, int value, String sex});
+  $Res call({String category, String sex, int value});
 }
 
 class __$AgeCategoryStatisticCopyWithImpl<$Res>
@@ -83,30 +83,30 @@ class __$AgeCategoryStatisticCopyWithImpl<$Res>
   @override
   $Res call({
     Object category = freezed,
-    Object value = freezed,
     Object sex = freezed,
+    Object value = freezed,
   }) {
     return _then(_AgeCategoryStatistic(
       category: category == freezed ? _value.category : category as String,
-      value: value == freezed ? _value.value : value as int,
       sex: sex == freezed ? _value.sex : sex as String,
+      value: value == freezed ? _value.value : value as int,
     ));
   }
 }
 
 class _$_AgeCategoryStatistic implements _AgeCategoryStatistic {
-  const _$_AgeCategoryStatistic({this.category, this.value, this.sex});
+  const _$_AgeCategoryStatistic({this.category, this.sex, this.value});
 
   @override
   final String category;
   @override
-  final int value;
-  @override
   final String sex;
+  @override
+  final int value;
 
   @override
   String toString() {
-    return 'AgeCategoryStatistic(category: $category, value: $value, sex: $sex)';
+    return 'AgeCategoryStatistic(category: $category, sex: $sex, value: $value)';
   }
 
   @override
@@ -116,18 +116,18 @@ class _$_AgeCategoryStatistic implements _AgeCategoryStatistic {
             (identical(other.category, category) ||
                 const DeepCollectionEquality()
                     .equals(other.category, category)) &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)) &&
             (identical(other.sex, sex) ||
-                const DeepCollectionEquality().equals(other.sex, sex)));
+                const DeepCollectionEquality().equals(other.sex, sex)) &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(category) ^
-      const DeepCollectionEquality().hash(value) ^
-      const DeepCollectionEquality().hash(sex);
+      const DeepCollectionEquality().hash(sex) ^
+      const DeepCollectionEquality().hash(value);
 
   @override
   _$AgeCategoryStatisticCopyWith<_AgeCategoryStatistic> get copyWith =>
@@ -137,14 +137,14 @@ class _$_AgeCategoryStatistic implements _AgeCategoryStatistic {
 
 abstract class _AgeCategoryStatistic implements AgeCategoryStatistic {
   const factory _AgeCategoryStatistic(
-      {String category, int value, String sex}) = _$_AgeCategoryStatistic;
+      {String category, String sex, int value}) = _$_AgeCategoryStatistic;
 
   @override
   String get category;
   @override
-  int get value;
-  @override
   String get sex;
+  @override
+  int get value;
   @override
   _$AgeCategoryStatisticCopyWith<_AgeCategoryStatistic> get copyWith;
 }

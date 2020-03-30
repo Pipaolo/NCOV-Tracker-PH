@@ -62,8 +62,8 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
         ),
         suggestionsCallback: (string) async {
           final tempSuggestions = BlocProvider.of<SearchBloc>(context)
-              .citiesInfected
-              .map((f) => f.keys.first)
+              .cities
+              .map((city) => city.name)
               .toList();
           tempSuggestions.retainWhere(
             (suggestion) => suggestion.toLowerCase().startsWith(

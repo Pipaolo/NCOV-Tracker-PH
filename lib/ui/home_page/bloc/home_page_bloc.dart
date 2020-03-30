@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:ncov_tracker_ph/data/models/region.dart';
 
 import '../../../data/models/ncov_statistic_basic.dart';
 import '../../../data/repository/ncov_repository.dart';
@@ -27,10 +28,10 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
       yield HomePageLoading();
       try {
         final ncovStatisticBasic = await ncovRepository.fetchBasicStatistics();
-        final ncovInfecteds = await ncovRepository.fetchInfectedByCities();
-
+        final patientsGroupedByRegion = await ncovRepository.fetchPatients();
+        await ncovRepository.fetchGenderStatistics();
         yield HomePageSuccess(
-          ncovInfecteds: ncovInfecteds,
+          patientsGroupedByRegion: patientsGroupedByRegion,
           ncovStatisticBasic: ncovStatisticBasic,
         );
       } catch (e) {

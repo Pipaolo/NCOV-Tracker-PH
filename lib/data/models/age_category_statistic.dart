@@ -6,7 +6,7 @@ part 'age_category_statistic.freezed.dart';
 abstract class AgeCategoryStatistic with _$AgeCategoryStatistic {
   const factory AgeCategoryStatistic({
     final String category,
-    final int value,
     final String sex,
+    final int value,
   }) = _AgeCategoryStatistic;
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ncov_tracker_ph/data/models/region.dart';
 
 import '../../data/models/ncov_statistic_basic.dart';
 import 'bloc/home_page_bloc.dart';
@@ -30,8 +31,8 @@ class HomePage extends StatelessWidget {
             if (state is HomePageLoading) {
               return _buildLoading();
             } else if (state is HomePageSuccess) {
-              return _buildSuccess(
-                  state.ncovStatisticBasic, state.ncovInfecteds, context);
+              return _buildSuccess(state.ncovStatisticBasic,
+                  state.patientsGroupedByRegion, context);
             } else if (state is HomePageError) {
               return _buildError(state.errorText, context);
             }
@@ -73,7 +74,7 @@ class HomePage extends StatelessWidget {
   }
 
   _buildSuccess(NcovStatisticBasic statisticBasic,
-      Map<String, dynamic> ncovInfecteds, BuildContext context) {
+      List<Region> patientsGroupedByRegion, BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async => BlocProvider.of<HomePageBloc>(context)
         ..add(
@@ -114,7 +115,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           RegionListWidget(
-            ncovInfecteds: ncovInfecteds,
+            patientsGroupedByRegion: patientsGroupedByRegion,
           ),
         ],
       ),

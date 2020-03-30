@@ -4,21 +4,22 @@ import '../../../data/models/region.dart';
 import 'region_card_widget.dart';
 
 class RegionListWidget extends StatelessWidget {
-  final Map<String, Region> ncovInfecteds;
-  const RegionListWidget({Key key, this.ncovInfecteds}) : super(key: key);
+  final List<Region> patientsGroupedByRegion;
+  const RegionListWidget({Key key, this.patientsGroupedByRegion})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SliverGrid(
       delegate: SliverChildBuilderDelegate(
         (context, i) {
-          String key = ncovInfecteds.keys.elementAt(i);
+          final region = patientsGroupedByRegion[i];
           return RegionCardWidget(
-            region: key,
-            citiesInfected: ncovInfecteds[key].citiesInfected,
-            totalCount: ncovInfecteds[key].totalCount,
+            region: region.name,
+            cities: region.citiesInfected,
+            totalCount: region.totalCount,
           );
         },
-        childCount: ncovInfecteds.length,
+        childCount: patientsGroupedByRegion.length,
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

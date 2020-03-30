@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:ncov_tracker_ph/data/models/ncov_infected.dart';
+import 'package:ncov_tracker_ph/data/models/city.dart';
+
 import 'package:ncov_tracker_ph/data/models/region.dart';
 import 'package:ncov_tracker_ph/ui/home_page/bloc/home_page_bloc.dart';
 
@@ -11,14 +12,14 @@ part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final HomePageBloc homePageBloc;
-  Map<String, Region> regionsInfected = {};
-  List<Map<String, List<NcovInfected>>> citiesInfected = [];
+  List<Region> regions = [];
+  List<City> cities = [];
   SearchBloc({
     this.homePageBloc,
   }) {
     homePageBloc.listen((state) {
       if (state is HomePageSuccess) {
-        regionsInfected = state.ncovInfecteds;
+        regions = state.patientsGroupedByRegion;
         add(CitiesSearched(query: ''));
       }
     });
@@ -34,10 +35,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     if (event is CitiesSearched) {
       if (event.query.isNotEmpty) {
         try {
-          final listOfInfectedInRegion =
-              regionsInfected[event.region].citiesInfected;
+          final listOfInfectedInRegion = regions
+              .where((region) => region.name
+                  .toLowerCase()
+                  .contains(event.region.toLowerCase()))
+              .first
+              .citiesInfected;
+
           final searchResults = listOfInfectedInRegion
-              .where((city) => city.keys.first.toLowerCase().startsWith(
+              .where((city) => city.name.toLowerCase().startsWith(
                     event.query.toLowerCase(),
                   ))
               .toList();
@@ -47,11 +53,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           print(e);
         }
       } else {
-        yield SearchSuccess(searchResults: citiesInfected);
+        yield SearchSuccess(searchResults: cities);
       }
     } else if (event is RegionPressed) {
-      citiesInfected = regionsInfected[event.region].citiesInfected;
-      yield SearchSuccess(searchResults: citiesInfected);
+      cities = regions
+          .where((region) =>
+              region.name.toLowerCase().contains(event.region.toLowerCase()))
+          .first
+          .citiesInfected;
+      yield SearchSuccess(searchResults: cities);
     }
   }
 }

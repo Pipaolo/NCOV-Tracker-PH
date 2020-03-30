@@ -15,7 +15,7 @@ class SearchLoading extends SearchState {
 }
 
 class SearchSuccess extends SearchState {
-  final List<Map<String, List<NcovInfected>>> searchResults;
+  final List<City> searchResults;
   SearchSuccess({
     this.searchResults,
   });

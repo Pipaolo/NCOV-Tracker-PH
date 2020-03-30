@@ -4,13 +4,14 @@ import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:html/parser.dart';
+import 'package:ncov_tracker_ph/data/models/city.dart';
 import 'package:ncov_tracker_ph/data/models/hospital.dart';
+import 'package:ncov_tracker_ph/data/models/patient.dart';
 
 import '../../core/region_matcher.dart';
 import '../../interceptors/ncov_retry_interceptors.dart';
 import '../../retriers/dio_connectivity_request_trier.dart';
 import '../models/age_category_statistic.dart';
-import '../models/ncov_infected.dart';
 import '../models/ncov_statistic_basic.dart';
 import '../models/region.dart';
 
@@ -71,6 +72,18 @@ class NcovRepository {
     );
   }
 
+  Future<Map<String, int>> fetchGenderStatistics() async {
+    final response = await dioClient.get('https://endcov.ph/dashboard/');
+    final elements = parse(response.data);
+    final genderStatisticsRaw = elements.getElementById('agesex-data').text;
+    final json = jsonDecode(genderStatisticsRaw);
+    final genderStatistic = {
+      'Male': json['sex'][1][0],
+      'Female': json['sex'][1][1],
+    };
+    return genderStatistic;
+  }
+
   Future<Map<String, dynamic>> fetchedAgeData() async {
     dioClient.interceptors.add(
       NcovRetryOnConnectionChangeInterceptors(
@@ -98,62 +111,69 @@ class NcovRepository {
     return groupBy(ageDataConverted, (obj) => obj.category);
   }
 
-  Future<Map<String, Region>> fetchInfectedByCities() async {
-    final List<dynamic> rawListOfCities = await jsonDecode(await dioClient
+  Future<List<Region>> fetchPatients() async {
+    final List<dynamic> rawPatientsList = await jsonDecode(await dioClient
         .get(
             'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=sequ%20desc&resultOffset=0&resultRecordCount=1500&cacheHint=true')
         .then((response) => response.data))['features'];
-    final List<NcovInfected> convertedCities =
-        rawListOfCities.map((rawInfected) {
-      final infected = rawInfected['attributes'];
-      int rawAge = 0;
+    final List<Patient> patientsList = rawPatientsList.map((data) {
+      final rawPatient = data['attributes'];
+      int age = 0;
       try {
-        rawAge = int.parse(infected['edad']);
+        age = int.parse(rawPatient['edad']);
       } catch (e) {
-        rawAge = infected['edad'];
+        age = rawPatient['edad'];
       }
-      return NcovInfected(
-          fID: infected['FID'],
-          sequ: infected['sequ'],
-          phMasterList: infected['PH_masterl'],
-          age: rawAge ?? 0,
-          gender: infected['kasarian'],
-          nationality: infected['nationalit'],
-          residence: infected['residence'].replaceAll('�', 'n'),
-          travelHistory: infected['travel_hx'],
-          symptoms: infected['symptoms'],
-          confirmed: infected['confirmed'],
-          facility: infected['facility'],
-          latitude: infected['latitude'],
-          longitude: infected['longitude'],
-          status: infected['status'],
-          date: infected['petsa']);
+
+      return Patient(
+        fID: rawPatient['FID'],
+        sequ: rawPatient['sequ'],
+        phMasterList: rawPatient['PH_masterl'],
+        age: age,
+        gender: rawPatient['kasarian'],
+        nationality: rawPatient['nationalit'],
+        residence: rawPatient['residence'].replaceAll('�', 'n'),
+        travelHistory: rawPatient['travel_hx'],
+        symptoms: rawPatient['symptoms'],
+        confirmed: rawPatient['confirmed'],
+        facility: rawPatient['facility'],
+        latitude: rawPatient['latitude'],
+        longitude: rawPatient['longitude'],
+        status: rawPatient['status'],
+        date: rawPatient['petsa'],
+      );
     }).toList();
 
     //Group Ncov Cities By Simalirities
-    final groupedResult = groupBy(convertedCities, (obj) => obj.residence);
-    final Map<String, Region> groupedByRegion = {};
-    regions.forEach((k, v) {
-      List<Map<String, List<NcovInfected>>> filteredResults = [];
-      int totalCountPerRegion = 0;
-      v.forEach((province) {
-        groupedResult.keys.forEach((key) {
-          if (key.toString().toLowerCase().contains(province.toLowerCase())) {
-            filteredResults.add({
-              key: groupedResult[key],
-            });
-            totalCountPerRegion += groupedResult[key].length;
-          }
-        });
+    final List<Region> groupedByRegion = [];
+    regions.forEach((region, provinces) {
+      final List<City> citiesMatched = [];
+      provinces.forEach((province) {
+        final patientsGroupedByProvince = patientsList
+            .where((patient) => patient.residence
+                .toLowerCase()
+                .contains(province.toLowerCase()))
+            .toList();
+        if (patientsGroupedByProvince.isNotEmpty) {
+          citiesMatched.add(
+            City(
+                name: province,
+                patients: patientsGroupedByProvince,
+                totalCount: patientsGroupedByProvince.length),
+          );
+        }
       });
-      groupedByRegion[k] = Region(
-        totalCount: totalCountPerRegion,
-        citiesInfected: filteredResults,
-      );
+      citiesMatched.sort((a, b) => b.totalCount.compareTo(a.totalCount));
+      groupedByRegion.add(Region(
+        name: region,
+        citiesInfected: citiesMatched,
+        totalCount: citiesMatched.fold(0, (a, b) => a + b.totalCount),
+      ));
     });
-    groupedByRegion.removeWhere((k, v) {
-      return v.totalCount == 0;
-    });
+
+    groupedByRegion.removeWhere((region) => region.totalCount == 0);
+    groupedByRegion.sort((a, b) => b.totalCount.compareTo(a.totalCount));
+
     return groupedByRegion;
   }
 

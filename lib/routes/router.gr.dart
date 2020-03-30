@@ -11,11 +11,12 @@ import 'package:ncov_tracker_ph/ui/splash_page/splash_page.dart';
 import 'package:ncov_tracker_ph/ui/introduction_page/introduction_page.dart';
 import 'package:ncov_tracker_ph/ui/home_page/home_page.dart';
 import 'package:ncov_tracker_ph/ui/cities_page/cities_page.dart';
-import 'package:ncov_tracker_ph/data/models/ncov_infected.dart';
+import 'package:ncov_tracker_ph/data/models/city.dart';
 import 'package:ncov_tracker_ph/ui/hospital_listings_page/hospital_listings_page.dart';
 import 'package:ncov_tracker_ph/ui/hospital_page/hospital_page.dart';
 import 'package:ncov_tracker_ph/data/models/hospital.dart';
 import 'package:ncov_tracker_ph/ui/ncov_cases_city_page/ncov_cases_city_page.dart';
+import 'package:ncov_tracker_ph/data/models/patient.dart';
 
 abstract class Routes {
   static const splashPageRoute = '/';
@@ -72,7 +73,7 @@ class Router extends RouterBase {
         return MaterialPageRoute<dynamic>(
           builder: (_) => CitiesPage(
               key: typedArgs.key,
-              citiesInfected: typedArgs.citiesInfected,
+              cities: typedArgs.cities,
               regionName: typedArgs.regionName),
           settings: settings,
         );
@@ -105,7 +106,7 @@ class Router extends RouterBase {
         return MaterialPageRoute<dynamic>(
           builder: (_) => NcovCasesCityPage(
               key: typedArgs.key,
-              ncovInfecteds: typedArgs.ncovInfecteds,
+              patients: typedArgs.patients,
               city: typedArgs.city),
           settings: settings,
         );
@@ -122,9 +123,9 @@ class Router extends RouterBase {
 //CitiesPage arguments holder class
 class CitiesPageArguments {
   final Key key;
-  final List<Map<String, List<NcovInfected>>> citiesInfected;
+  final List<City> cities;
   final String regionName;
-  CitiesPageArguments({this.key, this.citiesInfected, this.regionName});
+  CitiesPageArguments({this.key, this.cities, this.regionName});
 }
 
 //HospitalPage arguments holder class
@@ -137,9 +138,9 @@ class HospitalPageArguments {
 //NcovCasesCityPage arguments holder class
 class NcovCasesCityPageArguments {
   final Key key;
-  final List<NcovInfected> ncovInfecteds;
+  final List<Patient> patients;
   final String city;
-  NcovCasesCityPageArguments({this.key, this.ncovInfecteds, this.city});
+  NcovCasesCityPageArguments({this.key, this.patients, this.city});
 }
 
 //**************************************************************************
@@ -161,14 +162,12 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
       pushNamed(Routes.homePageRoute, arguments: key);
   Future pushCitiesPageRoute({
     Key key,
-    List<Map<String, List<NcovInfected>>> citiesInfected,
+    List<City> cities,
     String regionName,
   }) =>
       pushNamed(Routes.citiesPageRoute,
           arguments: CitiesPageArguments(
-              key: key,
-              citiesInfected: citiesInfected,
-              regionName: regionName));
+              key: key, cities: cities, regionName: regionName));
   Future pushHospitalListingsPageRoute({
     Key key,
   }) =>
@@ -181,10 +180,10 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
           arguments: HospitalPageArguments(key: key, hospital: hospital));
   Future pushNcovCasesCityPageRoute({
     Key key,
-    List<NcovInfected> ncovInfecteds,
+    List<Patient> patients,
     String city,
   }) =>
       pushNamed(Routes.ncovCasesCityPageRoute,
           arguments: NcovCasesCityPageArguments(
-              key: key, ncovInfecteds: ncovInfecteds, city: city));
+              key: key, patients: patients, city: city));
 }

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ncov_tracker_ph/data/models/ncov_infected.dart';
+import 'package:ncov_tracker_ph/data/models/city.dart';
 import 'package:ncov_tracker_ph/ui/cities_page/bloc/search_bloc.dart';
 import 'package:ncov_tracker_ph/ui/cities_page/widgets/city_card_widget.dart';
 import 'package:ncov_tracker_ph/ui/cities_page/widgets/search_bar_widget.dart';
 
 class CitiesPage extends StatelessWidget {
   final String regionName;
-  final List<Map<String, List<NcovInfected>>> citiesInfected;
-  const CitiesPage({Key key, this.citiesInfected, this.regionName})
-      : super(key: key);
+  final List<City> cities;
+  const CitiesPage({Key key, this.cities, this.regionName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class CitiesPage extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              if (citiesInfected.length > 1)
+              if (cities.length > 1)
                 SearchBarWidget(
                   region: regionName,
                 ),
@@ -35,10 +34,10 @@ class CitiesPage extends StatelessWidget {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2),
                       itemBuilder: (context, i) {
-                        final cityTitle = state.searchResults[i].keys.first;
+                        final city = cities[i];
                         return CityCardWidget(
-                          city: cityTitle,
-                          ncovInfected: state.searchResults[i][cityTitle],
+                          city: city.name,
+                          patients: state.searchResults[i].patients,
                           region: regionName,
                         );
                       },

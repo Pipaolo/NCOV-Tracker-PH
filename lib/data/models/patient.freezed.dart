@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named
 
-part of 'ncov_infected.dart';
+part of 'patient.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -9,10 +9,10 @@ part of 'ncov_infected.dart';
 
 T _$identity<T>(T value) => value;
 
-class _$NcovInfectedTearOff {
-  const _$NcovInfectedTearOff();
+class _$PatientTearOff {
+  const _$PatientTearOff();
 
-  _NcovInfected call(
+  _Patient call(
       {int fID,
       int sequ,
       String phMasterList,
@@ -28,7 +28,7 @@ class _$NcovInfectedTearOff {
       double longitude,
       String status,
       String date}) {
-    return _NcovInfected(
+    return _Patient(
       fID: fID,
       sequ: sequ,
       phMasterList: phMasterList,
@@ -49,9 +49,9 @@ class _$NcovInfectedTearOff {
 }
 
 // ignore: unused_element
-const $NcovInfected = _$NcovInfectedTearOff();
+const $Patient = _$PatientTearOff();
 
-mixin _$NcovInfected {
+mixin _$Patient {
   int get fID;
   int get sequ;
   String get phMasterList;
@@ -68,13 +68,12 @@ mixin _$NcovInfected {
   String get status;
   String get date;
 
-  $NcovInfectedCopyWith<NcovInfected> get copyWith;
+  $PatientCopyWith<Patient> get copyWith;
 }
 
-abstract class $NcovInfectedCopyWith<$Res> {
-  factory $NcovInfectedCopyWith(
-          NcovInfected value, $Res Function(NcovInfected) then) =
-      _$NcovInfectedCopyWithImpl<$Res>;
+abstract class $PatientCopyWith<$Res> {
+  factory $PatientCopyWith(Patient value, $Res Function(Patient) then) =
+      _$PatientCopyWithImpl<$Res>;
   $Res call(
       {int fID,
       int sequ,
@@ -93,12 +92,12 @@ abstract class $NcovInfectedCopyWith<$Res> {
       String date});
 }
 
-class _$NcovInfectedCopyWithImpl<$Res> implements $NcovInfectedCopyWith<$Res> {
-  _$NcovInfectedCopyWithImpl(this._value, this._then);
+class _$PatientCopyWithImpl<$Res> implements $PatientCopyWith<$Res> {
+  _$PatientCopyWithImpl(this._value, this._then);
 
-  final NcovInfected _value;
+  final Patient _value;
   // ignore: unused_field
-  final $Res Function(NcovInfected) _then;
+  final $Res Function(Patient) _then;
 
   @override
   $Res call({
@@ -143,11 +142,9 @@ class _$NcovInfectedCopyWithImpl<$Res> implements $NcovInfectedCopyWith<$Res> {
   }
 }
 
-abstract class _$NcovInfectedCopyWith<$Res>
-    implements $NcovInfectedCopyWith<$Res> {
-  factory _$NcovInfectedCopyWith(
-          _NcovInfected value, $Res Function(_NcovInfected) then) =
-      __$NcovInfectedCopyWithImpl<$Res>;
+abstract class _$PatientCopyWith<$Res> implements $PatientCopyWith<$Res> {
+  factory _$PatientCopyWith(_Patient value, $Res Function(_Patient) then) =
+      __$PatientCopyWithImpl<$Res>;
   @override
   $Res call(
       {int fID,
@@ -167,14 +164,13 @@ abstract class _$NcovInfectedCopyWith<$Res>
       String date});
 }
 
-class __$NcovInfectedCopyWithImpl<$Res> extends _$NcovInfectedCopyWithImpl<$Res>
-    implements _$NcovInfectedCopyWith<$Res> {
-  __$NcovInfectedCopyWithImpl(
-      _NcovInfected _value, $Res Function(_NcovInfected) _then)
-      : super(_value, (v) => _then(v as _NcovInfected));
+class __$PatientCopyWithImpl<$Res> extends _$PatientCopyWithImpl<$Res>
+    implements _$PatientCopyWith<$Res> {
+  __$PatientCopyWithImpl(_Patient _value, $Res Function(_Patient) _then)
+      : super(_value, (v) => _then(v as _Patient));
 
   @override
-  _NcovInfected get _value => super._value as _NcovInfected;
+  _Patient get _value => super._value as _Patient;
 
   @override
   $Res call({
@@ -194,7 +190,7 @@ class __$NcovInfectedCopyWithImpl<$Res> extends _$NcovInfectedCopyWithImpl<$Res>
     Object status = freezed,
     Object date = freezed,
   }) {
-    return _then(_NcovInfected(
+    return _then(_Patient(
       fID: fID == freezed ? _value.fID : fID as int,
       sequ: sequ == freezed ? _value.sequ : sequ as int,
       phMasterList: phMasterList == freezed
@@ -219,8 +215,8 @@ class __$NcovInfectedCopyWithImpl<$Res> extends _$NcovInfectedCopyWithImpl<$Res>
   }
 }
 
-class _$_NcovInfected implements _NcovInfected {
-  const _$_NcovInfected(
+class _$_Patient implements _Patient {
+  const _$_Patient(
       {this.fID,
       this.sequ,
       this.phMasterList,
@@ -270,13 +266,13 @@ class _$_NcovInfected implements _NcovInfected {
 
   @override
   String toString() {
-    return 'NcovInfected(fID: $fID, sequ: $sequ, phMasterList: $phMasterList, age: $age, gender: $gender, nationality: $nationality, residence: $residence, travelHistory: $travelHistory, symptoms: $symptoms, confirmed: $confirmed, facility: $facility, latitude: $latitude, longitude: $longitude, status: $status, date: $date)';
+    return 'Patient(fID: $fID, sequ: $sequ, phMasterList: $phMasterList, age: $age, gender: $gender, nationality: $nationality, residence: $residence, travelHistory: $travelHistory, symptoms: $symptoms, confirmed: $confirmed, facility: $facility, latitude: $latitude, longitude: $longitude, status: $status, date: $date)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _NcovInfected &&
+        (other is _Patient &&
             (identical(other.fID, fID) ||
                 const DeepCollectionEquality().equals(other.fID, fID)) &&
             (identical(other.sequ, sequ) ||
@@ -338,12 +334,12 @@ class _$_NcovInfected implements _NcovInfected {
       const DeepCollectionEquality().hash(date);
 
   @override
-  _$NcovInfectedCopyWith<_NcovInfected> get copyWith =>
-      __$NcovInfectedCopyWithImpl<_NcovInfected>(this, _$identity);
+  _$PatientCopyWith<_Patient> get copyWith =>
+      __$PatientCopyWithImpl<_Patient>(this, _$identity);
 }
 
-abstract class _NcovInfected implements NcovInfected {
-  const factory _NcovInfected(
+abstract class _Patient implements Patient {
+  const factory _Patient(
       {int fID,
       int sequ,
       String phMasterList,
@@ -358,7 +354,7 @@ abstract class _NcovInfected implements NcovInfected {
       double latitude,
       double longitude,
       String status,
-      String date}) = _$_NcovInfected;
+      String date}) = _$_Patient;
 
   @override
   int get fID;
@@ -391,5 +387,5 @@ abstract class _NcovInfected implements NcovInfected {
   @override
   String get date;
   @override
-  _$NcovInfectedCopyWith<_NcovInfected> get copyWith;
+  _$PatientCopyWith<_Patient> get copyWith;
 }

@@ -1,10 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'ncov_infected.freezed.dart';
+part 'patient.freezed.dart';
 
 @freezed
-abstract class NcovInfected with _$NcovInfected {
-  const factory NcovInfected({
+abstract class Patient with _$Patient {
+  const factory Patient({
     int fID,
     int sequ,
     String phMasterList,
@@ -20,5 +20,5 @@ abstract class NcovInfected with _$NcovInfected {
     double longitude,
     String status,
     String date,
-  }) = _NcovInfected;
+  }) = _Patient;
 }

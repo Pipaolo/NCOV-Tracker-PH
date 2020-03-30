@@ -12,10 +12,10 @@ T _$identity<T>(T value) => value;
 class _$RegionTearOff {
   const _$RegionTearOff();
 
-  _Region call(
-      {int totalCount, List<Map<String, List<NcovInfected>>> citiesInfected}) {
+  _Region call({int totalCount, String name, List<City> citiesInfected}) {
     return _Region(
       totalCount: totalCount,
+      name: name,
       citiesInfected: citiesInfected,
     );
   }
@@ -26,7 +26,8 @@ const $Region = _$RegionTearOff();
 
 mixin _$Region {
   int get totalCount;
-  List<Map<String, List<NcovInfected>>> get citiesInfected;
+  String get name;
+  List<City> get citiesInfected;
 
   $RegionCopyWith<Region> get copyWith;
 }
@@ -34,8 +35,7 @@ mixin _$Region {
 abstract class $RegionCopyWith<$Res> {
   factory $RegionCopyWith(Region value, $Res Function(Region) then) =
       _$RegionCopyWithImpl<$Res>;
-  $Res call(
-      {int totalCount, List<Map<String, List<NcovInfected>>> citiesInfected});
+  $Res call({int totalCount, String name, List<City> citiesInfected});
 }
 
 class _$RegionCopyWithImpl<$Res> implements $RegionCopyWith<$Res> {
@@ -48,13 +48,15 @@ class _$RegionCopyWithImpl<$Res> implements $RegionCopyWith<$Res> {
   @override
   $Res call({
     Object totalCount = freezed,
+    Object name = freezed,
     Object citiesInfected = freezed,
   }) {
     return _then(_value.copyWith(
       totalCount: totalCount == freezed ? _value.totalCount : totalCount as int,
+      name: name == freezed ? _value.name : name as String,
       citiesInfected: citiesInfected == freezed
           ? _value.citiesInfected
-          : citiesInfected as List<Map<String, List<NcovInfected>>>,
+          : citiesInfected as List<City>,
     ));
   }
 }
@@ -63,8 +65,7 @@ abstract class _$RegionCopyWith<$Res> implements $RegionCopyWith<$Res> {
   factory _$RegionCopyWith(_Region value, $Res Function(_Region) then) =
       __$RegionCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {int totalCount, List<Map<String, List<NcovInfected>>> citiesInfected});
+  $Res call({int totalCount, String name, List<City> citiesInfected});
 }
 
 class __$RegionCopyWithImpl<$Res> extends _$RegionCopyWithImpl<$Res>
@@ -78,28 +79,32 @@ class __$RegionCopyWithImpl<$Res> extends _$RegionCopyWithImpl<$Res>
   @override
   $Res call({
     Object totalCount = freezed,
+    Object name = freezed,
     Object citiesInfected = freezed,
   }) {
     return _then(_Region(
       totalCount: totalCount == freezed ? _value.totalCount : totalCount as int,
+      name: name == freezed ? _value.name : name as String,
       citiesInfected: citiesInfected == freezed
           ? _value.citiesInfected
-          : citiesInfected as List<Map<String, List<NcovInfected>>>,
+          : citiesInfected as List<City>,
     ));
   }
 }
 
 class _$_Region implements _Region {
-  const _$_Region({this.totalCount, this.citiesInfected});
+  const _$_Region({this.totalCount, this.name, this.citiesInfected});
 
   @override
   final int totalCount;
   @override
-  final List<Map<String, List<NcovInfected>>> citiesInfected;
+  final String name;
+  @override
+  final List<City> citiesInfected;
 
   @override
   String toString() {
-    return 'Region(totalCount: $totalCount, citiesInfected: $citiesInfected)';
+    return 'Region(totalCount: $totalCount, name: $name, citiesInfected: $citiesInfected)';
   }
 
   @override
@@ -109,6 +114,8 @@ class _$_Region implements _Region {
             (identical(other.totalCount, totalCount) ||
                 const DeepCollectionEquality()
                     .equals(other.totalCount, totalCount)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.citiesInfected, citiesInfected) ||
                 const DeepCollectionEquality()
                     .equals(other.citiesInfected, citiesInfected)));
@@ -118,6 +125,7 @@ class _$_Region implements _Region {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(totalCount) ^
+      const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(citiesInfected);
 
   @override
@@ -127,13 +135,14 @@ class _$_Region implements _Region {
 
 abstract class _Region implements Region {
   const factory _Region(
-      {int totalCount,
-      List<Map<String, List<NcovInfected>>> citiesInfected}) = _$_Region;
+      {int totalCount, String name, List<City> citiesInfected}) = _$_Region;
 
   @override
   int get totalCount;
   @override
-  List<Map<String, List<NcovInfected>>> get citiesInfected;
+  String get name;
+  @override
+  List<City> get citiesInfected;
   @override
   _$RegionCopyWith<_Region> get copyWith;
 }

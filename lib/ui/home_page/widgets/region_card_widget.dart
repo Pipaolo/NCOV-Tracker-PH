@@ -4,17 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ncov_tracker_ph/data/models/city.dart';
 
-import '../../../data/models/ncov_infected.dart';
 import '../../../routes/router.gr.dart';
 import '../../cities_page/bloc/search_bloc.dart';
 
 class RegionCardWidget extends StatelessWidget {
   final String region;
   final int totalCount;
-  final List<Map<String, List<NcovInfected>>> citiesInfected;
-  const RegionCardWidget(
-      {Key key, this.region, this.totalCount, this.citiesInfected})
+  final List<City> cities;
+  const RegionCardWidget({Key key, this.region, this.totalCount, this.cities})
       : super(key: key);
 
   @override
@@ -27,7 +26,7 @@ class RegionCardWidget extends StatelessWidget {
           return ExtendedNavigator.of(context).pushNamed(
             Routes.citiesPageRoute,
             arguments: CitiesPageArguments(
-              citiesInfected: citiesInfected,
+              cities: cities,
               regionName: region,
             ),
           );
