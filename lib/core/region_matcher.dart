@@ -18,7 +18,7 @@ final Map<String, List<String>> regions = {
     'Valenzuela',
     'Pateros',
   ],
-  'MIMAROPA': [
+  'Region IV-B': [
     'Marinduque',
     'Occidental Mindoro',
     'Oriental Mindoro',
