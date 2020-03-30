@@ -43,7 +43,7 @@ class BasicDataCardWidget extends StatelessWidget {
               children: <Widget>[
                 SvgPicture.asset(
                   svgPath,
-                  width: ScreenUtil().setWidth(90),
+                  width: 50,
                 ),
                 const SizedBox(
                   width: 10,

@@ -51,6 +51,7 @@ class BasicStatisticsWidget extends StatelessWidget {
       child: Swiper(
         viewportFraction: 0.89,
         scale: 0.5,
+        curve: Curves.easeInOut,
         itemCount: widgets.length,
         itemBuilder: (context, i) {
           return widgets[i];
