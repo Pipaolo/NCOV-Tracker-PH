@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class InfoDialogWidget extends StatelessWidget {
-  const InfoDialogWidget({Key key}) : super(key: key);
+class MapReferencesDialogWidget extends StatelessWidget {
+  const MapReferencesDialogWidget({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(700),
+      height: ScreenUtil().setHeight(600),
       width: ScreenUtil().setWidth(600),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -20,7 +20,7 @@ class InfoDialogWidget extends StatelessWidget {
             height: 10,
           ),
           Text(
-            'About Me',
+            'Reference',
             style: GoogleFonts.montserrat(
               fontWeight: FontWeight.bold,
               fontSize: ScreenUtil().setSp(40),
@@ -43,7 +43,7 @@ class InfoDialogWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Made by Paolo Matthew G. Tolentino',
+                      'The data that is shown here is from https://endcov.ph a webapp that tracks the current situation in the Philippines. They provide realtime updates in the country so please check their website for more information.',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                         color: Colors.white,
@@ -53,27 +53,7 @@ class InfoDialogWidget extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      'Purpose: This app was made for those people who do not own televisions but has access to the internet.',
-                      style: GoogleFonts.roboto(
-                        fontSize: ScreenUtil().setSp(30),
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'References: \nDepartment of Health NCOV Tracker Website: https://ncovtracker.doh.gov.ph/\nENDCOV PH Website: https://endcov.ph/\n\nThe Icons are from icons8.com and flaticons.com special thanks to them for creating beautiful icons.',
-                      style: GoogleFonts.roboto(
-                        fontSize: ScreenUtil().setSp(30),
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      '* I do not own nor claim the data at hand *',
+                      'I do not claim nor own the data at hand.',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                         color: Colors.white,

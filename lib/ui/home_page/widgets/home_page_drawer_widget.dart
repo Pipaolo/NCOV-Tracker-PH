@@ -46,7 +46,7 @@ class HomePageDrawerWidget extends StatelessWidget {
               color: Colors.blueAccent,
             ),
             trailing: FaIcon(FontAwesomeIcons.angleRight),
-            title: Text('Hospital Listings'),
+            title: Text('Hospital Directories'),
             onTap: () {
               ExtendedNavigator.of(context).pop();
               BlocProvider.of<HospitalBloc>(context)
@@ -61,7 +61,7 @@ class HomePageDrawerWidget extends StatelessWidget {
               color: Colors.blueAccent,
             ),
             trailing: FaIcon(FontAwesomeIcons.angleRight),
-            title: Text('About me'),
+            title: Text('About The App'),
             onTap: () {
               ExtendedNavigator.of(context).pop();
               _showInfoDialog(context);
@@ -77,6 +77,17 @@ class HomePageDrawerWidget extends StatelessWidget {
             onTap: () {
               ExtendedNavigator.of(context).pop();
               _showDOHDialog(context);
+            },
+          ),
+          ListTile(
+            leading: FaIcon(
+              FontAwesomeIcons.mapMarkedAlt,
+              color: Colors.blueAccent,
+            ),
+            trailing: FaIcon(FontAwesomeIcons.angleRight),
+            title: Text('NCOV Heat Map'),
+            onTap: () {
+              ExtendedNavigator.of(context).pushMapPageRoute();
             },
           ),
         ],

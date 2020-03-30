@@ -78,8 +78,8 @@ class NcovRepository {
     final genderStatisticsRaw = elements.getElementById('agesex-data').text;
     final json = jsonDecode(genderStatisticsRaw);
     final genderStatistic = {
-      'Male': json['sex'][1][0],
-      'Female': json['sex'][1][1],
+      'Male': json['sex'][1][0] as int,
+      'Female': json['sex'][1][1] as int,
     };
     return genderStatistic;
   }

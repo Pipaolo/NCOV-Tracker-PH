@@ -20,16 +20,26 @@ class RegionCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () {
-          BlocProvider.of<SearchBloc>(context)
-            ..add(RegionPressed(region: region));
-          return ExtendedNavigator.of(context).pushNamed(
-            Routes.citiesPageRoute,
-            arguments: CitiesPageArguments(
-              cities: cities,
-              regionName: region,
-            ),
-          );
+        onTap: () async {
+          if (region == 'For Verification') {
+            return ExtendedNavigator.of(context).pushNamed(
+              Routes.ncovCasesCityPageRoute,
+              arguments: NcovCasesCityPageArguments(
+                city: cities.first.name,
+                patients: cities.first.patients,
+              ),
+            );
+          } else {
+            BlocProvider.of<SearchBloc>(context)
+              ..add(RegionPressed(region: region));
+            return ExtendedNavigator.of(context).pushNamed(
+              Routes.citiesPageRoute,
+              arguments: CitiesPageArguments(
+                cities: cities,
+                regionName: region,
+              ),
+            );
+          }
         },
         child: Stack(
           children: <Widget>[

@@ -135,5 +135,5 @@ final Map<String, List<String>> regions = {
     'Sulu',
     'Tawi-Tawi',
   ],
-  'Others': ['China', 'For Verification']
+  'For Verification': ['China', 'For Verification']
 };

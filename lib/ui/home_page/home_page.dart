@@ -4,10 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ncov_tracker_ph/data/models/region.dart';
+import 'package:ncov_tracker_ph/ui/home_page/widgets/age_category_bar_chart_widget.dart';
+import 'package:ncov_tracker_ph/ui/home_page/widgets/gender_pie_chart_widget.dart';
 
 import '../../data/models/ncov_statistic_basic.dart';
 import 'bloc/home_page_bloc.dart';
-import 'widgets/age_category_widget.dart';
 import 'widgets/basic_statistics_widget.dart';
 import 'widgets/home_page_drawer_widget.dart';
 import 'widgets/region_list_widget.dart';
@@ -93,7 +94,7 @@ class HomePage extends StatelessWidget {
                     'Confirmed Cases By Age Group',
                     style: GoogleFonts.raleway(
                       fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setSp(40),
+                      fontSize: ScreenUtil().setSp(36),
                     ),
                     maxLines: 1,
                   ),
@@ -101,7 +102,24 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                AgeCategoryWidget(),
+                AgeCategoryBarChartWidget(),
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: AutoSizeText(
+                    'Confirmed Cases By Gender',
+                    style: GoogleFonts.raleway(
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(36),
+                    ),
+                    maxLines: 1,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                GenderPieChartWidget(),
                 Center(
                   child: Text(
                     'Regions Infected',
@@ -110,6 +128,9 @@ class HomePage extends StatelessWidget {
                       fontSize: ScreenUtil().setSp(40),
                     ),
                   ),
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
               ],
             ),

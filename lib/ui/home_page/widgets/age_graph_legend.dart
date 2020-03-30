@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-class AgeCategoryLegendWidget extends StatelessWidget {
+class AgeGraphLegendWidget extends StatelessWidget {
   final Color leftBarColor;
   final Color rightBarColor;
-  const AgeCategoryLegendWidget(
-      {Key key, this.leftBarColor, this.rightBarColor})
+  const AgeGraphLegendWidget({Key key, this.leftBarColor, this.rightBarColor})
       : super(key: key);
 
   @override

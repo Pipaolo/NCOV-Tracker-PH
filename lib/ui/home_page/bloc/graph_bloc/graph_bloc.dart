@@ -18,13 +18,16 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
   final HomePageBloc homePageBloc;
   final NcovRepository ncovRepository;
 
+  final Color leftBarColor = const Color(0xff53fdd7);
+  final Color rightBarColor = const Color(0xffff5182);
+
   GraphBloc({
     @required this.homePageBloc,
     @required this.ncovRepository,
   }) {
     homePageBloc.listen((state) {
       if (state is HomePageSuccess) {
-        add(AgeStatisticsDataFetched());
+        add(StatisticsFetched());
       }
     });
   }
@@ -36,35 +39,45 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
   Stream<GraphState> mapEventToState(
     GraphEvent event,
   ) async* {
-    if (event is AgeStatisticsDataFetched) {
+    if (event is StatisticsFetched) {
       yield GraphLoading();
 
-      final Color leftBarColor = const Color(0xff53fdd7);
-      final Color rightBarColor = const Color(0xffff5182);
       final ageData = await ncovRepository.fetchedAgeData();
-      final List<BarChartGroupData> chartData = [];
-      int index = 0;
-      ageData.forEach((k, v) {
-        chartData.add(BarChartGroupData(
-            x: index,
-            barsSpace: ScreenUtil().setWidth(10),
-            barRods: [
-              BarChartRodData(
-                y: v[0].value.toDouble() ?? 0.0,
-                color: leftBarColor,
-                borderRadius: BorderRadius.circular(10),
-                width: ScreenUtil().setWidth(20),
-              ),
-              BarChartRodData(
-                y: (v.length > 1) ? v[1].value.toDouble() : 0.0,
-                color: rightBarColor,
-                borderRadius: BorderRadius.circular(10),
-                width: ScreenUtil().setWidth(20),
-              )
-            ]));
-      });
-
-      yield GraphSuccess(chartData: chartData);
+      final genderData = await ncovRepository.fetchGenderStatistics();
+      final List<BarChartGroupData> chartData = _generateBarData(ageData);
+      final List<PieChartSectionData> pieChartData =
+          _generatePieChartData(genderData);
+      yield GraphSuccess(barChartData: chartData, pieChartData: pieChartData);
     }
+  }
+
+  List<PieChartSectionData> _generatePieChartData(Map<String, int> genderData) {
+    return genderData.entries.map((data) {
+      return PieChartSectionData(
+        color: (data.key.contains('Female')) ? leftBarColor : rightBarColor,
+        value: data.value.toDouble(),
+        radius: 60,
+        title: data.value.toString(),
+      );
+    }).toList();
+  }
+
+  List<BarChartGroupData> _generateBarData(Map<String, dynamic> ageData) {
+    return ageData.entries.map((data) {
+      return BarChartGroupData(x: 0, barsSpace: 10, barRods: [
+        BarChartRodData(
+          y: data.value[0].value.toDouble() ?? 0.0,
+          color: leftBarColor,
+          borderRadius: BorderRadius.circular(10),
+          width: ScreenUtil().setWidth(20),
+        ),
+        BarChartRodData(
+          y: (data.value.length > 1) ? data.value[1].value.toDouble() : 0.0,
+          color: rightBarColor,
+          borderRadius: BorderRadius.circular(10),
+          width: ScreenUtil().setWidth(20),
+        )
+      ]);
+    }).toList();
   }
 }

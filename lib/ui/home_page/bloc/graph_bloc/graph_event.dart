@@ -4,7 +4,7 @@ abstract class GraphEvent extends Equatable {
   const GraphEvent();
 }
 
-class AgeStatisticsDataFetched extends GraphEvent {
+class StatisticsFetched extends GraphEvent {
   @override
   List<Object> get props => [];
 }

@@ -15,11 +15,12 @@ class GraphLoading extends GraphState {
 }
 
 class GraphSuccess extends GraphState {
-  final List<BarChartGroupData> chartData;
+  final List<BarChartGroupData> barChartData;
+  final List<PieChartSectionData> pieChartData;
 
-  GraphSuccess({this.chartData});
+  GraphSuccess({this.barChartData, this.pieChartData});
   @override
-  List<Object> get props => [chartData];
+  List<Object> get props => [barChartData, this.pieChartData];
 }
 
 class GraphError extends GraphState {
