@@ -39,7 +39,7 @@ class BasicStatisticsWidget extends StatelessWidget {
       ),
       BasicDataCardWidget(
         title: 'PUMs',
-        value: statisticBasic.totalInfected.toString(),
+        value: statisticBasic.totalPUMs.toString(),
         svgPath: 'assets/images/pums.svg',
       ),
     ];
