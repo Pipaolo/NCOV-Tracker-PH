@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ncov_tracker_ph/core/bloc/connectivity_bloc.dart';
 
 import '../data/repository/ncov_repository.dart';
 import '../routes/router.gr.dart';
@@ -20,9 +22,15 @@ class AppWidget extends StatelessWidget {
       create: (context) => NcovRepository(dioClient: Dio()),
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<ConnectivityBloc>(
+            create: (context) => ConnectivityBloc(
+              connectivity: Connectivity(),
+            ),
+          ),
           BlocProvider<HomePageBloc>(
             create: (context) => HomePageBloc(
               ncovRepository: RepositoryProvider.of<NcovRepository>(context),
+              connectivityBloc: BlocProvider.of<ConnectivityBloc>(context),
             )..add(DataFetched()),
           ),
           BlocProvider<SearchBloc>(
@@ -45,6 +53,7 @@ class AppWidget extends StatelessWidget {
           BlocProvider<HospitalBloc>(
             create: (context) => HospitalBloc(
               ncovRepository: RepositoryProvider.of<NcovRepository>(context),
+              connectivityBloc: BlocProvider.of<ConnectivityBloc>(context),
             ),
           )
         ],

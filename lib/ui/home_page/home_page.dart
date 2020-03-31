@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ncov_tracker_ph/data/models/region.dart';
-import 'package:ncov_tracker_ph/ui/home_page/widgets/age_category_bar_chart_widget.dart';
-import 'package:ncov_tracker_ph/ui/home_page/widgets/gender_pie_chart_widget.dart';
 
+import '../../core/bloc/connectivity_bloc.dart';
 import '../../data/models/ncov_statistic_basic.dart';
+import '../../data/models/region.dart';
+import '../widgets/no_connection_widget.dart';
 import 'bloc/home_page_bloc.dart';
+import 'widgets/age_category_bar_chart_widget.dart';
 import 'widgets/basic_statistics_widget.dart';
+import 'widgets/gender_pie_chart_widget.dart';
 import 'widgets/home_page_drawer_widget.dart';
 import 'widgets/region_list_widget.dart';
 
@@ -18,6 +20,27 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<ConnectivityBloc, ConnectivityState>(
+        builder: (context, state) {
+      switch (state) {
+        case ConnectivityState.hasInternet:
+          return _buildHasConnection();
+          break;
+        case ConnectivityState.noInternet:
+          return _buildNoConnection();
+          break;
+      }
+      return Container();
+    });
+  }
+
+  _buildNoConnection() {
+    return Scaffold(
+      body: NoConnectionWidget(),
+    );
+  }
+
+  _buildHasConnection() {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

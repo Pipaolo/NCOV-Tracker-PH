@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ncov_tracker_ph/core/bloc/connectivity_bloc.dart';
 import 'package:ncov_tracker_ph/ui/hospital_listings_page/widgets/hospital_listings_card_widget.dart';
+import 'package:ncov_tracker_ph/ui/widgets/no_connection_widget.dart';
 
 import '../../data/models/hospital.dart';
 import 'bloc/hospital_bloc.dart';
@@ -19,14 +21,15 @@ class HospitalListingsPage extends StatelessWidget {
         title: Text('Hospital Listings'),
         centerTitle: true,
       ),
-      body: BlocBuilder<HospitalBloc, HospitalState>(
+      body: BlocBuilder<ConnectivityBloc, ConnectivityState>(
         builder: (context, state) {
-          if (state is HospitalLoading) {
-            return _buildLoading();
-          } else if (state is HospitalSuccess) {
-            return _buildSuccess(state.hospitalListings, context);
-          } else if (state is HospitalError) {
-            return _buildError(state.errorText, context);
+          switch (state) {
+            case ConnectivityState.hasInternet:
+              return _buildHasConnection();
+              break;
+            case ConnectivityState.noInternet:
+              return _buildNoConnection();
+              break;
           }
           return Container();
         },
@@ -39,6 +42,25 @@ class HospitalListingsPage extends StatelessWidget {
       child: Center(
         child: CircularProgressIndicator(),
       ),
+    );
+  }
+
+  _buildNoConnection() {
+    return NoConnectionWidget();
+  }
+
+  _buildHasConnection() {
+    return BlocBuilder<HospitalBloc, HospitalState>(
+      builder: (context, state) {
+        if (state is HospitalLoading) {
+          return _buildLoading();
+        } else if (state is HospitalSuccess) {
+          return _buildSuccess(state.hospitalListings, context);
+        } else if (state is HospitalError) {
+          return _buildError(state.errorText, context);
+        }
+        return Container();
+      },
     );
   }
 

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:ncov_tracker_ph/core/bloc/connectivity_bloc.dart';
 import 'package:ncov_tracker_ph/data/models/region.dart';
 
 import '../../../data/models/ncov_statistic_basic.dart';
@@ -13,10 +14,18 @@ part 'home_page_state.dart';
 
 class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   final NcovRepository ncovRepository;
+  final ConnectivityBloc connectivityBloc;
 
   HomePageBloc({
     @required this.ncovRepository,
-  });
+    @required this.connectivityBloc,
+  }) {
+    connectivityBloc.listen((state) {
+      if (state == ConnectivityState.hasInternet) {
+        add(DataFetched());
+      }
+    });
+  }
   @override
   HomePageState get initialState => HomePageLoading();
 
