@@ -1,19 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:html/parser.dart';
-import 'package:ncov_tracker_ph/data/models/city.dart';
-import 'package:ncov_tracker_ph/data/models/hospital.dart';
-import 'package:ncov_tracker_ph/data/models/patient.dart';
 
 import '../../core/region_matcher.dart';
-import '../../interceptors/ncov_retry_interceptors.dart';
-import '../../retriers/dio_connectivity_request_trier.dart';
 import '../models/age_category_statistic.dart';
+import '../models/city.dart';
+import '../models/hospital.dart';
 import '../models/ncov_statistic_basic.dart';
+import '../models/patient.dart';
 import '../models/region.dart';
 
 class NcovRepository {
@@ -48,18 +45,17 @@ class NcovRepository {
 
   Future<NcovStatisticBasic> fetchBasicStatistics() async {
     try {
-      final deaths =
-          await fetchBasicStatisticalData(basicStatisticsUrl['death_url']);
-      final recovered =
-          await fetchBasicStatisticalData(basicStatisticsUrl['recovered_url']);
-      final numberOfTestsConducted = await fetchBasicStatisticalData(
-          basicStatisticsUrl['tests_conducted_url']);
-      final numberOfPUMs =
-          await fetchBasicStatisticalData(basicStatisticsUrl['pums_url']);
-      final numberOfPUIs =
-          await fetchBasicStatisticalData(basicStatisticsUrl['pui']);
-      final numberOfInfected =
-          await fetchBasicStatisticalData(basicStatisticsUrl['infected']);
+      final responses = await Future.wait(basicStatisticsUrl.entries
+          .map((link) async => await fetchBasicStatisticalData(link.value))
+          .toList());
+
+      final deaths = responses[0];
+      final recovered = responses[1];
+      final numberOfTestsConducted = responses[2];
+      final numberOfPUMs = responses[3];
+      final numberOfPUIs = responses[4];
+      final numberOfInfected = responses[5];
+
       return NcovStatisticBasic(
         totalDeaths: deaths,
         totalRecovered: recovered,
@@ -91,14 +87,6 @@ class NcovRepository {
 
   Future<Map<String, dynamic>> fetchedAgeData() async {
     try {
-      dioClient.interceptors.add(
-        NcovRetryOnConnectionChangeInterceptors(
-          requestRetrier: DioConnectivityRequestRetrier(
-            dio: dioClient,
-            connectivity: Connectivity(),
-          ),
-        ),
-      );
       final ageData = await jsonDecode(
         await dioClient
             .get(

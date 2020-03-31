@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ncov_tracker_ph/ui/widgets/fade_in_animation_widget.dart';
 
 import '../../core/bloc/connectivity_bloc.dart';
 import '../../data/models/ncov_statistic_basic.dart';
@@ -129,46 +130,62 @@ class HomePage extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                BasicStatisticsWidget(
-                  statisticBasic: statisticBasic,
+                FadeInAnimationWidget(
+                  delay: 3,
+                  child: BasicStatisticsWidget(
+                    statisticBasic: statisticBasic,
+                  ),
                 ),
-                Center(
-                  child: AutoSizeText(
-                    'Confirmed Cases By Age Group',
-                    style: GoogleFonts.raleway(
-                      fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setSp(36),
+                FadeInAnimationWidget(
+                  delay: 3,
+                  child: Center(
+                    child: AutoSizeText(
+                      'Confirmed Cases By Age Group',
+                      style: GoogleFonts.raleway(
+                        fontWeight: FontWeight.bold,
+                        fontSize: ScreenUtil().setSp(36),
+                      ),
+                      maxLines: 1,
                     ),
-                    maxLines: 1,
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                AgeCategoryBarChartWidget(),
+                FadeInAnimationWidget(
+                    delay: 3, child: AgeCategoryBarChartWidget()),
                 const SizedBox(
                   height: 20,
                 ),
-                Center(
-                  child: AutoSizeText(
-                    'Confirmed Cases By Gender',
-                    style: GoogleFonts.raleway(
-                      fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setSp(36),
+                FadeInAnimationWidget(
+                  delay: 3,
+                  child: Center(
+                    child: AutoSizeText(
+                      'Confirmed Cases By Gender',
+                      style: GoogleFonts.raleway(
+                        fontWeight: FontWeight.bold,
+                        fontSize: ScreenUtil().setSp(36),
+                      ),
+                      maxLines: 1,
                     ),
-                    maxLines: 1,
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                GenderPieChartWidget(),
-                Center(
-                  child: Text(
-                    'Regions Infected',
-                    style: GoogleFonts.raleway(
-                      fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setSp(40),
+                FadeInAnimationWidget(
+                  delay: 3,
+                  child: GenderPieChartWidget(),
+                ),
+                FadeInAnimationWidget(
+                  delay: 1,
+                  child: Center(
+                    child: Text(
+                      'Regions Infected',
+                      style: GoogleFonts.raleway(
+                        fontWeight: FontWeight.bold,
+                        fontSize: ScreenUtil().setSp(40),
+                      ),
                     ),
                   ),
                 ),

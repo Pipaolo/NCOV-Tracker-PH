@@ -41,13 +41,47 @@ class DOHEmergencyDialogWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      '02-894-26846',
+                    Text.rich(
+                      TextSpan(
+                        text: 'Nationwide Callers',
+                        children: [
+                          TextSpan(
+                            text: '\n02-894-26843',
+                            style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.bold,
+                              fontSize: ScreenUtil().setSp(50),
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
                       style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.bold,
-                        fontSize: ScreenUtil().setSp(50),
+                        fontSize: ScreenUtil().setSp(30),
                         color: Colors.white,
                       ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Text.rich(
+                      TextSpan(
+                        text: '\nFor PLDT, SMART, SUN, and TNT Subscribers',
+                        children: [
+                          TextSpan(
+                            text: '\n1555'.toUpperCase(),
+                            style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.bold,
+                              fontSize: ScreenUtil().setSp(50),
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.bold,
+                        fontSize: ScreenUtil().setSp(30),
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),

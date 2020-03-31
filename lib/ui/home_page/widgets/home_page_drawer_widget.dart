@@ -6,22 +6,8 @@ import 'package:ncov_tracker_ph/routes/router.gr.dart';
 import 'package:ncov_tracker_ph/ui/home_page/widgets/doh_emergency_dialog_widget.dart';
 import 'package:ncov_tracker_ph/ui/hospital_listings_page/bloc/hospital_bloc.dart';
 
-import 'info_dialog_widget.dart';
-
 class HomePageDrawerWidget extends StatelessWidget {
   const HomePageDrawerWidget({Key key}) : super(key: key);
-
-  _showInfoDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: InfoDialogWidget(),
-        );
-      },
-    );
-  }
 
   _showDOHDialog(BuildContext context) {
     showDialog(
@@ -64,7 +50,7 @@ class HomePageDrawerWidget extends StatelessWidget {
             title: Text('About The App'),
             onTap: () {
               ExtendedNavigator.of(context).pop();
-              _showInfoDialog(context);
+              ExtendedNavigator.of(context).pushInfoPageRoute();
             },
           ),
           ListTile(

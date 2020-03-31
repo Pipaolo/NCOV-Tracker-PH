@@ -58,7 +58,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     } else if (event is RegionPressed) {
       cities = regions
           .where((region) =>
-              region.name.toLowerCase().contains(event.region.toLowerCase()))
+              region.name.toLowerCase() == event.region.toLowerCase())
           .first
           .citiesInfected;
       yield SearchSuccess(searchResults: cities);

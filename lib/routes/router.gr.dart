@@ -13,6 +13,7 @@ import 'package:ncov_tracker_ph/ui/home_page/home_page.dart';
 import 'package:ncov_tracker_ph/ui/map_page/map_page.dart';
 import 'package:ncov_tracker_ph/ui/cities_page/cities_page.dart';
 import 'package:ncov_tracker_ph/data/models/city.dart';
+import 'package:ncov_tracker_ph/ui/info_page/info_page.dart';
 import 'package:ncov_tracker_ph/ui/hospital_listings_page/hospital_listings_page.dart';
 import 'package:ncov_tracker_ph/ui/hospital_page/hospital_page.dart';
 import 'package:ncov_tracker_ph/data/models/hospital.dart';
@@ -25,6 +26,7 @@ abstract class Routes {
   static const homePageRoute = '/home-page-route';
   static const mapPageRoute = '/map-page-route';
   static const citiesPageRoute = '/cities-page-route';
+  static const infoPageRoute = '/info-page-route';
   static const hospitalListingsPageRoute = '/hospital-listings-page-route';
   static const hospitalPageRoute = '/hospital-page-route';
   static const ncovCasesCityPageRoute = '/ncov-cases-city-page-route';
@@ -86,6 +88,15 @@ class Router extends RouterBase {
               key: typedArgs.key,
               cities: typedArgs.cities,
               regionName: typedArgs.regionName),
+          settings: settings,
+        );
+      case Routes.infoPageRoute:
+        if (hasInvalidArgs<Key>(args)) {
+          return misTypedArgsRoute<Key>(args);
+        }
+        final typedArgs = args as Key;
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => InfoPage(key: typedArgs),
           settings: settings,
         );
       case Routes.hospitalListingsPageRoute:
@@ -183,6 +194,10 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
       pushNamed(Routes.citiesPageRoute,
           arguments: CitiesPageArguments(
               key: key, cities: cities, regionName: regionName));
+  Future pushInfoPageRoute({
+    Key key,
+  }) =>
+      pushNamed(Routes.infoPageRoute, arguments: key);
   Future pushHospitalListingsPageRoute({
     Key key,
   }) =>
