@@ -37,6 +37,45 @@ class HomePage extends StatelessWidget {
 
   _buildNoConnection(BuildContext context) {
     return Scaffold(
+      body: NoConnectionWidget(),
+    );
+  }
+
+  _buildHasConnection() {
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text('NCOV Tracker PH'),
+        ),
+        drawer: HomePageDrawerWidget(),
+        body: Container(
+          alignment: Alignment.center,
+          child: BlocBuilder<HomePageBloc, HomePageState>(
+              builder: (context, state) {
+            if (state is HomePageLoading) {
+              return _buildLoading();
+            } else if (state is HomePageSuccess) {
+              return _buildSuccess(state.ncovStatisticBasic,
+                  state.patientsGroupedByRegion, context);
+            } else if (state is HomePageError) {
+              return _buildError(state.errorText, context);
+            }
+            return Container();
+          }),
+        ),
+      ),
+    );
+  }
+
+  _buildLoading() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  _buildError(String errorText, BuildContext context) {
+    return Scaffold(
       body: Stack(
         children: <Widget>[
           Center(
@@ -75,63 +114,6 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  _buildHasConnection() {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('NCOV Tracker PH'),
-        ),
-        drawer: HomePageDrawerWidget(),
-        body: Container(
-          alignment: Alignment.center,
-          child: BlocBuilder<HomePageBloc, HomePageState>(
-              builder: (context, state) {
-            if (state is HomePageLoading) {
-              return _buildLoading();
-            } else if (state is HomePageSuccess) {
-              return _buildSuccess(state.ncovStatisticBasic,
-                  state.patientsGroupedByRegion, context);
-            } else if (state is HomePageError) {
-              return _buildError(state.errorText, context);
-            }
-            return Container();
-          }),
-        ),
-      ),
-    );
-  }
-
-  _buildLoading() {
-    return Center(
-      child: CircularProgressIndicator(),
-    );
-  }
-
-  _buildError(String errorText, BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height,
-          child: Center(
-            child: Text('Woops something bad happened!'),
-          ),
-        ),
-        RefreshIndicator(
-          onRefresh: () async => BlocProvider.of<HomePageBloc>(context)
-            ..add(
-              DataFetched(),
-            ),
-          child: Positioned.fill(
-            child: ListView(
-              children: <Widget>[],
-            ),
-          ),
-        ),
-      ],
     );
   }
 
