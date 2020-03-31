@@ -38,6 +38,7 @@ class HospitalBloc extends Bloc<HospitalEvent, HospitalState> {
       yield HospitalLoading();
       try {
         hospitals = await ncovRepository.fetchHospitals();
+        print(hospitals.length);
         yield HospitalSuccess(hospitalListings: hospitals);
       } catch (e) {
         yield HospitalError(errorText: e.toString());

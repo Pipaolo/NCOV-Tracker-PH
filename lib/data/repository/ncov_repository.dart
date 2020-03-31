@@ -190,7 +190,8 @@ class NcovRepository {
             contactInfo: e.children[2].text.split(' / '),
             type: e.children.last.text.trim());
       }).toList();
-      return hospitals;
+
+      return hospitals.toSet().toList();
     } catch (e) {
       throw SocketException('No Internet Connection');
     }

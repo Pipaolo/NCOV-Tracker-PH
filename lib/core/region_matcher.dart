@@ -99,7 +99,7 @@ final Map<String, List<String>> regions = {
   'Region IX': [
     'Zamboanga del Norte',
     'Zamboanga del Sur',
-    '	Zamboanga Sibugay',
+    'Zamboanga Sibugay',
   ],
   'Region X': [
     'Bukidnon',
@@ -129,7 +129,6 @@ final Map<String, List<String>> regions = {
     'Surigao Del Sur',
   ],
   'BARMM': [
-    'Isabela',
     'Lanao Del Sur',
     'Maguindanao',
     'Sulu',
