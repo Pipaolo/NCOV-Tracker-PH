@@ -24,8 +24,9 @@ class NcovRetryOnConnectionChangeInterceptors extends Interceptor {
   }
 
   bool _shouldRetry(DioError error) {
-    return error.type == DioErrorType.DEFAULT &&
-        error.type != null &&
-        error.error is SocketException;
+    return error.type == DioErrorType.DEFAULT ||
+        error.type == DioErrorType.CONNECT_TIMEOUT &&
+            error.type != null &&
+            error.error is SocketException;
   }
 }

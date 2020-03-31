@@ -8,7 +8,6 @@ class DioConnectivityRequestRetrier {
   final Dio dio;
   final Connectivity connectivity;
 
-
   DioConnectivityRequestRetrier({
     @required this.dio,
     @required this.connectivity,
@@ -18,21 +17,24 @@ class DioConnectivityRequestRetrier {
     StreamSubscription streamSubscription;
     final responseCompleter = Completer<Response>();
 
-    streamSubscription =
-        connectivity.onConnectivityChanged.listen((connectivityResult) async {
-      if (connectivityResult != ConnectivityResult.none) {
-        streamSubscription.cancel();
-
-        dio.request(
-          options.path,
-          cancelToken: options.cancelToken,
-          data: options.data,
-          onReceiveProgress: options.onReceiveProgress,
-          queryParameters: options.queryParameters,
-          options: options,
-        );
-      }
-    });
+    streamSubscription = connectivity.onConnectivityChanged.listen(
+      (connectivityResult) async {
+        if (connectivityResult != ConnectivityResult.none) {
+          print('trying to request again');
+          responseCompleter.complete(
+            dio.request(
+              options.path,
+              cancelToken: options.cancelToken,
+              data: options.data,
+              onReceiveProgress: options.onReceiveProgress,
+              onSendProgress: options.onSendProgress,
+              queryParameters: options.queryParameters,
+              options: options,
+            ),
+          );
+        }
+      },
+    );
     return responseCompleter.future;
   }
 }

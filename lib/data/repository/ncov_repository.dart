@@ -32,16 +32,7 @@ class NcovRepository {
   };
 
   final Dio dioClient;
-  NcovRepository({this.dioClient});
-
-  Future<int> fetchBasicStatisticalData(String url) async {
-    return await jsonDecode(await dioClient
-            .get(url)
-            .then((response) => response.data))['features'][0]['attributes']
-        ['value'];
-  }
-
-  Future<NcovStatisticBasic> fetchBasicStatistics() async {
+  NcovRepository({this.dioClient}) {
     dioClient.interceptors.add(
       NcovRetryOnConnectionChangeInterceptors(
         requestRetrier: DioConnectivityRequestRetrier(
@@ -50,6 +41,19 @@ class NcovRepository {
         ),
       ),
     );
+  }
+
+  Future<int> fetchBasicStatisticalData(String url) async {
+    return await jsonDecode(await dioClient
+            .get(
+              url,
+              options: Options(receiveTimeout: 3000, sendTimeout: 3000),
+            )
+            .then((response) => response.data))['features'][0]['attributes']
+        ['value'];
+  }
+
+  Future<NcovStatisticBasic> fetchBasicStatistics() async {
     final deaths =
         await fetchBasicStatisticalData(basicStatisticsUrl['death_url']);
     final recovered =
@@ -73,7 +77,8 @@ class NcovRepository {
   }
 
   Future<Map<String, int>> fetchGenderStatistics() async {
-    final response = await dioClient.get('https://endcov.ph/dashboard/');
+    final response = await dioClient.get('https://endcov.ph/dashboard/',
+        options: Options(receiveTimeout: 3000, sendTimeout: 3000));
     final elements = parse(response.data);
     final genderStatisticsRaw = elements.getElementById('agesex-data').text;
     final json = jsonDecode(genderStatisticsRaw);
@@ -85,18 +90,12 @@ class NcovRepository {
   }
 
   Future<Map<String, dynamic>> fetchedAgeData() async {
-    dioClient.interceptors.add(
-      NcovRetryOnConnectionChangeInterceptors(
-        requestRetrier: DioConnectivityRequestRetrier(
-          dio: dioClient,
-          connectivity: Connectivity(),
-        ),
-      ),
-    );
     final ageData = await jsonDecode(
       await dioClient
           .get(
-              'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/age_group/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=age_categ%2Csex&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22FID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&outSR=102100&cacheHint=true')
+            'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/age_group/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=age_categ%2Csex&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22FID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&outSR=102100&cacheHint=true',
+            options: Options(receiveTimeout: 3000, sendTimeout: 3000),
+          )
           .then((response) => response.data),
     )['features'];
 
@@ -114,7 +113,8 @@ class NcovRepository {
   Future<List<Region>> fetchPatients() async {
     final List<dynamic> rawPatientsList = await jsonDecode(await dioClient
         .get(
-            'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=sequ%20desc&resultOffset=0&resultRecordCount=1500&cacheHint=true')
+            'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=sequ%20desc&resultOffset=0&resultRecordCount=1500&cacheHint=true',
+            options: Options(receiveTimeout: 3000, sendTimeout: 3000))
         .then((response) => response.data))['features'];
     final List<Patient> patientsList = rawPatientsList.map((data) {
       final rawPatient = data['attributes'];
