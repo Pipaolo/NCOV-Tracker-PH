@@ -14,6 +14,7 @@ class HospitalListingsCardWidget extends StatelessWidget {
     return Card(
       child: InkWell(
         onTap: () {
+          FocusScope.of(context).unfocus();
           ExtendedNavigator.of(context).pushNamed(
             Routes.hospitalPageRoute,
             arguments: HospitalPageArguments(

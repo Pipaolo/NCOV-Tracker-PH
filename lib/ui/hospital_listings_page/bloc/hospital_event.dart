@@ -9,6 +9,11 @@ class HospitalListingsPressed extends HospitalEvent {
   List<Object> get props => [];
 }
 
+class HospitalDirectoryLoadedMore extends HospitalEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class HospitalSearched extends HospitalEvent {
   final String query;
 

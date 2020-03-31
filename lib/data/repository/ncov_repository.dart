@@ -118,7 +118,9 @@ class NcovRepository {
         final rawPatient = data['attributes'];
         int age = 0;
         try {
-          age = int.parse(rawPatient['edad']);
+          age = (rawPatient['edad'].contains('For Verification'))
+              ? 0
+              : int.parse(rawPatient['edad']);
         } catch (e) {
           age = rawPatient['edad'];
         }
@@ -174,6 +176,7 @@ class NcovRepository {
 
       return groupedByRegion;
     } catch (e) {
+      print(e);
       throw SocketException('No Internet Connection');
     }
   }

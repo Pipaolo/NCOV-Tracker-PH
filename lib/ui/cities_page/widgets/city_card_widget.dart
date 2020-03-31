@@ -18,6 +18,7 @@ class CityCardWidget extends StatelessWidget {
     return Card(
       child: InkWell(
         onTap: () {
+          FocusScope.of(context).unfocus();
           return ExtendedNavigator.rootNavigator.pushNcovCasesCityPageRoute(
             patients: patients,
             city: city,

@@ -45,6 +45,9 @@ class _HospitalListingsSearchBarWidgetState
               : null,
         ),
       ),
+      noItemsFoundBuilder: (context) => ListTile(
+        title: Text('No Hospitals Found!'),
+      ),
       onSuggestionSelected: (suggestion) => searchController.text = suggestion,
       suggestionsCallback: (string) {
         final tempHospitalSuggesions = BlocProvider.of<HospitalBloc>(context)

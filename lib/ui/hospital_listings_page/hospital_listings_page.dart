@@ -11,8 +11,15 @@ import '../../data/models/hospital.dart';
 import 'bloc/hospital_bloc.dart';
 import 'widgets/hospital_listings_search_bar_widget.dart';
 
-class HospitalListingsPage extends StatelessWidget {
+class HospitalListingsPage extends StatefulWidget {
   const HospitalListingsPage({Key key}) : super(key: key);
+
+  @override
+  _HospitalListingsPageState createState() => _HospitalListingsPageState();
+}
+
+class _HospitalListingsPageState extends State<HospitalListingsPage> {
+  int numberOfItems = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -66,27 +73,42 @@ class HospitalListingsPage extends StatelessWidget {
 
   _buildSuccess(List<Hospital> hospitalListings, BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async => BlocProvider.of<HospitalBloc>(context)
-        ..add(
-          HospitalListingsPressed(),
+      onRefresh: () async {
+        setState(() => numberOfItems = 5);
+        return BlocProvider.of<HospitalBloc>(context)
+          ..add(
+            HospitalListingsPressed(),
+          );
+      },
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (scrollNotification) {
+          if (scrollNotification.metrics.pixels ==
+                  scrollNotification.metrics.maxScrollExtent &&
+              numberOfItems < hospitalListings.length) {
+            setState(() => numberOfItems += 5);
+          }
+          return false;
+        },
+        child: ListView(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: HospitalListingsSearchBarWidget(),
+            ),
+            ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: (numberOfItems < hospitalListings.length)
+                    ? numberOfItems
+                    : hospitalListings.length,
+                itemBuilder: (context, i) {
+                  final hospital = hospitalListings[i];
+                  return HospitalListingsCardWidget(
+                    hospital: hospital,
+                  );
+                }),
+          ],
         ),
-      child: ListView(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: HospitalListingsSearchBarWidget(),
-          ),
-          ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: hospitalListings.length,
-              itemBuilder: (context, i) {
-                final hospital = hospitalListings[i];
-                return HospitalListingsCardWidget(
-                  hospital: hospital,
-                );
-              }),
-        ],
       ),
     );
   }
