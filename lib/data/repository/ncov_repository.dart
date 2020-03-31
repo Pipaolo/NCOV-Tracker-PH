@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
@@ -32,162 +33,178 @@ class NcovRepository {
   };
 
   final Dio dioClient;
-  NcovRepository({this.dioClient}) {
-    dioClient.interceptors.add(
-      NcovRetryOnConnectionChangeInterceptors(
-        requestRetrier: DioConnectivityRequestRetrier(
-          dio: dioClient,
-          connectivity: Connectivity(),
-        ),
-      ),
-    );
-  }
+  NcovRepository({this.dioClient});
 
   Future<int> fetchBasicStatisticalData(String url) async {
-    return await jsonDecode(await dioClient
-            .get(
-              url,
-              options: Options(receiveTimeout: 3000, sendTimeout: 3000),
-            )
-            .then((response) => response.data))['features'][0]['attributes']
-        ['value'];
+    try {
+      return await jsonDecode(await dioClient
+              .get(url)
+              .then((response) => response.data))['features'][0]['attributes']
+          ['value'];
+    } catch (e) {
+      throw SocketException('No Internet Connection');
+    }
   }
 
   Future<NcovStatisticBasic> fetchBasicStatistics() async {
-    final deaths =
-        await fetchBasicStatisticalData(basicStatisticsUrl['death_url']);
-    final recovered =
-        await fetchBasicStatisticalData(basicStatisticsUrl['recovered_url']);
-    final numberOfTestsConducted = await fetchBasicStatisticalData(
-        basicStatisticsUrl['tests_conducted_url']);
-    final numberOfPUMs =
-        await fetchBasicStatisticalData(basicStatisticsUrl['pums_url']);
-    final numberOfPUIs =
-        await fetchBasicStatisticalData(basicStatisticsUrl['pui']);
-    final numberOfInfected =
-        await fetchBasicStatisticalData(basicStatisticsUrl['infected']);
-    return NcovStatisticBasic(
-      totalDeaths: deaths,
-      totalRecovered: recovered,
-      totalInfected: numberOfInfected,
-      totalPUIs: numberOfPUIs,
-      totalPUMs: numberOfPUMs,
-      totalTestsConducted: numberOfTestsConducted,
-    );
+    try {
+      final deaths =
+          await fetchBasicStatisticalData(basicStatisticsUrl['death_url']);
+      final recovered =
+          await fetchBasicStatisticalData(basicStatisticsUrl['recovered_url']);
+      final numberOfTestsConducted = await fetchBasicStatisticalData(
+          basicStatisticsUrl['tests_conducted_url']);
+      final numberOfPUMs =
+          await fetchBasicStatisticalData(basicStatisticsUrl['pums_url']);
+      final numberOfPUIs =
+          await fetchBasicStatisticalData(basicStatisticsUrl['pui']);
+      final numberOfInfected =
+          await fetchBasicStatisticalData(basicStatisticsUrl['infected']);
+      return NcovStatisticBasic(
+        totalDeaths: deaths,
+        totalRecovered: recovered,
+        totalInfected: numberOfInfected,
+        totalPUIs: numberOfPUIs,
+        totalPUMs: numberOfPUMs,
+        totalTestsConducted: numberOfTestsConducted,
+      );
+    } catch (e) {
+      throw SocketException('No Internet Connection');
+    }
   }
 
   Future<Map<String, int>> fetchGenderStatistics() async {
-    final response = await dioClient.get('https://endcov.ph/dashboard/',
-        options: Options(receiveTimeout: 3000, sendTimeout: 3000));
-    final elements = parse(response.data);
-    final genderStatisticsRaw = elements.getElementById('agesex-data').text;
-    final json = jsonDecode(genderStatisticsRaw);
-    final genderStatistic = {
-      'Male': json['sex'][1][0] as int,
-      'Female': json['sex'][1][1] as int,
-    };
-    return genderStatistic;
+    try {
+      final response = await dioClient.get('https://endcov.ph/dashboard/');
+      final elements = parse(response.data);
+      final genderStatisticsRaw = elements.getElementById('agesex-data').text;
+      final json = jsonDecode(genderStatisticsRaw);
+      final genderStatistic = {
+        'Male': json['sex'][1][0] as int,
+        'Female': json['sex'][1][1] as int,
+      };
+      return genderStatistic;
+    } catch (e) {
+      throw SocketException('No Internet Connection');
+    }
   }
 
   Future<Map<String, dynamic>> fetchedAgeData() async {
-    final ageData = await jsonDecode(
-      await dioClient
-          .get(
-            'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/age_group/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=age_categ%2Csex&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22FID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&outSR=102100&cacheHint=true',
-            options: Options(receiveTimeout: 3000, sendTimeout: 3000),
-          )
-          .then((response) => response.data),
-    )['features'];
-
-    final List<dynamic> ageDataConverted = ageData.map((raw) {
-      final attr = raw['attributes'];
-      return AgeCategoryStatistic(
-        value: attr['value'],
-        category: attr['age_categ'],
-        sex: attr['sex'],
+    try {
+      dioClient.interceptors.add(
+        NcovRetryOnConnectionChangeInterceptors(
+          requestRetrier: DioConnectivityRequestRetrier(
+            dio: dioClient,
+            connectivity: Connectivity(),
+          ),
+        ),
       );
-    }).toList();
-    return groupBy(ageDataConverted, (obj) => obj.category);
+      final ageData = await jsonDecode(
+        await dioClient
+            .get(
+                'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/age_group/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=age_categ%2Csex&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22FID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&outSR=102100&cacheHint=true')
+            .then((response) => response.data),
+      )['features'];
+
+      final List<dynamic> ageDataConverted = ageData.map((raw) {
+        final attr = raw['attributes'];
+        return AgeCategoryStatistic(
+          value: attr['value'],
+          category: attr['age_categ'],
+          sex: attr['sex'],
+        );
+      }).toList();
+      return groupBy(ageDataConverted, (obj) => obj.category);
+    } catch (e) {
+      throw SocketException('No Internet Connection');
+    }
   }
 
   Future<List<Region>> fetchPatients() async {
-    final List<dynamic> rawPatientsList = await jsonDecode(await dioClient
-        .get(
-            'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=sequ%20desc&resultOffset=0&resultRecordCount=1500&cacheHint=true',
-            options: Options(receiveTimeout: 3000, sendTimeout: 3000))
-        .then((response) => response.data))['features'];
-    final List<Patient> patientsList = rawPatientsList.map((data) {
-      final rawPatient = data['attributes'];
-      int age = 0;
-      try {
-        age = int.parse(rawPatient['edad']);
-      } catch (e) {
-        age = rawPatient['edad'];
-      }
-
-      return Patient(
-        fID: rawPatient['FID'],
-        sequ: rawPatient['sequ'],
-        phMasterList: rawPatient['PH_masterl'],
-        age: age,
-        gender: rawPatient['kasarian'],
-        nationality: rawPatient['nationalit'],
-        residence: rawPatient['residence'].replaceAll('�', 'n'),
-        travelHistory: rawPatient['travel_hx'],
-        symptoms: rawPatient['symptoms'],
-        confirmed: rawPatient['confirmed'],
-        facility: rawPatient['facility'],
-        latitude: rawPatient['latitude'],
-        longitude: rawPatient['longitude'],
-        status: rawPatient['status'],
-        date: rawPatient['petsa'],
-      );
-    }).toList();
-
-    //Group Ncov Cities By Simalirities
-    final List<Region> groupedByRegion = [];
-    regions.forEach((region, provinces) {
-      final List<City> citiesMatched = [];
-      provinces.forEach((province) {
-        final patientsGroupedByProvince = patientsList
-            .where((patient) => patient.residence
-                .toLowerCase()
-                .contains(province.toLowerCase()))
-            .toList();
-        if (patientsGroupedByProvince.isNotEmpty) {
-          citiesMatched.add(
-            City(
-                name: province,
-                patients: patientsGroupedByProvince,
-                totalCount: patientsGroupedByProvince.length),
-          );
+    try {
+      final List<dynamic> rawPatientsList = await jsonDecode(await dioClient
+          .get(
+              'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=sequ%20desc&resultOffset=0&resultRecordCount=1500&cacheHint=true')
+          .then((response) => response.data))['features'];
+      final List<Patient> patientsList = rawPatientsList.map((data) {
+        final rawPatient = data['attributes'];
+        int age = 0;
+        try {
+          age = int.parse(rawPatient['edad']);
+        } catch (e) {
+          age = rawPatient['edad'];
         }
+
+        return Patient(
+          fID: rawPatient['FID'],
+          sequ: rawPatient['sequ'],
+          phMasterList: rawPatient['PH_masterl'],
+          age: age,
+          gender: rawPatient['kasarian'],
+          nationality: rawPatient['nationalit'],
+          residence: rawPatient['residence'].replaceAll('�', 'n'),
+          travelHistory: rawPatient['travel_hx'],
+          symptoms: rawPatient['symptoms'],
+          confirmed: rawPatient['confirmed'],
+          facility: rawPatient['facility'],
+          latitude: rawPatient['latitude'],
+          longitude: rawPatient['longitude'],
+          status: rawPatient['status'],
+          date: rawPatient['petsa'],
+        );
+      }).toList();
+
+      //Group Ncov Cities By Simalirities
+      final List<Region> groupedByRegion = [];
+      regions.forEach((region, provinces) {
+        final List<City> citiesMatched = [];
+        provinces.forEach((province) {
+          final patientsGroupedByProvince = patientsList
+              .where((patient) => patient.residence
+                  .toLowerCase()
+                  .contains(province.toLowerCase()))
+              .toList();
+          if (patientsGroupedByProvince.isNotEmpty) {
+            citiesMatched.add(
+              City(
+                  name: province,
+                  patients: patientsGroupedByProvince,
+                  totalCount: patientsGroupedByProvince.length),
+            );
+          }
+        });
+        citiesMatched.sort((a, b) => b.totalCount.compareTo(a.totalCount));
+        groupedByRegion.add(Region(
+          name: region,
+          citiesInfected: citiesMatched,
+          totalCount: citiesMatched.fold(0, (a, b) => a + b.totalCount),
+        ));
       });
-      citiesMatched.sort((a, b) => b.totalCount.compareTo(a.totalCount));
-      groupedByRegion.add(Region(
-        name: region,
-        citiesInfected: citiesMatched,
-        totalCount: citiesMatched.fold(0, (a, b) => a + b.totalCount),
-      ));
-    });
 
-    groupedByRegion.removeWhere((region) => region.totalCount == 0);
-    groupedByRegion.sort((a, b) => b.totalCount.compareTo(a.totalCount));
+      groupedByRegion.removeWhere((region) => region.totalCount == 0);
+      groupedByRegion.sort((a, b) => b.totalCount.compareTo(a.totalCount));
 
-    return groupedByRegion;
+      return groupedByRegion;
+    } catch (e) {
+      throw SocketException('No Internet Connection');
+    }
   }
 
   Future<List<Hospital>> fetchHospitals() async {
-    final response = await dioClient.get('https://endcov.ph/hospitals/');
-    final elements = parse(response.data);
-    final hospitalRaw = elements.getElementsByTagName('tbody').first.children;
-    final hospitals = hospitalRaw.map((e) {
-      return Hospital(
-          name: e.children[0].text.trim(),
-          address: e.children[1].text.trim(),
-          contactInfo: e.children[2].text.split(' / '),
-          type: e.children.last.text.trim());
-    }).toList();
-    return hospitals;
+    try {
+      final response = await dioClient.get('https://endcov.ph/hospitals/');
+      final elements = parse(response.data);
+      final hospitalRaw = elements.getElementsByTagName('tbody').first.children;
+      final hospitals = hospitalRaw.map((e) {
+        return Hospital(
+            name: e.children[0].text.trim(),
+            address: e.children[1].text.trim(),
+            contactInfo: e.children[2].text.split(' / '),
+            type: e.children.last.text.trim());
+      }).toList();
+      return hospitals;
+    } catch (e) {
+      throw SocketException('No Internet Connection');
+    }
   }
 }

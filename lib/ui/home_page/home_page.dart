@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/bloc/connectivity_bloc.dart';
@@ -27,16 +28,53 @@ class HomePage extends StatelessWidget {
           return _buildHasConnection();
           break;
         case ConnectivityState.noInternet:
-          return _buildNoConnection();
+          return _buildNoConnection(context);
           break;
       }
       return Container();
     });
   }
 
-  _buildNoConnection() {
+  _buildNoConnection(BuildContext context) {
     return Scaffold(
-      body: NoConnectionWidget(),
+      body: Stack(
+        children: <Widget>[
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SvgPicture.asset(
+                    'assets/images/error.svg',
+                    height: 150,
+                  ),
+                  Text(
+                    'You have no internet connection. Try and refresh the page, by dragging down.',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(35),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          RefreshIndicator(
+            onRefresh: () async => BlocProvider.of<HomePageBloc>(context)
+              ..add(
+                DataFetched(),
+              ),
+            child: Positioned.fill(
+              child: ListView(
+                children: <Widget>[],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

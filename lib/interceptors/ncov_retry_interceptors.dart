@@ -13,20 +13,6 @@ class NcovRetryOnConnectionChangeInterceptors extends Interceptor {
 
   @override
   Future onError(DioError err) async {
-    if (_shouldRetry(err)) {
-      try {
-        return requestRetrier.scheduleRequestRetry(err.request);
-      } catch (e) {
-        return e;
-      }
-    }
-    return err;
-  }
-
-  bool _shouldRetry(DioError error) {
-    return error.type == DioErrorType.DEFAULT ||
-        error.type == DioErrorType.CONNECT_TIMEOUT &&
-            error.type != null &&
-            error.error is SocketException;
+    return requestRetrier.scheduleRequestRetry(err.request);
   }
 }

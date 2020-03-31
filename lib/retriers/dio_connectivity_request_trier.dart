@@ -20,7 +20,7 @@ class DioConnectivityRequestRetrier {
     streamSubscription = connectivity.onConnectivityChanged.listen(
       (connectivityResult) async {
         if (connectivityResult != ConnectivityResult.none) {
-          print('trying to request again');
+          streamSubscription.cancel();
           responseCompleter.complete(
             dio.request(
               options.path,
