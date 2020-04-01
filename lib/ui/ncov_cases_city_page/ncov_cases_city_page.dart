@@ -47,7 +47,7 @@ class NcovCasesCityPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        patient.phMasterList,
+                        patient.caseNumber,
                         style: GoogleFonts.montserrat(
                           fontWeight: FontWeight.bold,
                           fontSize: ScreenUtil().setSp(60),

@@ -1,22 +1,22 @@
 final Map<String, List<String>> regions = {
   'NCR': [
-    'Manila',
-    'Caloocan',
-    'Las Pinas',
-    'Makati',
-    'Malabon',
-    'Mandaluyong',
-    'Marikina',
-    'Muntinlupa',
-    'Navotas',
-    'Paranaque',
-    'Pasay',
-    'Pasig',
+    'Manila City',
+    'Caloocan City',
+    'Las Pinas City',
+    'Makati City',
+    'Malabon City',
+    'Mandaluyong City',
+    'Marikina City',
+    'Muntinlupa City',
+    'Navotas City',
+    'Paranaque City',
+    'Pasay City',
+    'Pasig City',
     'Quezon City',
-    'San Juan',
-    'Taguig',
-    'Valenzuela',
-    'Pateros',
+    'San Juan City',
+    'Taguig City',
+    'Valenzuela City',
+    'Pateros City',
   ],
   'Region IV-B': [
     'Marinduque',
@@ -76,7 +76,7 @@ final Map<String, List<String>> regions = {
     'Bogo',
     'Canlaon',
     'Carcar',
-    'Cebu City',
+    'Cebu',
     'Danao',
     'Dumaguete',
     'Guihulngan',
@@ -87,6 +87,7 @@ final Map<String, List<String>> regions = {
     'Talisay',
     'Tanjay',
     'Toledo',
+    'Negros Oriental'
   ],
   'Region VIII': [
     'Biliran',
@@ -114,6 +115,7 @@ final Map<String, List<String>> regions = {
     'Davao Del Sur',
     'Davao Occidental',
     'Davao Oriental',
+    'Compostela Valley'
   ],
   "Region XII": [
     'Cotabato',
@@ -128,11 +130,19 @@ final Map<String, List<String>> regions = {
     'Surigao Del Norte',
     'Surigao Del Sur',
   ],
+  'CAR': [
+    'Abra',
+    'Apayao',
+    'Benguet',
+    'Ifugao',
+    'Kalinga',
+    'Mountain Province',
+  ],
   'BARMM': [
     'Lanao Del Sur',
     'Maguindanao',
     'Sulu',
     'Tawi-Tawi',
   ],
-  'For Verification': ['China', 'For Verification']
+  'For Validation': ['China', 'For Validation']
 };

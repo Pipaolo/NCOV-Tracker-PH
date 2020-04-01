@@ -4,13 +4,13 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:html/parser.dart';
+import 'package:ncov_tracker_ph/core/region_matcher.dart';
+import 'package:ncov_tracker_ph/data/models/city.dart';
+import 'package:ncov_tracker_ph/data/models/patient.dart';
 
-import '../../core/region_matcher.dart';
 import '../models/age_category_statistic.dart';
-import '../models/city.dart';
 import '../models/hospital.dart';
 import '../models/ncov_statistic_basic.dart';
-import '../models/patient.dart';
 import '../models/region.dart';
 
 class NcovRepository {
@@ -110,71 +110,93 @@ class NcovRepository {
 
   Future<List<Region>> fetchPatients() async {
     try {
-      final List<dynamic> rawPatientsList = await jsonDecode(await dioClient
-          .get(
-              'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=sequ%20desc&resultOffset=0&resultRecordCount=1500&cacheHint=true')
-          .then((response) => response.data))['features'];
-      final List<Patient> patientsList = rawPatientsList.map((data) {
-        final rawPatient = data['attributes'];
-        int age = 0;
-        try {
-          age = (rawPatient['edad'].contains('For Verification'))
-              ? 0
-              : int.parse(rawPatient['edad']);
-        } catch (e) {
-          age = rawPatient['edad'];
+      final responseBody = await dioClient
+          .get('https://endcov.ph/cases/')
+          .then((rawData) => rawData.data);
+      final element = parse(responseBody);
+      final Map<String, dynamic> rawPatientList =
+          await jsonDecode(element.getElementById('patients-data').text);
+      final List<Patient> patients = rawPatientList.entries.map((rawPatient) {
+        String province = '';
+
+        if (rawPatient.value['residence_prov'] == 'NA' ||
+            rawPatient.value['residence_prov'] == ' ' ||
+            rawPatient.value['residence_prov'] == null) {
+          province = 'For Validation';
+        } else if (rawPatient.value['residence_prov'] == 'Metro Manila') {
+          province = (rawPatient.value['residence_city_mun'].startsWith('City'))
+              ? rawPatient.value['residence_city_mun']
+                      .replaceAll('City of', '')
+                      .trim() +
+                  ' City'
+              : rawPatient.value['residence_city_mun'];
+        } else {
+          province = rawPatient.value['residence_prov'];
         }
 
         return Patient(
-          fID: rawPatient['FID'],
-          sequ: rawPatient['sequ'],
-          phMasterList: rawPatient['PH_masterl'],
-          age: age,
-          gender: rawPatient['kasarian'],
-          nationality: rawPatient['nationalit'],
-          residence: rawPatient['residence'].replaceAll('�', 'n'),
-          travelHistory: rawPatient['travel_hx'],
-          symptoms: rawPatient['symptoms'],
-          confirmed: rawPatient['confirmed'],
-          facility: rawPatient['facility'],
-          latitude: rawPatient['latitude'],
-          longitude: rawPatient['longitude'],
-          status: rawPatient['status'],
-          date: rawPatient['petsa'],
+          caseNumber: rawPatient.value['case_number'],
+          caseNumberInt: rawPatient.value['case_number_int'],
+          admissionDate: rawPatient.value['admission_date'],
+          admittedTo: rawPatient.value['admitted_to'],
+          age: rawPatient.value['age'],
+          sex: rawPatient.value['sex'],
+          cityMunPsgc: rawPatient.value['city_mun_psgc'],
+          countryVisited0: rawPatient.value['country_visited_0'],
+          countryVisited1: rawPatient.value['country_visited_1'],
+          countryVisited2: rawPatient.value['country_visited_2'],
+          deathCause: rawPatient.value['death_cause'],
+          deathDate: rawPatient.value['death_date'],
+          exposure: rawPatient.value['exposure'],
+          exposureLink: rawPatient.value['exposure_link'],
+          labConfirmationDate: rawPatient.value['lab_confirmation_date'],
+          nationality: rawPatient.value['nationality'],
+          onsetDate: rawPatient.value['onset_date'],
+          overseasTravel: rawPatient.value['overseas_travel'],
+          provPsgc: rawPatient.value['prov_psgc'],
+          remarks: rawPatient.value['remarks'],
+          residenceCityMun: (rawPatient.value['residence_city_mun'] == 'NA')
+              ? 'For Validation'
+              : rawPatient.value['residence_city_mun'],
+          residenceProv: province,
+          status: (rawPatient.value['residence_status'] == null)
+              ? 'For Validation'
+              : rawPatient.value['residence_status'],
+          symptoms: List<String>.from(rawPatient.value['symptoms']),
+          transmission: rawPatient.value['transmission'],
         );
       }).toList();
 
-      //Group Ncov Cities By Simalirities
-      final List<Region> groupedByRegion = [];
+      List<Region> patientsGroupedByRegion = [];
       regions.forEach((region, provinces) {
         final List<City> citiesMatched = [];
         provinces.forEach((province) {
-          final patientsGroupedByProvince = patientsList
-              .where((patient) => patient.residence
-                  .toLowerCase()
-                  .contains(province.toLowerCase()))
+          final patientsMatched = patients
+              .where((patient) =>
+                  patient.residenceProv.toLowerCase() == province.toLowerCase())
               .toList();
-          if (patientsGroupedByProvince.isNotEmpty) {
+          if (patientsMatched.isNotEmpty) {
             citiesMatched.add(
               City(
-                  name: province,
-                  patients: patientsGroupedByProvince,
-                  totalCount: patientsGroupedByProvince.length),
+                name: province,
+                patients: patientsMatched,
+                totalCount: patientsMatched.length,
+              ),
             );
           }
         });
         citiesMatched.sort((a, b) => b.totalCount.compareTo(a.totalCount));
-        groupedByRegion.add(Region(
+        patientsGroupedByRegion.add(Region(
           name: region,
           citiesInfected: citiesMatched,
           totalCount: citiesMatched.fold(0, (a, b) => a + b.totalCount),
         ));
       });
 
-      groupedByRegion.removeWhere((region) => region.totalCount == 0);
-      groupedByRegion.sort((a, b) => b.totalCount.compareTo(a.totalCount));
-
-      return groupedByRegion;
+      patientsGroupedByRegion.removeWhere((region) => region.totalCount == 0);
+      patientsGroupedByRegion
+          .sort((a, b) => b.totalCount.compareTo(a.totalCount));
+      return patientsGroupedByRegion;
     } catch (e) {
       print(e);
       throw SocketException('No Internet Connection');

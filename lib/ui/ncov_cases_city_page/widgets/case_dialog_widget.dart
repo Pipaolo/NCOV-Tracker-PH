@@ -38,7 +38,7 @@ class CaseDialogWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Sex: ${patient.gender}',
+                      'Sex: ${patient.sex}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
@@ -53,7 +53,7 @@ class CaseDialogWidget extends StatelessWidget {
                         ),
                         Container(
                           child: Text(
-                            patient.symptoms,
+                            patient.symptoms.first,
                             style: GoogleFonts.roboto(
                               fontSize: ScreenUtil().setSp(30),
                             ),
@@ -68,25 +68,25 @@ class CaseDialogWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Residence: ${patient.residence}',
+                      'Residence: ${patient.residenceCityMun}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
                     ),
                     Text(
-                      'Travel History: ${patient.travelHistory}',
+                      'Travel History: ${patient.overseasTravel}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
                     ),
                     Text(
-                      'Date Confirmation: ${(patient.date.replaceAll(' ', '').isEmpty) ? 'For Validation' : patient.date}',
+                      'Date Confirmation: ${(patient.labConfirmationDate.replaceAll(' ', '').isEmpty) ? 'For Validation' : patient.admissionDate}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
                     ),
                     Text(
-                      'Facility of Admission: ${patient.facility}',
+                      'Facility of Admission: ${patient.admittedTo}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
@@ -114,7 +114,7 @@ class CaseDialogWidget extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            patient.phMasterList,
+            patient.caseNumber,
             style: GoogleFonts.montserrat(
               fontWeight: FontWeight.bold,
               fontSize: ScreenUtil().setSp(35),
