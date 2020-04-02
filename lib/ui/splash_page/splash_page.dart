@@ -36,7 +36,7 @@ class SplashPage extends StatelessWidget {
               children: <Widget>[
                 SvgPicture.asset(
                   'assets/images/medical.svg',
-                  width: 400.w,
+                  width: 300,
                 ),
                 const SizedBox(
                   height: 20,

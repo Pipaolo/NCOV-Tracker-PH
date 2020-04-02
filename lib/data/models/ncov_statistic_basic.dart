@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'ncov_statistic_basic.freezed.dart';
+part 'ncov_statistic_basic.g.dart';
 
 @freezed
 abstract class NcovStatisticBasic with _$NcovStatisticBasic {
@@ -11,4 +13,7 @@ abstract class NcovStatisticBasic with _$NcovStatisticBasic {
     int totalPUIs,
     int totalInfected,
   }) = _NcovStatisticBasic;
+
+  factory NcovStatisticBasic.fromJson(Map<String, dynamic> json) =>
+      _$NcovStatisticBasicFromJson(json);
 }

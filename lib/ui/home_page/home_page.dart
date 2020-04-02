@@ -4,11 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ncov_tracker_ph/ui/widgets/fade_in_animation_widget.dart';
 
 import '../../core/bloc/connectivity_bloc.dart';
+import '../../core/bloc/notification_bloc/notification_bloc.dart';
 import '../../data/models/ncov_statistic_basic.dart';
 import '../../data/models/region.dart';
+import '../widgets/fade_in_animation_widget.dart';
 import '../widgets/no_connection_widget.dart';
 import 'bloc/home_page_bloc.dart';
 import 'widgets/age_category_bar_chart_widget.dart';
@@ -16,24 +17,43 @@ import 'widgets/basic_statistics_widget.dart';
 import 'widgets/gender_pie_chart_widget.dart';
 import 'widgets/home_page_drawer_widget.dart';
 import 'widgets/region_list_widget.dart';
+import 'widgets/updated_statistic_dialog_widget.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ConnectivityBloc, ConnectivityState>(
-        builder: (context, state) {
-      switch (state) {
-        case ConnectivityState.hasInternet:
-          return _buildHasConnection();
-          break;
-        case ConnectivityState.noInternet:
-          return _buildNoConnection(context);
-          break;
-      }
-      return Container();
-    });
+    return BlocListener<NotificationBloc, NotificationState>(
+      listener: (context, state) {
+        if (state is NotificationShownState) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return UpdatedStatisticDialogWidget(
+                currentStatistics: state.currentStatistic,
+                prevStatistics: state.prevStatistic,
+              );
+            },
+          );
+        }
+      },
+      child: BlocBuilder<ConnectivityBloc, ConnectivityState>(
+          builder: (context, state) {
+        switch (state) {
+          case ConnectivityState.hasInternet:
+            return _buildHasConnection();
+            break;
+          case ConnectivityState.noInternet:
+            return _buildNoConnection(context);
+            break;
+        }
+        return Container();
+      }),
+    );
   }
 
   _buildNoConnection(BuildContext context) {

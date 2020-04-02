@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:html/parser.dart';
+import 'package:injectable/injectable.dart';
 import 'package:ncov_tracker_ph/core/region_matcher.dart';
 import 'package:ncov_tracker_ph/data/models/city.dart';
 import 'package:ncov_tracker_ph/data/models/patient.dart';
@@ -13,6 +14,8 @@ import '../models/hospital.dart';
 import '../models/ncov_statistic_basic.dart';
 import '../models/region.dart';
 
+@injectable
+@lazySingleton
 class NcovRepository {
   final basicStatisticsUrl = {
     'death_url':
@@ -41,6 +44,11 @@ class NcovRepository {
     } catch (e) {
       throw SocketException('No Internet Connection');
     }
+  }
+
+  Future<int> fetchTotalCases() async {
+    return await fetchBasicStatisticalData(
+        'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22confirmed%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true');
   }
 
   Future<NcovStatisticBasic> fetchBasicStatistics() async {

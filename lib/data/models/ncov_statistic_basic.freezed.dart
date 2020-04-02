@@ -8,6 +8,9 @@ part of 'ncov_statistic_basic.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+NcovStatisticBasic _$NcovStatisticBasicFromJson(Map<String, dynamic> json) {
+  return _NcovStatisticBasic.fromJson(json);
+}
 
 class _$NcovStatisticBasicTearOff {
   const _$NcovStatisticBasicTearOff();
@@ -41,6 +44,7 @@ mixin _$NcovStatisticBasic {
   int get totalPUIs;
   int get totalInfected;
 
+  Map<String, dynamic> toJson();
   $NcovStatisticBasicCopyWith<NcovStatisticBasic> get copyWith;
 }
 
@@ -144,6 +148,7 @@ class __$NcovStatisticBasicCopyWithImpl<$Res>
   }
 }
 
+@JsonSerializable()
 class _$_NcovStatisticBasic implements _NcovStatisticBasic {
   const _$_NcovStatisticBasic(
       {this.totalDeaths,
@@ -152,6 +157,9 @@ class _$_NcovStatisticBasic implements _NcovStatisticBasic {
       this.totalPUMs,
       this.totalPUIs,
       this.totalInfected});
+
+  factory _$_NcovStatisticBasic.fromJson(Map<String, dynamic> json) =>
+      _$_$_NcovStatisticBasicFromJson(json);
 
   @override
   final int totalDeaths;
@@ -208,6 +216,11 @@ class _$_NcovStatisticBasic implements _NcovStatisticBasic {
   @override
   _$NcovStatisticBasicCopyWith<_NcovStatisticBasic> get copyWith =>
       __$NcovStatisticBasicCopyWithImpl<_NcovStatisticBasic>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_NcovStatisticBasicToJson(this);
+  }
 }
 
 abstract class _NcovStatisticBasic implements NcovStatisticBasic {
@@ -218,6 +231,9 @@ abstract class _NcovStatisticBasic implements NcovStatisticBasic {
       int totalPUMs,
       int totalPUIs,
       int totalInfected}) = _$_NcovStatisticBasic;
+
+  factory _NcovStatisticBasic.fromJson(Map<String, dynamic> json) =
+      _$_NcovStatisticBasic.fromJson;
 
   @override
   int get totalDeaths;

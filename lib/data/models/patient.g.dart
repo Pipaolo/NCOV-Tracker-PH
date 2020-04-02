@@ -5,7 +5,6 @@ part of 'patient.dart';
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
-
 //ignore: non_constant_identifier_names
 _$_Patient _$_$_PatientFromJson(Map<String, dynamic> json) {
   return _$_Patient(

@@ -61,12 +61,8 @@ class Router extends RouterBase {
           settings: settings,
         );
       case Routes.homePageRoute:
-        if (hasInvalidArgs<Key>(args)) {
-          return misTypedArgsRoute<Key>(args);
-        }
-        final typedArgs = args as Key;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => HomePage(key: typedArgs),
+          builder: (_) => HomePage(),
           settings: settings,
         );
       case Routes.mapPageRoute:
@@ -178,10 +174,7 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
     Key key,
   }) =>
       pushNamed(Routes.introductionPageRoute, arguments: key);
-  Future pushHomePageRoute({
-    Key key,
-  }) =>
-      pushNamed(Routes.homePageRoute, arguments: key);
+  Future pushHomePageRoute() => pushNamed(Routes.homePageRoute);
   Future pushMapPageRoute({
     Key key,
   }) =>

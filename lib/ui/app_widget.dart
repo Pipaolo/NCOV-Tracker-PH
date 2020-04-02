@@ -3,8 +3,8 @@ import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ncov_tracker_ph/core/bloc/connectivity_bloc.dart';
 
+import '../core/bloc/connectivity_bloc.dart';
 import '../data/repository/ncov_repository.dart';
 import '../routes/router.gr.dart';
 import 'cities_page/bloc/search_bloc.dart';
@@ -55,7 +55,7 @@ class AppWidget extends StatelessWidget {
               ncovRepository: RepositoryProvider.of<NcovRepository>(context),
               connectivityBloc: BlocProvider.of<ConnectivityBloc>(context),
             ),
-          )
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
