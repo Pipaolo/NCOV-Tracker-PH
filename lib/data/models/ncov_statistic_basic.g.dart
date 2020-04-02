@@ -6,7 +6,6 @@ part of 'ncov_statistic_basic.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-//ignore: non_constant_identifier_names
 _$_NcovStatisticBasic _$_$_NcovStatisticBasicFromJson(
     Map<String, dynamic> json) {
   return _$_NcovStatisticBasic(
@@ -19,7 +18,6 @@ _$_NcovStatisticBasic _$_$_NcovStatisticBasicFromJson(
   );
 }
 
-//ignore: non_constant_identifier_names
 Map<String, dynamic> _$_$_NcovStatisticBasicToJson(
         _$_NcovStatisticBasic instance) =>
     <String, dynamic>{

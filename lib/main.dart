@@ -21,6 +21,7 @@ Future<void> main() async {
   Hive.init(appDocumentDir.path);
   configureInjection();
   getIt<NotificationService>().configureNotificationService();
+
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,

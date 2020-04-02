@@ -77,7 +77,6 @@ class _HomePageState extends State<HomePage> {
             if (state is HomePageLoading) {
               return _buildLoading();
             } else if (state is HomePageSuccess) {
-              // return _buildError('asdf', context);
               return _buildSuccess(state.ncovStatisticBasic,
                   state.patientsGroupedByRegion, context);
             } else if (state is HomePageError) {

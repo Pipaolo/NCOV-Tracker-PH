@@ -6,18 +6,19 @@ import 'package:dio/dio.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ncov_tracker_ph/main.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../data/models/ncov_statistic_basic.dart';
 import '../data/repository/ncov_repository.dart';
+import '../injection.dart';
+import '../main.dart';
+import 'firebase_remote_config_service.dart';
 
 @injectable
 class NotificationService {
+  final IFirebaseRemoteService firebaseRemoteService;
   final NcovRepository ncovRepository;
-
-  NotificationService(this.ncovRepository);
-
+  NotificationService(this.ncovRepository, this.firebaseRemoteService);
   static void showNotification(NcovStatisticBasic currentStatistic,
       NcovStatisticBasic prevStatistic) async {
     final dataToBePassed =
@@ -92,8 +93,17 @@ class NotificationService {
   }
 
   Future<void> configureNotificationService() async {
+    final remoteService = await getIt<IFirebaseRemoteService>().remoteConfig;
+    final int repeatEveryHours =
+        int.tryParse(remoteService.getString('notificationDurationTimer')) ?? 6;
     await AndroidAlarmManager.initialize();
-    await AndroidAlarmManager.periodic(Duration(hours: 8), 0, sendCurrentCases,
-        exact: true, rescheduleOnReboot: true, wakeup: true);
+    await AndroidAlarmManager.periodic(
+      Duration(hours: repeatEveryHours),
+      0,
+      sendCurrentCases,
+      exact: true,
+      rescheduleOnReboot: true,
+      wakeup: true,
+    );
   }
 }

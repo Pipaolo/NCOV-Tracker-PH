@@ -5,7 +5,7 @@ part of 'patient.dart';
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
-//ignore: non_constant_identifier_names
+
 _$_Patient _$_$_PatientFromJson(Map<String, dynamic> json) {
   return _$_Patient(
     caseNumber: json['caseNumber'] as String,
@@ -36,7 +36,6 @@ _$_Patient _$_$_PatientFromJson(Map<String, dynamic> json) {
   );
 }
 
-//ignore: non_constant_identifier_names
 Map<String, dynamic> _$_$_PatientToJson(_$_Patient instance) =>
     <String, dynamic>{
       'caseNumber': instance.caseNumber,
