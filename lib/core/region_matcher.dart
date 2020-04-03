@@ -16,7 +16,7 @@ final Map<String, List<String>> regions = {
     'San Juan City',
     'Taguig City',
     'Valenzuela City',
-    'Pateros City',
+    'Pateros',
   ],
   'Region IV-B': [
     'Marinduque',
@@ -144,5 +144,6 @@ final Map<String, List<String>> regions = {
     'Sulu',
     'Tawi-Tawi',
   ],
-  'For Validation': ['China', 'For Validation']
+  'For Validation': ['China', 'For Validation'],
+  'Unidentified': ['None'],
 };

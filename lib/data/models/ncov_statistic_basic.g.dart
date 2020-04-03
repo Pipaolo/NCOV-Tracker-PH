@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-
+// ignore_all: non_constant_identifier_names
 part of 'ncov_statistic_basic.dart';
 
 // **************************************************************************
@@ -15,6 +15,7 @@ _$_NcovStatisticBasic _$_$_NcovStatisticBasicFromJson(
     totalPUMs: json['totalPUMs'] as int,
     totalPUIs: json['totalPUIs'] as int,
     totalInfected: json['totalInfected'] as int,
+    totalPUIsTested: json['totalPUIsTested'] as int,
   );
 }
 
@@ -27,4 +28,5 @@ Map<String, dynamic> _$_$_NcovStatisticBasicToJson(
       'totalPUMs': instance.totalPUMs,
       'totalPUIs': instance.totalPUIs,
       'totalInfected': instance.totalInfected,
+      'totalPUIsTested': instance.totalPUIsTested,
     };

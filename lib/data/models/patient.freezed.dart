@@ -21,52 +21,26 @@ class _$PatientTearOff {
       String sex,
       int age,
       String nationality,
-      String overseasTravel,
-      String countryVisited0,
-      String countryVisited1,
-      String countryVisited2,
-      String exposure,
-      String onsetDate,
-      String admissionDate,
-      String labConfirmationDate,
+      String travelHistory,
+      String confirmedDate,
       String admittedTo,
-      String residenceCityMun,
-      String cityMunPsgc,
+      String residenceCity,
       String residenceProv,
-      String provPsgc,
       String status,
-      String deathDate,
-      String deathCause,
-      String remarks,
-      List<dynamic> exposureLink,
-      List<String> symptoms,
-      String transmission}) {
+      String symptoms}) {
     return _Patient(
       caseNumber: caseNumber,
       caseNumberInt: caseNumberInt,
       sex: sex,
       age: age,
       nationality: nationality,
-      overseasTravel: overseasTravel,
-      countryVisited0: countryVisited0,
-      countryVisited1: countryVisited1,
-      countryVisited2: countryVisited2,
-      exposure: exposure,
-      onsetDate: onsetDate,
-      admissionDate: admissionDate,
-      labConfirmationDate: labConfirmationDate,
+      travelHistory: travelHistory,
+      confirmedDate: confirmedDate,
       admittedTo: admittedTo,
-      residenceCityMun: residenceCityMun,
-      cityMunPsgc: cityMunPsgc,
+      residenceCity: residenceCity,
       residenceProv: residenceProv,
-      provPsgc: provPsgc,
       status: status,
-      deathDate: deathDate,
-      deathCause: deathCause,
-      remarks: remarks,
-      exposureLink: exposureLink,
       symptoms: symptoms,
-      transmission: transmission,
     );
   }
 }
@@ -80,26 +54,13 @@ mixin _$Patient {
   String get sex;
   int get age;
   String get nationality;
-  String get overseasTravel;
-  String get countryVisited0;
-  String get countryVisited1;
-  String get countryVisited2;
-  String get exposure;
-  String get onsetDate;
-  String get admissionDate;
-  String get labConfirmationDate;
+  String get travelHistory;
+  String get confirmedDate;
   String get admittedTo;
-  String get residenceCityMun;
-  String get cityMunPsgc;
+  String get residenceCity;
   String get residenceProv;
-  String get provPsgc;
   String get status;
-  String get deathDate;
-  String get deathCause;
-  String get remarks;
-  List<dynamic> get exposureLink;
-  List<String> get symptoms;
-  String get transmission;
+  String get symptoms;
 
   Map<String, dynamic> toJson();
   $PatientCopyWith<Patient> get copyWith;
@@ -114,26 +75,13 @@ abstract class $PatientCopyWith<$Res> {
       String sex,
       int age,
       String nationality,
-      String overseasTravel,
-      String countryVisited0,
-      String countryVisited1,
-      String countryVisited2,
-      String exposure,
-      String onsetDate,
-      String admissionDate,
-      String labConfirmationDate,
+      String travelHistory,
+      String confirmedDate,
       String admittedTo,
-      String residenceCityMun,
-      String cityMunPsgc,
+      String residenceCity,
       String residenceProv,
-      String provPsgc,
       String status,
-      String deathDate,
-      String deathCause,
-      String remarks,
-      List<dynamic> exposureLink,
-      List<String> symptoms,
-      String transmission});
+      String symptoms});
 }
 
 class _$PatientCopyWithImpl<$Res> implements $PatientCopyWith<$Res> {
@@ -150,26 +98,13 @@ class _$PatientCopyWithImpl<$Res> implements $PatientCopyWith<$Res> {
     Object sex = freezed,
     Object age = freezed,
     Object nationality = freezed,
-    Object overseasTravel = freezed,
-    Object countryVisited0 = freezed,
-    Object countryVisited1 = freezed,
-    Object countryVisited2 = freezed,
-    Object exposure = freezed,
-    Object onsetDate = freezed,
-    Object admissionDate = freezed,
-    Object labConfirmationDate = freezed,
+    Object travelHistory = freezed,
+    Object confirmedDate = freezed,
     Object admittedTo = freezed,
-    Object residenceCityMun = freezed,
-    Object cityMunPsgc = freezed,
+    Object residenceCity = freezed,
     Object residenceProv = freezed,
-    Object provPsgc = freezed,
     Object status = freezed,
-    Object deathDate = freezed,
-    Object deathCause = freezed,
-    Object remarks = freezed,
-    Object exposureLink = freezed,
     Object symptoms = freezed,
-    Object transmission = freezed,
   }) {
     return _then(_value.copyWith(
       caseNumber:
@@ -181,50 +116,22 @@ class _$PatientCopyWithImpl<$Res> implements $PatientCopyWith<$Res> {
       age: age == freezed ? _value.age : age as int,
       nationality:
           nationality == freezed ? _value.nationality : nationality as String,
-      overseasTravel: overseasTravel == freezed
-          ? _value.overseasTravel
-          : overseasTravel as String,
-      countryVisited0: countryVisited0 == freezed
-          ? _value.countryVisited0
-          : countryVisited0 as String,
-      countryVisited1: countryVisited1 == freezed
-          ? _value.countryVisited1
-          : countryVisited1 as String,
-      countryVisited2: countryVisited2 == freezed
-          ? _value.countryVisited2
-          : countryVisited2 as String,
-      exposure: exposure == freezed ? _value.exposure : exposure as String,
-      onsetDate: onsetDate == freezed ? _value.onsetDate : onsetDate as String,
-      admissionDate: admissionDate == freezed
-          ? _value.admissionDate
-          : admissionDate as String,
-      labConfirmationDate: labConfirmationDate == freezed
-          ? _value.labConfirmationDate
-          : labConfirmationDate as String,
+      travelHistory: travelHistory == freezed
+          ? _value.travelHistory
+          : travelHistory as String,
+      confirmedDate: confirmedDate == freezed
+          ? _value.confirmedDate
+          : confirmedDate as String,
       admittedTo:
           admittedTo == freezed ? _value.admittedTo : admittedTo as String,
-      residenceCityMun: residenceCityMun == freezed
-          ? _value.residenceCityMun
-          : residenceCityMun as String,
-      cityMunPsgc:
-          cityMunPsgc == freezed ? _value.cityMunPsgc : cityMunPsgc as String,
+      residenceCity: residenceCity == freezed
+          ? _value.residenceCity
+          : residenceCity as String,
       residenceProv: residenceProv == freezed
           ? _value.residenceProv
           : residenceProv as String,
-      provPsgc: provPsgc == freezed ? _value.provPsgc : provPsgc as String,
       status: status == freezed ? _value.status : status as String,
-      deathDate: deathDate == freezed ? _value.deathDate : deathDate as String,
-      deathCause:
-          deathCause == freezed ? _value.deathCause : deathCause as String,
-      remarks: remarks == freezed ? _value.remarks : remarks as String,
-      exposureLink: exposureLink == freezed
-          ? _value.exposureLink
-          : exposureLink as List<dynamic>,
-      symptoms:
-          symptoms == freezed ? _value.symptoms : symptoms as List<String>,
-      transmission: transmission == freezed
-          ? _value.transmission
-          : transmission as String,
+      symptoms: symptoms == freezed ? _value.symptoms : symptoms as String,
     ));
   }
 }
@@ -239,26 +146,13 @@ abstract class _$PatientCopyWith<$Res> implements $PatientCopyWith<$Res> {
       String sex,
       int age,
       String nationality,
-      String overseasTravel,
-      String countryVisited0,
-      String countryVisited1,
-      String countryVisited2,
-      String exposure,
-      String onsetDate,
-      String admissionDate,
-      String labConfirmationDate,
+      String travelHistory,
+      String confirmedDate,
       String admittedTo,
-      String residenceCityMun,
-      String cityMunPsgc,
+      String residenceCity,
       String residenceProv,
-      String provPsgc,
       String status,
-      String deathDate,
-      String deathCause,
-      String remarks,
-      List<dynamic> exposureLink,
-      List<String> symptoms,
-      String transmission});
+      String symptoms});
 }
 
 class __$PatientCopyWithImpl<$Res> extends _$PatientCopyWithImpl<$Res>
@@ -276,26 +170,13 @@ class __$PatientCopyWithImpl<$Res> extends _$PatientCopyWithImpl<$Res>
     Object sex = freezed,
     Object age = freezed,
     Object nationality = freezed,
-    Object overseasTravel = freezed,
-    Object countryVisited0 = freezed,
-    Object countryVisited1 = freezed,
-    Object countryVisited2 = freezed,
-    Object exposure = freezed,
-    Object onsetDate = freezed,
-    Object admissionDate = freezed,
-    Object labConfirmationDate = freezed,
+    Object travelHistory = freezed,
+    Object confirmedDate = freezed,
     Object admittedTo = freezed,
-    Object residenceCityMun = freezed,
-    Object cityMunPsgc = freezed,
+    Object residenceCity = freezed,
     Object residenceProv = freezed,
-    Object provPsgc = freezed,
     Object status = freezed,
-    Object deathDate = freezed,
-    Object deathCause = freezed,
-    Object remarks = freezed,
-    Object exposureLink = freezed,
     Object symptoms = freezed,
-    Object transmission = freezed,
   }) {
     return _then(_Patient(
       caseNumber:
@@ -307,50 +188,22 @@ class __$PatientCopyWithImpl<$Res> extends _$PatientCopyWithImpl<$Res>
       age: age == freezed ? _value.age : age as int,
       nationality:
           nationality == freezed ? _value.nationality : nationality as String,
-      overseasTravel: overseasTravel == freezed
-          ? _value.overseasTravel
-          : overseasTravel as String,
-      countryVisited0: countryVisited0 == freezed
-          ? _value.countryVisited0
-          : countryVisited0 as String,
-      countryVisited1: countryVisited1 == freezed
-          ? _value.countryVisited1
-          : countryVisited1 as String,
-      countryVisited2: countryVisited2 == freezed
-          ? _value.countryVisited2
-          : countryVisited2 as String,
-      exposure: exposure == freezed ? _value.exposure : exposure as String,
-      onsetDate: onsetDate == freezed ? _value.onsetDate : onsetDate as String,
-      admissionDate: admissionDate == freezed
-          ? _value.admissionDate
-          : admissionDate as String,
-      labConfirmationDate: labConfirmationDate == freezed
-          ? _value.labConfirmationDate
-          : labConfirmationDate as String,
+      travelHistory: travelHistory == freezed
+          ? _value.travelHistory
+          : travelHistory as String,
+      confirmedDate: confirmedDate == freezed
+          ? _value.confirmedDate
+          : confirmedDate as String,
       admittedTo:
           admittedTo == freezed ? _value.admittedTo : admittedTo as String,
-      residenceCityMun: residenceCityMun == freezed
-          ? _value.residenceCityMun
-          : residenceCityMun as String,
-      cityMunPsgc:
-          cityMunPsgc == freezed ? _value.cityMunPsgc : cityMunPsgc as String,
+      residenceCity: residenceCity == freezed
+          ? _value.residenceCity
+          : residenceCity as String,
       residenceProv: residenceProv == freezed
           ? _value.residenceProv
           : residenceProv as String,
-      provPsgc: provPsgc == freezed ? _value.provPsgc : provPsgc as String,
       status: status == freezed ? _value.status : status as String,
-      deathDate: deathDate == freezed ? _value.deathDate : deathDate as String,
-      deathCause:
-          deathCause == freezed ? _value.deathCause : deathCause as String,
-      remarks: remarks == freezed ? _value.remarks : remarks as String,
-      exposureLink: exposureLink == freezed
-          ? _value.exposureLink
-          : exposureLink as List<dynamic>,
-      symptoms:
-          symptoms == freezed ? _value.symptoms : symptoms as List<String>,
-      transmission: transmission == freezed
-          ? _value.transmission
-          : transmission as String,
+      symptoms: symptoms == freezed ? _value.symptoms : symptoms as String,
     ));
   }
 }
@@ -363,26 +216,13 @@ class _$_Patient implements _Patient {
       this.sex,
       this.age,
       this.nationality,
-      this.overseasTravel,
-      this.countryVisited0,
-      this.countryVisited1,
-      this.countryVisited2,
-      this.exposure,
-      this.onsetDate,
-      this.admissionDate,
-      this.labConfirmationDate,
+      this.travelHistory,
+      this.confirmedDate,
       this.admittedTo,
-      this.residenceCityMun,
-      this.cityMunPsgc,
+      this.residenceCity,
       this.residenceProv,
-      this.provPsgc,
       this.status,
-      this.deathDate,
-      this.deathCause,
-      this.remarks,
-      this.exposureLink,
-      this.symptoms,
-      this.transmission});
+      this.symptoms});
 
   factory _$_Patient.fromJson(Map<String, dynamic> json) =>
       _$_$_PatientFromJson(json);
@@ -398,49 +238,23 @@ class _$_Patient implements _Patient {
   @override
   final String nationality;
   @override
-  final String overseasTravel;
+  final String travelHistory;
   @override
-  final String countryVisited0;
-  @override
-  final String countryVisited1;
-  @override
-  final String countryVisited2;
-  @override
-  final String exposure;
-  @override
-  final String onsetDate;
-  @override
-  final String admissionDate;
-  @override
-  final String labConfirmationDate;
+  final String confirmedDate;
   @override
   final String admittedTo;
   @override
-  final String residenceCityMun;
-  @override
-  final String cityMunPsgc;
+  final String residenceCity;
   @override
   final String residenceProv;
   @override
-  final String provPsgc;
-  @override
   final String status;
   @override
-  final String deathDate;
-  @override
-  final String deathCause;
-  @override
-  final String remarks;
-  @override
-  final List<dynamic> exposureLink;
-  @override
-  final List<String> symptoms;
-  @override
-  final String transmission;
+  final String symptoms;
 
   @override
   String toString() {
-    return 'Patient(caseNumber: $caseNumber, caseNumberInt: $caseNumberInt, sex: $sex, age: $age, nationality: $nationality, overseasTravel: $overseasTravel, countryVisited0: $countryVisited0, countryVisited1: $countryVisited1, countryVisited2: $countryVisited2, exposure: $exposure, onsetDate: $onsetDate, admissionDate: $admissionDate, labConfirmationDate: $labConfirmationDate, admittedTo: $admittedTo, residenceCityMun: $residenceCityMun, cityMunPsgc: $cityMunPsgc, residenceProv: $residenceProv, provPsgc: $provPsgc, status: $status, deathDate: $deathDate, deathCause: $deathCause, remarks: $remarks, exposureLink: $exposureLink, symptoms: $symptoms, transmission: $transmission)';
+    return 'Patient(caseNumber: $caseNumber, caseNumberInt: $caseNumberInt, sex: $sex, age: $age, nationality: $nationality, travelHistory: $travelHistory, confirmedDate: $confirmedDate, admittedTo: $admittedTo, residenceCity: $residenceCity, residenceProv: $residenceProv, status: $status, symptoms: $symptoms)';
   }
 
   @override
@@ -460,61 +274,26 @@ class _$_Patient implements _Patient {
             (identical(other.nationality, nationality) ||
                 const DeepCollectionEquality()
                     .equals(other.nationality, nationality)) &&
-            (identical(other.overseasTravel, overseasTravel) ||
+            (identical(other.travelHistory, travelHistory) ||
                 const DeepCollectionEquality()
-                    .equals(other.overseasTravel, overseasTravel)) &&
-            (identical(other.countryVisited0, countryVisited0) ||
+                    .equals(other.travelHistory, travelHistory)) &&
+            (identical(other.confirmedDate, confirmedDate) ||
                 const DeepCollectionEquality()
-                    .equals(other.countryVisited0, countryVisited0)) &&
-            (identical(other.countryVisited1, countryVisited1) ||
-                const DeepCollectionEquality()
-                    .equals(other.countryVisited1, countryVisited1)) &&
-            (identical(other.countryVisited2, countryVisited2) ||
-                const DeepCollectionEquality()
-                    .equals(other.countryVisited2, countryVisited2)) &&
-            (identical(other.exposure, exposure) ||
-                const DeepCollectionEquality()
-                    .equals(other.exposure, exposure)) &&
-            (identical(other.onsetDate, onsetDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.onsetDate, onsetDate)) &&
-            (identical(other.admissionDate, admissionDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.admissionDate, admissionDate)) &&
-            (identical(other.labConfirmationDate, labConfirmationDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.labConfirmationDate, labConfirmationDate)) &&
+                    .equals(other.confirmedDate, confirmedDate)) &&
             (identical(other.admittedTo, admittedTo) ||
                 const DeepCollectionEquality()
                     .equals(other.admittedTo, admittedTo)) &&
-            (identical(other.residenceCityMun, residenceCityMun) ||
+            (identical(other.residenceCity, residenceCity) ||
                 const DeepCollectionEquality()
-                    .equals(other.residenceCityMun, residenceCityMun)) &&
-            (identical(other.cityMunPsgc, cityMunPsgc) ||
-                const DeepCollectionEquality()
-                    .equals(other.cityMunPsgc, cityMunPsgc)) &&
+                    .equals(other.residenceCity, residenceCity)) &&
             (identical(other.residenceProv, residenceProv) ||
                 const DeepCollectionEquality()
                     .equals(other.residenceProv, residenceProv)) &&
-            (identical(other.provPsgc, provPsgc) ||
-                const DeepCollectionEquality()
-                    .equals(other.provPsgc, provPsgc)) &&
             (identical(other.status, status) ||
                 const DeepCollectionEquality().equals(other.status, status)) &&
-            (identical(other.deathDate, deathDate) ||
+            (identical(other.symptoms, symptoms) ||
                 const DeepCollectionEquality()
-                    .equals(other.deathDate, deathDate)) &&
-            (identical(other.deathCause, deathCause) ||
-                const DeepCollectionEquality()
-                    .equals(other.deathCause, deathCause)) &&
-            (identical(other.remarks, remarks) ||
-                const DeepCollectionEquality()
-                    .equals(other.remarks, remarks)) &&
-            (identical(other.exposureLink, exposureLink) ||
-                const DeepCollectionEquality()
-                    .equals(other.exposureLink, exposureLink)) &&
-            (identical(other.symptoms, symptoms) || const DeepCollectionEquality().equals(other.symptoms, symptoms)) &&
-            (identical(other.transmission, transmission) || const DeepCollectionEquality().equals(other.transmission, transmission)));
+                    .equals(other.symptoms, symptoms)));
   }
 
   @override
@@ -525,26 +304,13 @@ class _$_Patient implements _Patient {
       const DeepCollectionEquality().hash(sex) ^
       const DeepCollectionEquality().hash(age) ^
       const DeepCollectionEquality().hash(nationality) ^
-      const DeepCollectionEquality().hash(overseasTravel) ^
-      const DeepCollectionEquality().hash(countryVisited0) ^
-      const DeepCollectionEquality().hash(countryVisited1) ^
-      const DeepCollectionEquality().hash(countryVisited2) ^
-      const DeepCollectionEquality().hash(exposure) ^
-      const DeepCollectionEquality().hash(onsetDate) ^
-      const DeepCollectionEquality().hash(admissionDate) ^
-      const DeepCollectionEquality().hash(labConfirmationDate) ^
+      const DeepCollectionEquality().hash(travelHistory) ^
+      const DeepCollectionEquality().hash(confirmedDate) ^
       const DeepCollectionEquality().hash(admittedTo) ^
-      const DeepCollectionEquality().hash(residenceCityMun) ^
-      const DeepCollectionEquality().hash(cityMunPsgc) ^
+      const DeepCollectionEquality().hash(residenceCity) ^
       const DeepCollectionEquality().hash(residenceProv) ^
-      const DeepCollectionEquality().hash(provPsgc) ^
       const DeepCollectionEquality().hash(status) ^
-      const DeepCollectionEquality().hash(deathDate) ^
-      const DeepCollectionEquality().hash(deathCause) ^
-      const DeepCollectionEquality().hash(remarks) ^
-      const DeepCollectionEquality().hash(exposureLink) ^
-      const DeepCollectionEquality().hash(symptoms) ^
-      const DeepCollectionEquality().hash(transmission);
+      const DeepCollectionEquality().hash(symptoms);
 
   @override
   _$PatientCopyWith<_Patient> get copyWith =>
@@ -563,26 +329,13 @@ abstract class _Patient implements Patient {
       String sex,
       int age,
       String nationality,
-      String overseasTravel,
-      String countryVisited0,
-      String countryVisited1,
-      String countryVisited2,
-      String exposure,
-      String onsetDate,
-      String admissionDate,
-      String labConfirmationDate,
+      String travelHistory,
+      String confirmedDate,
       String admittedTo,
-      String residenceCityMun,
-      String cityMunPsgc,
+      String residenceCity,
       String residenceProv,
-      String provPsgc,
       String status,
-      String deathDate,
-      String deathCause,
-      String remarks,
-      List<dynamic> exposureLink,
-      List<String> symptoms,
-      String transmission}) = _$_Patient;
+      String symptoms}) = _$_Patient;
 
   factory _Patient.fromJson(Map<String, dynamic> json) = _$_Patient.fromJson;
 
@@ -597,45 +350,19 @@ abstract class _Patient implements Patient {
   @override
   String get nationality;
   @override
-  String get overseasTravel;
+  String get travelHistory;
   @override
-  String get countryVisited0;
-  @override
-  String get countryVisited1;
-  @override
-  String get countryVisited2;
-  @override
-  String get exposure;
-  @override
-  String get onsetDate;
-  @override
-  String get admissionDate;
-  @override
-  String get labConfirmationDate;
+  String get confirmedDate;
   @override
   String get admittedTo;
   @override
-  String get residenceCityMun;
-  @override
-  String get cityMunPsgc;
+  String get residenceCity;
   @override
   String get residenceProv;
   @override
-  String get provPsgc;
-  @override
   String get status;
   @override
-  String get deathDate;
-  @override
-  String get deathCause;
-  @override
-  String get remarks;
-  @override
-  List<dynamic> get exposureLink;
-  @override
-  List<String> get symptoms;
-  @override
-  String get transmission;
+  String get symptoms;
   @override
   _$PatientCopyWith<_Patient> get copyWith;
 }

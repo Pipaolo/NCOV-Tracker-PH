@@ -53,7 +53,7 @@ class CaseDialogWidget extends StatelessWidget {
                         ),
                         Container(
                           child: Text(
-                            patient.symptoms.first,
+                            patient.symptoms,
                             style: GoogleFonts.roboto(
                               fontSize: ScreenUtil().setSp(30),
                             ),
@@ -68,19 +68,19 @@ class CaseDialogWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Residence: ${patient.residenceCityMun}',
+                      'Residence: ${patient.residenceCity}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
                     ),
                     Text(
-                      'Travel History: ${patient.overseasTravel}',
+                      'Travel History: ${patient.travelHistory}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
                     ),
                     Text(
-                      'Date Confirmation: ${(patient.labConfirmationDate.replaceAll(' ', '').isEmpty) ? 'For Validation' : patient.admissionDate}',
+                      'Date Confirmation: ${patient.confirmedDate}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),

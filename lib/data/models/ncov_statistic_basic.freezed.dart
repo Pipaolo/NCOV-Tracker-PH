@@ -21,7 +21,8 @@ class _$NcovStatisticBasicTearOff {
       int totalTestsConducted,
       int totalPUMs,
       int totalPUIs,
-      int totalInfected}) {
+      int totalInfected,
+      int totalPUIsTested}) {
     return _NcovStatisticBasic(
       totalDeaths: totalDeaths,
       totalRecovered: totalRecovered,
@@ -29,6 +30,7 @@ class _$NcovStatisticBasicTearOff {
       totalPUMs: totalPUMs,
       totalPUIs: totalPUIs,
       totalInfected: totalInfected,
+      totalPUIsTested: totalPUIsTested,
     );
   }
 }
@@ -43,6 +45,7 @@ mixin _$NcovStatisticBasic {
   int get totalPUMs;
   int get totalPUIs;
   int get totalInfected;
+  int get totalPUIsTested;
 
   Map<String, dynamic> toJson();
   $NcovStatisticBasicCopyWith<NcovStatisticBasic> get copyWith;
@@ -58,7 +61,8 @@ abstract class $NcovStatisticBasicCopyWith<$Res> {
       int totalTestsConducted,
       int totalPUMs,
       int totalPUIs,
-      int totalInfected});
+      int totalInfected,
+      int totalPUIsTested});
 }
 
 class _$NcovStatisticBasicCopyWithImpl<$Res>
@@ -77,6 +81,7 @@ class _$NcovStatisticBasicCopyWithImpl<$Res>
     Object totalPUMs = freezed,
     Object totalPUIs = freezed,
     Object totalInfected = freezed,
+    Object totalPUIsTested = freezed,
   }) {
     return _then(_value.copyWith(
       totalDeaths:
@@ -92,6 +97,9 @@ class _$NcovStatisticBasicCopyWithImpl<$Res>
       totalInfected: totalInfected == freezed
           ? _value.totalInfected
           : totalInfected as int,
+      totalPUIsTested: totalPUIsTested == freezed
+          ? _value.totalPUIsTested
+          : totalPUIsTested as int,
     ));
   }
 }
@@ -108,7 +116,8 @@ abstract class _$NcovStatisticBasicCopyWith<$Res>
       int totalTestsConducted,
       int totalPUMs,
       int totalPUIs,
-      int totalInfected});
+      int totalInfected,
+      int totalPUIsTested});
 }
 
 class __$NcovStatisticBasicCopyWithImpl<$Res>
@@ -129,6 +138,7 @@ class __$NcovStatisticBasicCopyWithImpl<$Res>
     Object totalPUMs = freezed,
     Object totalPUIs = freezed,
     Object totalInfected = freezed,
+    Object totalPUIsTested = freezed,
   }) {
     return _then(_NcovStatisticBasic(
       totalDeaths:
@@ -144,6 +154,9 @@ class __$NcovStatisticBasicCopyWithImpl<$Res>
       totalInfected: totalInfected == freezed
           ? _value.totalInfected
           : totalInfected as int,
+      totalPUIsTested: totalPUIsTested == freezed
+          ? _value.totalPUIsTested
+          : totalPUIsTested as int,
     ));
   }
 }
@@ -156,7 +169,8 @@ class _$_NcovStatisticBasic implements _NcovStatisticBasic {
       this.totalTestsConducted,
       this.totalPUMs,
       this.totalPUIs,
-      this.totalInfected});
+      this.totalInfected,
+      this.totalPUIsTested});
 
   factory _$_NcovStatisticBasic.fromJson(Map<String, dynamic> json) =>
       _$_$_NcovStatisticBasicFromJson(json);
@@ -173,10 +187,12 @@ class _$_NcovStatisticBasic implements _NcovStatisticBasic {
   final int totalPUIs;
   @override
   final int totalInfected;
+  @override
+  final int totalPUIsTested;
 
   @override
   String toString() {
-    return 'NcovStatisticBasic(totalDeaths: $totalDeaths, totalRecovered: $totalRecovered, totalTestsConducted: $totalTestsConducted, totalPUMs: $totalPUMs, totalPUIs: $totalPUIs, totalInfected: $totalInfected)';
+    return 'NcovStatisticBasic(totalDeaths: $totalDeaths, totalRecovered: $totalRecovered, totalTestsConducted: $totalTestsConducted, totalPUMs: $totalPUMs, totalPUIs: $totalPUIs, totalInfected: $totalInfected, totalPUIsTested: $totalPUIsTested)';
   }
 
   @override
@@ -200,7 +216,10 @@ class _$_NcovStatisticBasic implements _NcovStatisticBasic {
                     .equals(other.totalPUIs, totalPUIs)) &&
             (identical(other.totalInfected, totalInfected) ||
                 const DeepCollectionEquality()
-                    .equals(other.totalInfected, totalInfected)));
+                    .equals(other.totalInfected, totalInfected)) &&
+            (identical(other.totalPUIsTested, totalPUIsTested) ||
+                const DeepCollectionEquality()
+                    .equals(other.totalPUIsTested, totalPUIsTested)));
   }
 
   @override
@@ -211,7 +230,8 @@ class _$_NcovStatisticBasic implements _NcovStatisticBasic {
       const DeepCollectionEquality().hash(totalTestsConducted) ^
       const DeepCollectionEquality().hash(totalPUMs) ^
       const DeepCollectionEquality().hash(totalPUIs) ^
-      const DeepCollectionEquality().hash(totalInfected);
+      const DeepCollectionEquality().hash(totalInfected) ^
+      const DeepCollectionEquality().hash(totalPUIsTested);
 
   @override
   _$NcovStatisticBasicCopyWith<_NcovStatisticBasic> get copyWith =>
@@ -230,7 +250,8 @@ abstract class _NcovStatisticBasic implements NcovStatisticBasic {
       int totalTestsConducted,
       int totalPUMs,
       int totalPUIs,
-      int totalInfected}) = _$_NcovStatisticBasic;
+      int totalInfected,
+      int totalPUIsTested}) = _$_NcovStatisticBasic;
 
   factory _NcovStatisticBasic.fromJson(Map<String, dynamic> json) =
       _$_NcovStatisticBasic.fromJson;
@@ -247,6 +268,8 @@ abstract class _NcovStatisticBasic implements NcovStatisticBasic {
   int get totalPUIs;
   @override
   int get totalInfected;
+  @override
+  int get totalPUIsTested;
   @override
   _$NcovStatisticBasicCopyWith<_NcovStatisticBasic> get copyWith;
 }

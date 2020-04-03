@@ -21,7 +21,15 @@ class RegionCardWidget extends StatelessWidget {
     return Card(
       child: InkWell(
         onTap: () async {
-          if (region == 'For Verification') {
+          if (region == 'For Validation') {
+            return ExtendedNavigator.of(context).pushNamed(
+              Routes.ncovCasesCityPageRoute,
+              arguments: NcovCasesCityPageArguments(
+                city: cities.first.name,
+                patients: cities.first.patients,
+              ),
+            );
+          } else if (region == 'Unknown') {
             return ExtendedNavigator.of(context).pushNamed(
               Routes.ncovCasesCityPageRoute,
               arguments: NcovCasesCityPageArguments(

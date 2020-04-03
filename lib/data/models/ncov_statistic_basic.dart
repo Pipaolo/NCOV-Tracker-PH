@@ -12,6 +12,7 @@ abstract class NcovStatisticBasic with _$NcovStatisticBasic {
     int totalPUMs,
     int totalPUIs,
     int totalInfected,
+    int totalPUIsTested,
   }) = _NcovStatisticBasic;
 
   factory NcovStatisticBasic.fromJson(Map<String, dynamic> json) =>

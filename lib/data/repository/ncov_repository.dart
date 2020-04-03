@@ -3,15 +3,16 @@ import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:html/parser.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../core/region_matcher.dart';
 import '../../interceptors/ncov_retry_interceptors.dart';
 import '../../retriers/dio_connectivity_request_trier.dart';
+import '../../utils/sorter.dart';
 import '../models/age_category_statistic.dart';
-import '../models/city.dart';
+import '../models/gender_statistic.dart';
 import '../models/hospital.dart';
 import '../models/ncov_statistic_basic.dart';
 import '../models/patient.dart';
@@ -32,7 +33,9 @@ class NcovRepository {
     'pui':
         'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22PUIs%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true',
     'infected':
-        'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22confirmed%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true'
+        'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22confirmed%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true',
+    'puis_tested':
+        'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22tests%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&outSR=102100&cacheHint=true',
   };
 
   final Dio dioClient;
@@ -70,6 +73,7 @@ class NcovRepository {
       final numberOfTestsConducted = responses[2];
       final numberOfPUMs = responses[3];
       final numberOfPUIs = responses[4];
+      final numberOfPUIsTested = responses[6];
       final numberOfInfected = responses[5];
 
       return NcovStatisticBasic(
@@ -79,6 +83,7 @@ class NcovRepository {
         totalPUIs: numberOfPUIs,
         totalPUMs: numberOfPUMs,
         totalTestsConducted: numberOfTestsConducted,
+        totalPUIsTested: numberOfPUIsTested,
       );
     } on DioError catch (e) {
       throw SocketException(e.toString());
@@ -87,22 +92,24 @@ class NcovRepository {
     }
   }
 
-  Future<Map<String, int>> fetchGenderStatistics() async {
-    try {
-      final response = await dioClient.get('https://endcov.ph/dashboard/');
-      final elements = parse(response.data);
-      final genderStatisticsRaw = elements.getElementById('agesex-data').text;
-      final json = jsonDecode(genderStatisticsRaw);
-      final genderStatistic = {
-        'Male': json['sex'][1][0] as int,
-        'Female': json['sex'][1][1] as int,
-      };
-      return genderStatistic;
-    } on DioError catch (e) {
-      throw SocketException(e.toString());
-    } catch (e) {
-      throw Exception(e.toString());
+  Future<List<GenderStatistic>> fetchGenderStatistics(
+      Map<String, dynamic> rawAgeData) async {
+    final genderSplit = rawAgeData.entries.map((e) => e.value).toList();
+    final List<GenderStatistic> genderData = [];
+    for (final list in genderSplit) {
+      final genderStatistics = List<GenderStatistic>.from(
+        list.map(
+          (ageCategStats) {
+            return GenderStatistic(
+              gender: ageCategStats.sex,
+              value: ageCategStats.value,
+            );
+          },
+        ).toList(),
+      );
+      genderData.addAll(genderStatistics);
     }
+    return genderData;
   }
 
   Future<Map<String, dynamic>> fetchedAgeData() async {
@@ -130,104 +137,79 @@ class NcovRepository {
     }
   }
 
-  Future<List<Region>> sortRegions(List<Patient> patients) async {
-    List<Region> patientsGroupedByRegion = [];
-    regions.forEach((region, provinces) {
-      final List<City> citiesMatched = [];
-      provinces.forEach((province) {
-        final patientsMatched = patients
-            .where((patient) =>
-                patient.residenceProv.toLowerCase() == province.toLowerCase())
-            .toList();
-        if (patientsMatched.isNotEmpty) {
-          citiesMatched.add(
-            City(
-              name: province,
-              patients: patientsMatched,
-              totalCount: patientsMatched.length,
-            ),
-          );
-        }
-      });
-      citiesMatched.sort((a, b) => b.totalCount.compareTo(a.totalCount));
-      patientsGroupedByRegion.add(Region(
-        name: region,
-        citiesInfected: citiesMatched,
-        totalCount: citiesMatched.fold(0, (a, b) => a + b.totalCount),
-      ));
-    });
+  Future<List<Patient>> convertDataToPatients(
+      List<dynamic> rawPatientList) async {
+    return rawPatientList.map((data) {
+      final rawPatient = data['attributes'];
+      final rawResidenceData =
+          rawPatient['residence'].trim().replaceAll('�', 'n').split(',');
+      String city;
+      String province;
+      int age;
 
-    patientsGroupedByRegion.removeWhere((region) => region.totalCount == 0);
-    patientsGroupedByRegion
-        .sort((a, b) => b.totalCount.compareTo(a.totalCount));
-    return patientsGroupedByRegion;
+      try {
+        age = (rawPatient['edad'].contains('For Verification'))
+            ? 0
+            : int.parse(rawPatient['edad']);
+      } catch (e) {
+        age = rawPatient['edad'];
+      }
+
+      if (rawResidenceData.length == 1) {
+        city = rawResidenceData[0];
+        province = rawResidenceData[0];
+      } else if (rawResidenceData.contains('NCR')) {
+        city = rawPatient['residence'];
+        province = rawPatient['residence'];
+      } else {
+        city = rawResidenceData[0].trim();
+        province = rawResidenceData[1].trim();
+      }
+
+      return Patient(
+        caseNumberInt: rawPatient['sequ'],
+        caseNumber: rawPatient['PH_masterl'],
+        age: age,
+        sex: rawPatient['kasarian'],
+        nationality: rawPatient['nationalit'],
+        residenceProv: province,
+        residenceCity: city,
+        travelHistory: rawPatient['travel_hx'],
+        symptoms: rawPatient['symptoms'],
+        confirmedDate: rawPatient['confirmed'],
+        admittedTo: rawPatient['facility'],
+        status: rawPatient['status'],
+      );
+    }).toList();
   }
 
-  Future<List<Patient>> fetchPatients() async {
-    try {
-      final responseBody = await dioClient
-          .get('https://endcov.ph/cases/')
-          .then((rawData) => rawData.data);
-      final element = parse(responseBody);
-      final Map<String, dynamic> rawPatientList =
-          await jsonDecode(element.getElementById('patients-data').text);
-      final List<Patient> patients = rawPatientList.entries.map((rawPatient) {
-        String province = '';
-
-        if (rawPatient.value['residence_prov'] == 'NA' ||
-            rawPatient.value['residence_prov'] == ' ' ||
-            rawPatient.value['residence_prov'] == null) {
-          province = 'For Validation';
-        } else if (rawPatient.value['residence_prov'] == 'Metro Manila') {
-          province = (rawPatient.value['residence_city_mun'].startsWith('City'))
-              ? rawPatient.value['residence_city_mun']
-                      .replaceAll('City of', '')
-                      .trim() +
-                  ' City'
-              : rawPatient.value['residence_city_mun'];
-        } else {
-          province = rawPatient.value['residence_prov'];
-        }
-
-        return Patient(
-          caseNumber: rawPatient.value['case_number'],
-          caseNumberInt: rawPatient.value['case_number_int'],
-          admissionDate: rawPatient.value['admission_date'],
-          admittedTo: rawPatient.value['admitted_to'],
-          age: rawPatient.value['age'],
-          sex: rawPatient.value['sex'],
-          cityMunPsgc: rawPatient.value['city_mun_psgc'],
-          countryVisited0: rawPatient.value['country_visited_0'],
-          countryVisited1: rawPatient.value['country_visited_1'],
-          countryVisited2: rawPatient.value['country_visited_2'],
-          deathCause: rawPatient.value['death_cause'],
-          deathDate: rawPatient.value['death_date'],
-          exposure: rawPatient.value['exposure'],
-          exposureLink: rawPatient.value['exposure_link'],
-          labConfirmationDate: rawPatient.value['lab_confirmation_date'],
-          nationality: rawPatient.value['nationality'],
-          onsetDate: rawPatient.value['onset_date'],
-          overseasTravel: rawPatient.value['overseas_travel'],
-          provPsgc: rawPatient.value['prov_psgc'],
-          remarks: rawPatient.value['remarks'],
-          residenceCityMun: (rawPatient.value['residence_city_mun'] == 'NA')
-              ? 'For Validation'
-              : rawPatient.value['residence_city_mun'],
-          residenceProv: province,
-          status: (rawPatient.value['residence_status'] == null)
-              ? 'For Validation'
-              : rawPatient.value['residence_status'],
-          symptoms: List<String>.from(rawPatient.value['symptoms']),
-          transmission: rawPatient.value['transmission'],
-        );
-      }).toList();
-
-      return patients;
-    } on DioError catch (e) {
-      throw SocketException(e.toString());
-    } catch (e) {
-      throw Exception(e.toString());
+  Future<List<Region>> fetchPatientsDOH(int totalInfected) async {
+    //Calculate how many iteration will be done to fetch data
+    // due to the limitation of 2000 records per query or request
+    const int limit = 2000;
+    final totalIterations = totalInfected ~/ limit;
+    final remaining = totalInfected % limit;
+    List<Patient> patients = [];
+    for (int i = 0; i < totalIterations; i++) {
+      final List<dynamic> rawPatientList = await jsonDecode(await dioClient
+          .get(
+              'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=sequ%20desc&resultOffset=${limit * i}&resultRecordCount=$limit&cacheHint=true')
+          .then((value) => value.data))['features'];
+      patients.addAll(await convertDataToPatients(rawPatientList));
     }
+    //Fetch Remaining Patients
+    final String remainingUrl =
+        'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=sequ%20desc&resultOffset=${totalIterations * limit}&resultRecordCount=$remaining&cacheHint=true';
+    final List<dynamic> rawPatientListRemaining = await jsonDecode(
+        await dioClient
+            .get(remainingUrl)
+            .then((value) => value.data))['features'];
+
+    patients.addAll(await convertDataToPatients(rawPatientListRemaining));
+
+    //Group Patients By Region
+
+    return await compute(sortRegions, patients);
   }
 
   Future<List<Hospital>> fetchHospitals() async {

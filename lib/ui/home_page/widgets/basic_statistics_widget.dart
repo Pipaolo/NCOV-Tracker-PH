@@ -28,19 +28,20 @@ class BasicStatisticsWidget extends StatelessWidget {
         svgPath: 'assets/images/death.svg',
       ),
       BasicDataCardWidget(
-        title: 'Tests Conducted',
-        value: statisticBasic.totalTestsConducted.toString(),
-        svgPath: 'assets/images/tests_conducted.svg',
-      ),
-      BasicDataCardWidget(
         title: 'PUIs',
         value: statisticBasic.totalPUIs.toString(),
         svgPath: 'assets/images/pui.svg',
       ),
+      if (!statisticBasic.totalPUMs.toString().contains('null'))
+        BasicDataCardWidget(
+          title: 'PUMs',
+          value: statisticBasic.totalPUMs.toString(),
+          svgPath: 'assets/images/pums.svg',
+        ),
       BasicDataCardWidget(
-        title: 'PUMs',
-        value: statisticBasic.totalPUMs.toString(),
-        svgPath: 'assets/images/pums.svg',
+        title: 'PUIs Tested',
+        value: statisticBasic.totalPUIsTested.toString(),
+        svgPath: 'assets/images/tests_conducted.svg',
       ),
     ];
     return Container(

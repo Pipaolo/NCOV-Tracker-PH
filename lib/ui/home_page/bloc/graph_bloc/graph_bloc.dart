@@ -6,8 +6,10 @@ import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../data/models/gender_statistic.dart';
 import '../../../../data/repository/ncov_repository.dart';
 import '../home_page_bloc.dart';
 
@@ -43,21 +45,24 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
       yield GraphLoading();
 
       final ageData = await ncovRepository.fetchedAgeData();
-      final genderData = await ncovRepository.fetchGenderStatistics();
+      final List<GenderStatistic> genderData =
+          await ncovRepository.fetchGenderStatistics(ageData);
       final List<BarChartGroupData> chartData = _generateBarData(ageData);
-      final List<PieChartSectionData> pieChartData =
-          _generatePieChartData(genderData);
+      final List<PieChartSectionData> pieChartData = _generatePieChartData(
+          groupBy(genderData, (GenderStatistic gender) => gender.gender));
       yield GraphSuccess(barChartData: chartData, pieChartData: pieChartData);
     }
   }
 
-  List<PieChartSectionData> _generatePieChartData(Map<String, int> genderData) {
+  List<PieChartSectionData> _generatePieChartData(
+      Map<String, List<GenderStatistic>> genderData) {
     return genderData.entries.map((data) {
+      final value = data.value.fold(0, (prev, curr) => prev + curr.value);
       return PieChartSectionData(
         color: (data.key.contains('Female')) ? leftBarColor : rightBarColor,
-        value: data.value.toDouble(),
+        value: value.toDouble(),
         radius: 60,
-        title: data.value.toString(),
+        title: value.toString(),
       );
     }).toList();
   }
