@@ -21,7 +21,7 @@ class _$PatientTearOff {
       String sex,
       int age,
       String nationality,
-      bool overseasTravel,
+      String overseasTravel,
       String countryVisited0,
       String countryVisited1,
       String countryVisited2,
@@ -80,7 +80,7 @@ mixin _$Patient {
   String get sex;
   int get age;
   String get nationality;
-  bool get overseasTravel;
+  String get overseasTravel;
   String get countryVisited0;
   String get countryVisited1;
   String get countryVisited2;
@@ -114,7 +114,7 @@ abstract class $PatientCopyWith<$Res> {
       String sex,
       int age,
       String nationality,
-      bool overseasTravel,
+      String overseasTravel,
       String countryVisited0,
       String countryVisited1,
       String countryVisited2,
@@ -183,7 +183,7 @@ class _$PatientCopyWithImpl<$Res> implements $PatientCopyWith<$Res> {
           nationality == freezed ? _value.nationality : nationality as String,
       overseasTravel: overseasTravel == freezed
           ? _value.overseasTravel
-          : overseasTravel as bool,
+          : overseasTravel as String,
       countryVisited0: countryVisited0 == freezed
           ? _value.countryVisited0
           : countryVisited0 as String,
@@ -239,7 +239,7 @@ abstract class _$PatientCopyWith<$Res> implements $PatientCopyWith<$Res> {
       String sex,
       int age,
       String nationality,
-      bool overseasTravel,
+      String overseasTravel,
       String countryVisited0,
       String countryVisited1,
       String countryVisited2,
@@ -309,7 +309,7 @@ class __$PatientCopyWithImpl<$Res> extends _$PatientCopyWithImpl<$Res>
           nationality == freezed ? _value.nationality : nationality as String,
       overseasTravel: overseasTravel == freezed
           ? _value.overseasTravel
-          : overseasTravel as bool,
+          : overseasTravel as String,
       countryVisited0: countryVisited0 == freezed
           ? _value.countryVisited0
           : countryVisited0 as String,
@@ -398,7 +398,7 @@ class _$_Patient implements _Patient {
   @override
   final String nationality;
   @override
-  final bool overseasTravel;
+  final String overseasTravel;
   @override
   final String countryVisited0;
   @override
@@ -563,7 +563,7 @@ abstract class _Patient implements Patient {
       String sex,
       int age,
       String nationality,
-      bool overseasTravel,
+      String overseasTravel,
       String countryVisited0,
       String countryVisited1,
       String countryVisited2,
@@ -597,7 +597,7 @@ abstract class _Patient implements Patient {
   @override
   String get nationality;
   @override
-  bool get overseasTravel;
+  String get overseasTravel;
   @override
   String get countryVisited0;
   @override

@@ -15,7 +15,7 @@ abstract class Patient with _$Patient {
     int age,
     String nationality,
     //ignore: non_constant_identifier_names
-    bool overseasTravel,
+    String overseasTravel,
     //ignore: non_constant_identifier_names
     String countryVisited0,
     //ignore: non_constant_identifier_names

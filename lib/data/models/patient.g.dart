@@ -13,7 +13,7 @@ _$_Patient _$_$_PatientFromJson(Map<String, dynamic> json) {
     sex: json['sex'] as String,
     age: json['age'] as int,
     nationality: json['nationality'] as String,
-    overseasTravel: json['overseasTravel'] as bool,
+    overseasTravel: json['overseasTravel'] as String,
     countryVisited0: json['countryVisited0'] as String,
     countryVisited1: json['countryVisited1'] as String,
     countryVisited2: json['countryVisited2'] as String,

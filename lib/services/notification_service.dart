@@ -62,6 +62,7 @@ class NotificationService {
       Box box = await Hive.openBox('app');
 
       //Fetch Current Statistics
+      print('NCOV TRACKER PH: Checking if cases');
       final statistics = await ncovRepository.fetchBasicStatistics();
 
       //Check if the current value is the same or not
