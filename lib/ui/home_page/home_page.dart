@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                     height: 150,
                   ),
                   Text(
-                    'You have no internet connection. Try and refresh the page, by dragging down.',
+                    'Woops something bad happened kindly try and refresh the page, by dragging down. If that did not work it means the servers are currently down at the moment.',
                     style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.bold,
                       fontSize: ScreenUtil().setSp(35),

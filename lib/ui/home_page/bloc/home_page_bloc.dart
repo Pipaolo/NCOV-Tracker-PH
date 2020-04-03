@@ -37,7 +37,9 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
       yield HomePageLoading();
       try {
         final ncovStatisticBasic = await ncovRepository.fetchBasicStatistics();
-        final patientsGroupedByRegion = await ncovRepository.fetchPatients();
+        final patients = await ncovRepository.fetchPatients();
+        final patientsGroupedByRegion =
+            await ncovRepository.sortRegions(patients);
 
         yield HomePageSuccess(
           patientsGroupedByRegion: patientsGroupedByRegion,

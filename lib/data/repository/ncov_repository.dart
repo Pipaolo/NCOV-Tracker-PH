@@ -1,17 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:html/parser.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ncov_tracker_ph/core/region_matcher.dart';
-import 'package:ncov_tracker_ph/data/models/city.dart';
-import 'package:ncov_tracker_ph/data/models/patient.dart';
 
+import '../../core/region_matcher.dart';
+import '../../interceptors/ncov_retry_interceptors.dart';
+import '../../retriers/dio_connectivity_request_trier.dart';
 import '../models/age_category_statistic.dart';
+import '../models/city.dart';
 import '../models/hospital.dart';
 import '../models/ncov_statistic_basic.dart';
+import '../models/patient.dart';
 import '../models/region.dart';
 
 @injectable
@@ -33,7 +36,12 @@ class NcovRepository {
   };
 
   final Dio dioClient;
-  NcovRepository({this.dioClient});
+  NcovRepository({this.dioClient}) {
+    dioClient.interceptors.add(NcovRetryOnConnectionChangeInterceptors(
+      requestRetrier: DioConnectivityRequestRetrier(
+          connectivity: Connectivity(), dio: dioClient),
+    ));
+  }
 
   Future<int> fetchBasicStatisticalData(String url) async {
     try {
@@ -72,8 +80,10 @@ class NcovRepository {
         totalPUMs: numberOfPUMs,
         totalTestsConducted: numberOfTestsConducted,
       );
+    } on DioError catch (e) {
+      throw SocketException(e.toString());
     } catch (e) {
-      throw SocketException('No Internet Connection');
+      throw Exception(e.toString());
     }
   }
 
@@ -88,8 +98,10 @@ class NcovRepository {
         'Female': json['sex'][1][1] as int,
       };
       return genderStatistic;
+    } on DioError catch (e) {
+      throw SocketException(e.toString());
     } catch (e) {
-      throw SocketException('No Internet Connection');
+      throw Exception(e.toString());
     }
   }
 
@@ -111,12 +123,47 @@ class NcovRepository {
         );
       }).toList();
       return groupBy(ageDataConverted, (obj) => obj.category);
+    } on DioError catch (e) {
+      throw SocketException(e.toString());
     } catch (e) {
-      throw SocketException('No Internet Connection');
+      throw Exception(e.toString());
     }
   }
 
-  Future<List<Region>> fetchPatients() async {
+  Future<List<Region>> sortRegions(List<Patient> patients) async {
+    List<Region> patientsGroupedByRegion = [];
+    regions.forEach((region, provinces) {
+      final List<City> citiesMatched = [];
+      provinces.forEach((province) {
+        final patientsMatched = patients
+            .where((patient) =>
+                patient.residenceProv.toLowerCase() == province.toLowerCase())
+            .toList();
+        if (patientsMatched.isNotEmpty) {
+          citiesMatched.add(
+            City(
+              name: province,
+              patients: patientsMatched,
+              totalCount: patientsMatched.length,
+            ),
+          );
+        }
+      });
+      citiesMatched.sort((a, b) => b.totalCount.compareTo(a.totalCount));
+      patientsGroupedByRegion.add(Region(
+        name: region,
+        citiesInfected: citiesMatched,
+        totalCount: citiesMatched.fold(0, (a, b) => a + b.totalCount),
+      ));
+    });
+
+    patientsGroupedByRegion.removeWhere((region) => region.totalCount == 0);
+    patientsGroupedByRegion
+        .sort((a, b) => b.totalCount.compareTo(a.totalCount));
+    return patientsGroupedByRegion;
+  }
+
+  Future<List<Patient>> fetchPatients() async {
     try {
       final responseBody = await dioClient
           .get('https://endcov.ph/cases/')
@@ -175,39 +222,11 @@ class NcovRepository {
         );
       }).toList();
 
-      List<Region> patientsGroupedByRegion = [];
-      regions.forEach((region, provinces) {
-        final List<City> citiesMatched = [];
-        provinces.forEach((province) {
-          final patientsMatched = patients
-              .where((patient) =>
-                  patient.residenceProv.toLowerCase() == province.toLowerCase())
-              .toList();
-          if (patientsMatched.isNotEmpty) {
-            citiesMatched.add(
-              City(
-                name: province,
-                patients: patientsMatched,
-                totalCount: patientsMatched.length,
-              ),
-            );
-          }
-        });
-        citiesMatched.sort((a, b) => b.totalCount.compareTo(a.totalCount));
-        patientsGroupedByRegion.add(Region(
-          name: region,
-          citiesInfected: citiesMatched,
-          totalCount: citiesMatched.fold(0, (a, b) => a + b.totalCount),
-        ));
-      });
-
-      patientsGroupedByRegion.removeWhere((region) => region.totalCount == 0);
-      patientsGroupedByRegion
-          .sort((a, b) => b.totalCount.compareTo(a.totalCount));
-      return patientsGroupedByRegion;
+      return patients;
+    } on DioError catch (e) {
+      throw SocketException(e.toString());
     } catch (e) {
-      print(e);
-      throw SocketException('No Internet Connection');
+      throw Exception(e.toString());
     }
   }
 
@@ -225,8 +244,10 @@ class NcovRepository {
       }).toList();
 
       return hospitals.toSet().toList();
+    } on DioError catch (e) {
+      throw SocketException(e.toString());
     } catch (e) {
-      throw SocketException('No Internet Connection');
+      throw Exception(e.toString());
     }
   }
 }

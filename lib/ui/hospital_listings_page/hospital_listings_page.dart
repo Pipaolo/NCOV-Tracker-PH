@@ -89,24 +89,27 @@ class _HospitalListingsPageState extends State<HospitalListingsPage> {
           }
           return false;
         },
-        child: ListView(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: HospitalListingsSearchBarWidget(),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: HospitalListingsSearchBarWidget(),
+              ),
             ),
-            ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: (numberOfItems < hospitalListings.length)
-                    ? numberOfItems
-                    : hospitalListings.length,
-                itemBuilder: (context, i) {
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, i) {
                   final hospital = hospitalListings[i];
                   return HospitalListingsCardWidget(
                     hospital: hospital,
                   );
-                }),
+                },
+                childCount: (numberOfItems < hospitalListings.length)
+                    ? numberOfItems
+                    : hospitalListings.length,
+              ),
+            ),
           ],
         ),
       ),

@@ -1,7 +1,7 @@
 name: ncov_tracker_ph
 description: This app provides updated data of NCOV cases in the Philippines, the data is shown is here is not mine. All of the data that is shown here belong to the Department of Health.
 
-version: 1.6.2+1
+version: 1.6.3+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
