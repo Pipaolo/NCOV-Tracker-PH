@@ -8,6 +8,9 @@ part of 'city.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+City _$CityFromJson(Map<String, dynamic> json) {
+  return _City.fromJson(json);
+}
 
 class _$CityTearOff {
   const _$CityTearOff();
@@ -29,6 +32,7 @@ mixin _$City {
   List<Patient> get patients;
   int get totalCount;
 
+  Map<String, dynamic> toJson();
   $CityCopyWith<City> get copyWith;
 }
 
@@ -90,8 +94,12 @@ class __$CityCopyWithImpl<$Res> extends _$CityCopyWithImpl<$Res>
   }
 }
 
+@JsonSerializable()
 class _$_City implements _City {
   const _$_City({this.name, this.patients, this.totalCount});
+
+  factory _$_City.fromJson(Map<String, dynamic> json) =>
+      _$_$_CityFromJson(json);
 
   @override
   final String name;
@@ -129,11 +137,18 @@ class _$_City implements _City {
   @override
   _$CityCopyWith<_City> get copyWith =>
       __$CityCopyWithImpl<_City>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_CityToJson(this);
+  }
 }
 
 abstract class _City implements City {
   const factory _City({String name, List<Patient> patients, int totalCount}) =
       _$_City;
+
+  factory _City.fromJson(Map<String, dynamic> json) = _$_City.fromJson;
 
   @override
   String get name;

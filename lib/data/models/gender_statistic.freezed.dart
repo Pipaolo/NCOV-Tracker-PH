@@ -8,6 +8,9 @@ part of 'gender_statistic.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+GenderStatistic _$GenderStatisticFromJson(Map<String, dynamic> json) {
+  return _GenderStatistic.fromJson(json);
+}
 
 class _$GenderStatisticTearOff {
   const _$GenderStatisticTearOff();
@@ -27,6 +30,7 @@ mixin _$GenderStatistic {
   int get value;
   String get gender;
 
+  Map<String, dynamic> toJson();
   $GenderStatisticCopyWith<GenderStatistic> get copyWith;
 }
 
@@ -88,8 +92,12 @@ class __$GenderStatisticCopyWithImpl<$Res>
   }
 }
 
+@JsonSerializable()
 class _$_GenderStatistic implements _GenderStatistic {
   const _$_GenderStatistic({this.value, this.gender});
+
+  factory _$_GenderStatistic.fromJson(Map<String, dynamic> json) =>
+      _$_$_GenderStatisticFromJson(json);
 
   @override
   final int value;
@@ -120,11 +128,19 @@ class _$_GenderStatistic implements _GenderStatistic {
   @override
   _$GenderStatisticCopyWith<_GenderStatistic> get copyWith =>
       __$GenderStatisticCopyWithImpl<_GenderStatistic>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_GenderStatisticToJson(this);
+  }
 }
 
 abstract class _GenderStatistic implements GenderStatistic {
   const factory _GenderStatistic({int value, String gender}) =
       _$_GenderStatistic;
+
+  factory _GenderStatistic.fromJson(Map<String, dynamic> json) =
+      _$_GenderStatistic.fromJson;
 
   @override
   int get value;

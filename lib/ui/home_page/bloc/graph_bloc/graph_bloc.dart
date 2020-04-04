@@ -46,7 +46,7 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
 
       final ageData = await ncovRepository.fetchedAgeData();
       final List<GenderStatistic> genderData =
-          await ncovRepository.fetchGenderStatistics(ageData);
+          await ncovRepository.fetchGenderStatistics();
       final List<BarChartGroupData> chartData = _generateBarData(ageData);
       final List<PieChartSectionData> pieChartData = _generatePieChartData(
           groupBy(genderData, (GenderStatistic gender) => gender.gender));

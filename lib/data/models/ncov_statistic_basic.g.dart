@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_all: non_constant_identifier_names
+
 part of 'ncov_statistic_basic.dart';
 
 // **************************************************************************

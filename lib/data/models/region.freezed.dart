@@ -8,6 +8,9 @@ part of 'region.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+Region _$RegionFromJson(Map<String, dynamic> json) {
+  return _Region.fromJson(json);
+}
 
 class _$RegionTearOff {
   const _$RegionTearOff();
@@ -29,6 +32,7 @@ mixin _$Region {
   String get name;
   List<City> get citiesInfected;
 
+  Map<String, dynamic> toJson();
   $RegionCopyWith<Region> get copyWith;
 }
 
@@ -92,8 +96,12 @@ class __$RegionCopyWithImpl<$Res> extends _$RegionCopyWithImpl<$Res>
   }
 }
 
+@JsonSerializable()
 class _$_Region implements _Region {
   const _$_Region({this.totalCount, this.name, this.citiesInfected});
+
+  factory _$_Region.fromJson(Map<String, dynamic> json) =>
+      _$_$_RegionFromJson(json);
 
   @override
   final int totalCount;
@@ -131,11 +139,18 @@ class _$_Region implements _Region {
   @override
   _$RegionCopyWith<_Region> get copyWith =>
       __$RegionCopyWithImpl<_Region>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_RegionToJson(this);
+  }
 }
 
 abstract class _Region implements Region {
   const factory _Region(
       {int totalCount, String name, List<City> citiesInfected}) = _$_Region;
+
+  factory _Region.fromJson(Map<String, dynamic> json) = _$_Region.fromJson;
 
   @override
   int get totalCount;

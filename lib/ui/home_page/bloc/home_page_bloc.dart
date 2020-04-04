@@ -37,6 +37,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
       yield HomePageLoading();
       try {
         final ncovStatisticBasic = await ncovRepository.fetchBasicStatistics();
+
         final patients = await ncovRepository
             .fetchPatientsDOH(ncovStatisticBasic.totalInfected);
 
