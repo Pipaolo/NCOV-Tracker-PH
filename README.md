@@ -13,7 +13,10 @@ The app is built out of pure Flutter awesomeness.
  - https://endcov.ph/ (Hospital Directories)
 
 ## Preview
-- To be added soon!!
+### Overview
+![App Demo](app_overview.gif)
+### Hospital Listings
+![Hospital Listings](hospital_directories.png)
 
 ## Features:
 - The app will notify users when it detects if the number of cases has changed in the Philippines
