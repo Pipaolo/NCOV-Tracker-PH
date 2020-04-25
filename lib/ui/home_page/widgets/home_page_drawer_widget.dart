@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ncov_tracker_ph/routes/router.gr.dart';
-import 'package:ncov_tracker_ph/ui/home_page/widgets/doh_emergency_dialog_widget.dart';
-import 'package:ncov_tracker_ph/ui/hospital_listings_page/bloc/hospital_bloc.dart';
+
+import '../../../routes/router.gr.dart';
+import '../../hospital_listings_page/bloc/hospital_bloc.dart';
+import 'doh_emergency_dialog_widget.dart';
 
 class HomePageDrawerWidget extends StatelessWidget {
   const HomePageDrawerWidget({Key key}) : super(key: key);
@@ -69,14 +69,16 @@ class HomePageDrawerWidget extends StatelessWidget {
             trailing: FaIcon(FontAwesomeIcons.angleRight),
             title: Text('Cases'),
             onTap: () {
-              Flushbar(
-                title: '🛠👷‍♀️ Under Development 👷‍♂️🛠',
-                message: 'This feature is coming soon!',
-                margin: const EdgeInsets.all(10),
-                borderRadius: 10,
-                reverseAnimationCurve: Curves.easeOut,
-                duration: Duration(seconds: 2),
-              )..show(context);
+              ExtendedNavigator.of(context).pop();
+              ExtendedNavigator.of(context).pushNamed(Routes.casesPageRoute);
+              // Flushbar(
+              //   title: '🛠👷‍♀️ Under Development 👷‍♂️🛠',
+              //   message: 'This feature is coming soon!',
+              //   margin: const EdgeInsets.all(10),
+              //   borderRadius: 10,
+              //   reverseAnimationCurve: Curves.easeOut,
+              //   duration: Duration(seconds: 2),
+              // )..show(context);
             },
           ),
           ListTile(

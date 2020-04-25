@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route_annotations.dart';
+import 'package:ncov_tracker_ph/ui/cases_page/cases_page.dart';
 import 'package:ncov_tracker_ph/ui/hospital_listings_page/hospital_listings_page.dart';
 import 'package:ncov_tracker_ph/ui/hospital_page/hospital_page.dart';
 import 'package:ncov_tracker_ph/ui/info_page/info_page.dart';
@@ -18,6 +19,7 @@ class $Router {
   IntroductionPage introductionPageRoute;
   HomePage homePageRoute;
   MapPage mapPageRoute;
+  CasesPage casesPageRoute;
   CitiesPage citiesPageRoute;
   InfoPage infoPageRoute;
   HospitalListingsPage hospitalListingsPageRoute;

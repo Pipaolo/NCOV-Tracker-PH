@@ -16,15 +16,12 @@ class HomePageLoading extends HomePageState {
 
 class HomePageSuccess extends HomePageState {
   final NcovStatisticBasic ncovStatisticBasic;
-  final List<Region> patientsGroupedByRegion;
   HomePageSuccess({
     this.ncovStatisticBasic,
-    this.patientsGroupedByRegion,
   });
   @override
   List<Object> get props => [
         ncovStatisticBasic,
-        patientsGroupedByRegion,
       ];
 }
 

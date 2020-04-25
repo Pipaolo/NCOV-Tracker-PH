@@ -3,6 +3,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ncov_tracker_ph/ui/cases_page/bloc/cases_page_bloc.dart';
 
 import '../core/bloc/connectivity_bloc.dart';
 import '../data/repository/ncov_repository.dart';
@@ -33,9 +34,14 @@ class AppWidget extends StatelessWidget {
               connectivityBloc: BlocProvider.of<ConnectivityBloc>(context),
             )..add(DataFetched()),
           ),
+          BlocProvider<CasesPageBloc>(
+            create: (context) => CasesPageBloc(
+              ncovRepository: RepositoryProvider.of<NcovRepository>(context),
+            )..add(CasesFetched()),
+          ),
           BlocProvider<SearchBloc>(
             create: (context) => SearchBloc(
-              homePageBloc: BlocProvider.of<HomePageBloc>(context),
+              casesPageBloc: BlocProvider.of<CasesPageBloc>(context),
             ),
           ),
           BlocProvider<GraphBloc>(

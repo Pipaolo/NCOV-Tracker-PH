@@ -33,6 +33,7 @@ class LineChartCarouselWidget extends StatelessWidget {
               );
             },
             autoplay: true,
+            autoplayDisableOnInteraction: true,
             pagination: SwiperPagination(
               builder: DotSwiperPaginationBuilder(
                 color: Colors.grey,

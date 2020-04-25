@@ -17,30 +17,28 @@ class _$PatientTearOff {
 
   _Patient call(
       {String caseNumber,
-      int caseNumberInt,
       String sex,
       int age,
-      String nationality,
-      String travelHistory,
-      String confirmedDate,
-      String admittedTo,
-      String residenceCity,
-      String residenceProv,
-      String status,
-      String symptoms}) {
+      String dateDeath,
+      String dateRecovery,
+      String dateReportConfirmed,
+      String dateReportRemoved,
+      bool admitted,
+      String healthStatus,
+      String removalType,
+      Residence residence}) {
     return _Patient(
       caseNumber: caseNumber,
-      caseNumberInt: caseNumberInt,
       sex: sex,
       age: age,
-      nationality: nationality,
-      travelHistory: travelHistory,
-      confirmedDate: confirmedDate,
-      admittedTo: admittedTo,
-      residenceCity: residenceCity,
-      residenceProv: residenceProv,
-      status: status,
-      symptoms: symptoms,
+      dateDeath: dateDeath,
+      dateRecovery: dateRecovery,
+      dateReportConfirmed: dateReportConfirmed,
+      dateReportRemoved: dateReportRemoved,
+      admitted: admitted,
+      healthStatus: healthStatus,
+      removalType: removalType,
+      residence: residence,
     );
   }
 }
@@ -50,17 +48,16 @@ const $Patient = _$PatientTearOff();
 
 mixin _$Patient {
   String get caseNumber;
-  int get caseNumberInt;
   String get sex;
   int get age;
-  String get nationality;
-  String get travelHistory;
-  String get confirmedDate;
-  String get admittedTo;
-  String get residenceCity;
-  String get residenceProv;
-  String get status;
-  String get symptoms;
+  String get dateDeath;
+  String get dateRecovery;
+  String get dateReportConfirmed;
+  String get dateReportRemoved;
+  bool get admitted;
+  String get healthStatus;
+  String get removalType;
+  Residence get residence;
 
   Map<String, dynamic> toJson();
   $PatientCopyWith<Patient> get copyWith;
@@ -71,17 +68,18 @@ abstract class $PatientCopyWith<$Res> {
       _$PatientCopyWithImpl<$Res>;
   $Res call(
       {String caseNumber,
-      int caseNumberInt,
       String sex,
       int age,
-      String nationality,
-      String travelHistory,
-      String confirmedDate,
-      String admittedTo,
-      String residenceCity,
-      String residenceProv,
-      String status,
-      String symptoms});
+      String dateDeath,
+      String dateRecovery,
+      String dateReportConfirmed,
+      String dateReportRemoved,
+      bool admitted,
+      String healthStatus,
+      String removalType,
+      Residence residence});
+
+  $ResidenceCopyWith<$Res> get residence;
 }
 
 class _$PatientCopyWithImpl<$Res> implements $PatientCopyWith<$Res> {
@@ -94,45 +92,51 @@ class _$PatientCopyWithImpl<$Res> implements $PatientCopyWith<$Res> {
   @override
   $Res call({
     Object caseNumber = freezed,
-    Object caseNumberInt = freezed,
     Object sex = freezed,
     Object age = freezed,
-    Object nationality = freezed,
-    Object travelHistory = freezed,
-    Object confirmedDate = freezed,
-    Object admittedTo = freezed,
-    Object residenceCity = freezed,
-    Object residenceProv = freezed,
-    Object status = freezed,
-    Object symptoms = freezed,
+    Object dateDeath = freezed,
+    Object dateRecovery = freezed,
+    Object dateReportConfirmed = freezed,
+    Object dateReportRemoved = freezed,
+    Object admitted = freezed,
+    Object healthStatus = freezed,
+    Object removalType = freezed,
+    Object residence = freezed,
   }) {
     return _then(_value.copyWith(
       caseNumber:
           caseNumber == freezed ? _value.caseNumber : caseNumber as String,
-      caseNumberInt: caseNumberInt == freezed
-          ? _value.caseNumberInt
-          : caseNumberInt as int,
       sex: sex == freezed ? _value.sex : sex as String,
       age: age == freezed ? _value.age : age as int,
-      nationality:
-          nationality == freezed ? _value.nationality : nationality as String,
-      travelHistory: travelHistory == freezed
-          ? _value.travelHistory
-          : travelHistory as String,
-      confirmedDate: confirmedDate == freezed
-          ? _value.confirmedDate
-          : confirmedDate as String,
-      admittedTo:
-          admittedTo == freezed ? _value.admittedTo : admittedTo as String,
-      residenceCity: residenceCity == freezed
-          ? _value.residenceCity
-          : residenceCity as String,
-      residenceProv: residenceProv == freezed
-          ? _value.residenceProv
-          : residenceProv as String,
-      status: status == freezed ? _value.status : status as String,
-      symptoms: symptoms == freezed ? _value.symptoms : symptoms as String,
+      dateDeath: dateDeath == freezed ? _value.dateDeath : dateDeath as String,
+      dateRecovery: dateRecovery == freezed
+          ? _value.dateRecovery
+          : dateRecovery as String,
+      dateReportConfirmed: dateReportConfirmed == freezed
+          ? _value.dateReportConfirmed
+          : dateReportConfirmed as String,
+      dateReportRemoved: dateReportRemoved == freezed
+          ? _value.dateReportRemoved
+          : dateReportRemoved as String,
+      admitted: admitted == freezed ? _value.admitted : admitted as bool,
+      healthStatus: healthStatus == freezed
+          ? _value.healthStatus
+          : healthStatus as String,
+      removalType:
+          removalType == freezed ? _value.removalType : removalType as String,
+      residence:
+          residence == freezed ? _value.residence : residence as Residence,
     ));
+  }
+
+  @override
+  $ResidenceCopyWith<$Res> get residence {
+    if (_value.residence == null) {
+      return null;
+    }
+    return $ResidenceCopyWith<$Res>(_value.residence, (value) {
+      return _then(_value.copyWith(residence: value));
+    });
   }
 }
 
@@ -142,17 +146,19 @@ abstract class _$PatientCopyWith<$Res> implements $PatientCopyWith<$Res> {
   @override
   $Res call(
       {String caseNumber,
-      int caseNumberInt,
       String sex,
       int age,
-      String nationality,
-      String travelHistory,
-      String confirmedDate,
-      String admittedTo,
-      String residenceCity,
-      String residenceProv,
-      String status,
-      String symptoms});
+      String dateDeath,
+      String dateRecovery,
+      String dateReportConfirmed,
+      String dateReportRemoved,
+      bool admitted,
+      String healthStatus,
+      String removalType,
+      Residence residence});
+
+  @override
+  $ResidenceCopyWith<$Res> get residence;
 }
 
 class __$PatientCopyWithImpl<$Res> extends _$PatientCopyWithImpl<$Res>
@@ -166,44 +172,40 @@ class __$PatientCopyWithImpl<$Res> extends _$PatientCopyWithImpl<$Res>
   @override
   $Res call({
     Object caseNumber = freezed,
-    Object caseNumberInt = freezed,
     Object sex = freezed,
     Object age = freezed,
-    Object nationality = freezed,
-    Object travelHistory = freezed,
-    Object confirmedDate = freezed,
-    Object admittedTo = freezed,
-    Object residenceCity = freezed,
-    Object residenceProv = freezed,
-    Object status = freezed,
-    Object symptoms = freezed,
+    Object dateDeath = freezed,
+    Object dateRecovery = freezed,
+    Object dateReportConfirmed = freezed,
+    Object dateReportRemoved = freezed,
+    Object admitted = freezed,
+    Object healthStatus = freezed,
+    Object removalType = freezed,
+    Object residence = freezed,
   }) {
     return _then(_Patient(
       caseNumber:
           caseNumber == freezed ? _value.caseNumber : caseNumber as String,
-      caseNumberInt: caseNumberInt == freezed
-          ? _value.caseNumberInt
-          : caseNumberInt as int,
       sex: sex == freezed ? _value.sex : sex as String,
       age: age == freezed ? _value.age : age as int,
-      nationality:
-          nationality == freezed ? _value.nationality : nationality as String,
-      travelHistory: travelHistory == freezed
-          ? _value.travelHistory
-          : travelHistory as String,
-      confirmedDate: confirmedDate == freezed
-          ? _value.confirmedDate
-          : confirmedDate as String,
-      admittedTo:
-          admittedTo == freezed ? _value.admittedTo : admittedTo as String,
-      residenceCity: residenceCity == freezed
-          ? _value.residenceCity
-          : residenceCity as String,
-      residenceProv: residenceProv == freezed
-          ? _value.residenceProv
-          : residenceProv as String,
-      status: status == freezed ? _value.status : status as String,
-      symptoms: symptoms == freezed ? _value.symptoms : symptoms as String,
+      dateDeath: dateDeath == freezed ? _value.dateDeath : dateDeath as String,
+      dateRecovery: dateRecovery == freezed
+          ? _value.dateRecovery
+          : dateRecovery as String,
+      dateReportConfirmed: dateReportConfirmed == freezed
+          ? _value.dateReportConfirmed
+          : dateReportConfirmed as String,
+      dateReportRemoved: dateReportRemoved == freezed
+          ? _value.dateReportRemoved
+          : dateReportRemoved as String,
+      admitted: admitted == freezed ? _value.admitted : admitted as bool,
+      healthStatus: healthStatus == freezed
+          ? _value.healthStatus
+          : healthStatus as String,
+      removalType:
+          removalType == freezed ? _value.removalType : removalType as String,
+      residence:
+          residence == freezed ? _value.residence : residence as Residence,
     ));
   }
 }
@@ -212,17 +214,16 @@ class __$PatientCopyWithImpl<$Res> extends _$PatientCopyWithImpl<$Res>
 class _$_Patient implements _Patient {
   const _$_Patient(
       {this.caseNumber,
-      this.caseNumberInt,
       this.sex,
       this.age,
-      this.nationality,
-      this.travelHistory,
-      this.confirmedDate,
-      this.admittedTo,
-      this.residenceCity,
-      this.residenceProv,
-      this.status,
-      this.symptoms});
+      this.dateDeath,
+      this.dateRecovery,
+      this.dateReportConfirmed,
+      this.dateReportRemoved,
+      this.admitted,
+      this.healthStatus,
+      this.removalType,
+      this.residence});
 
   factory _$_Patient.fromJson(Map<String, dynamic> json) =>
       _$_$_PatientFromJson(json);
@@ -230,31 +231,29 @@ class _$_Patient implements _Patient {
   @override
   final String caseNumber;
   @override
-  final int caseNumberInt;
-  @override
   final String sex;
   @override
   final int age;
   @override
-  final String nationality;
+  final String dateDeath;
   @override
-  final String travelHistory;
+  final String dateRecovery;
   @override
-  final String confirmedDate;
+  final String dateReportConfirmed;
   @override
-  final String admittedTo;
+  final String dateReportRemoved;
   @override
-  final String residenceCity;
+  final bool admitted;
   @override
-  final String residenceProv;
+  final String healthStatus;
   @override
-  final String status;
+  final String removalType;
   @override
-  final String symptoms;
+  final Residence residence;
 
   @override
   String toString() {
-    return 'Patient(caseNumber: $caseNumber, caseNumberInt: $caseNumberInt, sex: $sex, age: $age, nationality: $nationality, travelHistory: $travelHistory, confirmedDate: $confirmedDate, admittedTo: $admittedTo, residenceCity: $residenceCity, residenceProv: $residenceProv, status: $status, symptoms: $symptoms)';
+    return 'Patient(caseNumber: $caseNumber, sex: $sex, age: $age, dateDeath: $dateDeath, dateRecovery: $dateRecovery, dateReportConfirmed: $dateReportConfirmed, dateReportRemoved: $dateReportRemoved, admitted: $admitted, healthStatus: $healthStatus, removalType: $removalType, residence: $residence)';
   }
 
   @override
@@ -264,53 +263,50 @@ class _$_Patient implements _Patient {
             (identical(other.caseNumber, caseNumber) ||
                 const DeepCollectionEquality()
                     .equals(other.caseNumber, caseNumber)) &&
-            (identical(other.caseNumberInt, caseNumberInt) ||
-                const DeepCollectionEquality()
-                    .equals(other.caseNumberInt, caseNumberInt)) &&
             (identical(other.sex, sex) ||
                 const DeepCollectionEquality().equals(other.sex, sex)) &&
             (identical(other.age, age) ||
                 const DeepCollectionEquality().equals(other.age, age)) &&
-            (identical(other.nationality, nationality) ||
+            (identical(other.dateDeath, dateDeath) ||
                 const DeepCollectionEquality()
-                    .equals(other.nationality, nationality)) &&
-            (identical(other.travelHistory, travelHistory) ||
+                    .equals(other.dateDeath, dateDeath)) &&
+            (identical(other.dateRecovery, dateRecovery) ||
                 const DeepCollectionEquality()
-                    .equals(other.travelHistory, travelHistory)) &&
-            (identical(other.confirmedDate, confirmedDate) ||
+                    .equals(other.dateRecovery, dateRecovery)) &&
+            (identical(other.dateReportConfirmed, dateReportConfirmed) ||
                 const DeepCollectionEquality()
-                    .equals(other.confirmedDate, confirmedDate)) &&
-            (identical(other.admittedTo, admittedTo) ||
+                    .equals(other.dateReportConfirmed, dateReportConfirmed)) &&
+            (identical(other.dateReportRemoved, dateReportRemoved) ||
                 const DeepCollectionEquality()
-                    .equals(other.admittedTo, admittedTo)) &&
-            (identical(other.residenceCity, residenceCity) ||
+                    .equals(other.dateReportRemoved, dateReportRemoved)) &&
+            (identical(other.admitted, admitted) ||
                 const DeepCollectionEquality()
-                    .equals(other.residenceCity, residenceCity)) &&
-            (identical(other.residenceProv, residenceProv) ||
+                    .equals(other.admitted, admitted)) &&
+            (identical(other.healthStatus, healthStatus) ||
                 const DeepCollectionEquality()
-                    .equals(other.residenceProv, residenceProv)) &&
-            (identical(other.status, status) ||
-                const DeepCollectionEquality().equals(other.status, status)) &&
-            (identical(other.symptoms, symptoms) ||
+                    .equals(other.healthStatus, healthStatus)) &&
+            (identical(other.removalType, removalType) ||
                 const DeepCollectionEquality()
-                    .equals(other.symptoms, symptoms)));
+                    .equals(other.removalType, removalType)) &&
+            (identical(other.residence, residence) ||
+                const DeepCollectionEquality()
+                    .equals(other.residence, residence)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(caseNumber) ^
-      const DeepCollectionEquality().hash(caseNumberInt) ^
       const DeepCollectionEquality().hash(sex) ^
       const DeepCollectionEquality().hash(age) ^
-      const DeepCollectionEquality().hash(nationality) ^
-      const DeepCollectionEquality().hash(travelHistory) ^
-      const DeepCollectionEquality().hash(confirmedDate) ^
-      const DeepCollectionEquality().hash(admittedTo) ^
-      const DeepCollectionEquality().hash(residenceCity) ^
-      const DeepCollectionEquality().hash(residenceProv) ^
-      const DeepCollectionEquality().hash(status) ^
-      const DeepCollectionEquality().hash(symptoms);
+      const DeepCollectionEquality().hash(dateDeath) ^
+      const DeepCollectionEquality().hash(dateRecovery) ^
+      const DeepCollectionEquality().hash(dateReportConfirmed) ^
+      const DeepCollectionEquality().hash(dateReportRemoved) ^
+      const DeepCollectionEquality().hash(admitted) ^
+      const DeepCollectionEquality().hash(healthStatus) ^
+      const DeepCollectionEquality().hash(removalType) ^
+      const DeepCollectionEquality().hash(residence);
 
   @override
   _$PatientCopyWith<_Patient> get copyWith =>
@@ -325,44 +321,41 @@ class _$_Patient implements _Patient {
 abstract class _Patient implements Patient {
   const factory _Patient(
       {String caseNumber,
-      int caseNumberInt,
       String sex,
       int age,
-      String nationality,
-      String travelHistory,
-      String confirmedDate,
-      String admittedTo,
-      String residenceCity,
-      String residenceProv,
-      String status,
-      String symptoms}) = _$_Patient;
+      String dateDeath,
+      String dateRecovery,
+      String dateReportConfirmed,
+      String dateReportRemoved,
+      bool admitted,
+      String healthStatus,
+      String removalType,
+      Residence residence}) = _$_Patient;
 
   factory _Patient.fromJson(Map<String, dynamic> json) = _$_Patient.fromJson;
 
   @override
   String get caseNumber;
   @override
-  int get caseNumberInt;
-  @override
   String get sex;
   @override
   int get age;
   @override
-  String get nationality;
+  String get dateDeath;
   @override
-  String get travelHistory;
+  String get dateRecovery;
   @override
-  String get confirmedDate;
+  String get dateReportConfirmed;
   @override
-  String get admittedTo;
+  String get dateReportRemoved;
   @override
-  String get residenceCity;
+  bool get admitted;
   @override
-  String get residenceProv;
+  String get healthStatus;
   @override
-  String get status;
+  String get removalType;
   @override
-  String get symptoms;
+  Residence get residence;
   @override
   _$PatientCopyWith<_Patient> get copyWith;
 }

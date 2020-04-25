@@ -2,17 +2,18 @@ import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:html/parser.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ncov_tracker_ph/data/models/cumulative_statistic.dart';
 
 import '../../interceptors/ncov_retry_interceptors.dart';
 import '../../retriers/dio_connectivity_request_trier.dart';
 import '../models/age_category_statistic.dart';
+import '../models/cumulative_statistic.dart';
 import '../models/gender_statistic.dart';
 import '../models/hospital.dart';
 import '../models/ncov_statistic_basic.dart';
-import '../models/region.dart';
+import '../models/patient.dart';
 
 @injectable
 @lazySingleton
@@ -188,11 +189,22 @@ class NcovRepository {
     }
   }
 
-  Future<List<Region>> fetchPatientsDOH(int totalInfected) async {
-    final response = await dioClient.post(baseUrl, data: {
+  Future<List<Patient>> fetchPatients() async {
+    //First we need to get the total amount of infected in the Philippines
+    final totalConfirmedCountResponse = await dioClient.post(baseUrl, data: {
+      "query": '''{
+        cases{countConfirmedCases
+          }}''',
+    });
+    final int totalConfirmedCount = totalConfirmedCountResponse.data['data']
+        ['cases']['countConfirmedCases'];
+    final int numberOfIterations = totalConfirmedCount ~/ 50;
+    final List<Patient> patients = [];
+
+    final tempResponse = await dioClient.post(baseUrl, data: {
       "query": '''{cases
       {
-        confirmedCases(limit:50){
+        confirmedCases(limit:50 offset:${0}){
           caseNumber
           sex
           age
@@ -212,17 +224,38 @@ class NcovRepository {
         }
         }'''
     });
-    final body = response.data;
 
-    print(body['data']['cases']['confirmedCases'].length);
-    //Calculate how many iteration will be done to fetch data
-    // due to the limitation of 2000 records per query or request
-    // final List<dynamic> dataFromApi = await dioClient
-    //     .get('https://ncov-tracker-ph-api.herokuapp.com/patients')
-    //     .then((value) => value.data);
-    // final patients = dataFromApi.map((e) => Region.fromJson(e)).toList();
-
-    return [];
+    for (int i = 0; i < numberOfIterations; i++) {
+      final response = await dioClient.post(baseUrl, data: {
+        "query": '''{cases
+      {
+        confirmedCases(limit:50 offset:${i * 50}){
+          caseNumber
+          sex
+          age
+          dateDeath
+          dateRecovery
+          dateReportConfirmed
+          dateReportRemoved
+          admitted
+          healthStatus
+          removalType
+          residence{
+            region
+            province
+            city
+          }
+        }
+        }
+        }'''
+      });
+      final List<dynamic> body =
+          tempResponse.data['data']['cases']['confirmedCases'];
+      final List<Patient> patientsConverted =
+          body.map((e) => Patient.fromJson(e)).toList();
+      patients.addAll(patientsConverted);
+    }
+    return patients;
   }
 
   Future<List<Hospital>> fetchHospitals() async {

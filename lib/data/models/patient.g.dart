@@ -9,32 +9,32 @@ part of 'patient.dart';
 _$_Patient _$_$_PatientFromJson(Map<String, dynamic> json) {
   return _$_Patient(
     caseNumber: json['caseNumber'] as String,
-    caseNumberInt: json['caseNumberInt'] as int,
     sex: json['sex'] as String,
     age: json['age'] as int,
-    nationality: json['nationality'] as String,
-    travelHistory: json['travelHistory'] as String,
-    confirmedDate: json['confirmedDate'] as String,
-    admittedTo: json['admittedTo'] as String,
-    residenceCity: json['residenceCity'] as String,
-    residenceProv: json['residenceProv'] as String,
-    status: json['status'] as String,
-    symptoms: json['symptoms'] as String,
+    dateDeath: json['dateDeath'] as String,
+    dateRecovery: json['dateRecovery'] as String,
+    dateReportConfirmed: json['dateReportConfirmed'] as String,
+    dateReportRemoved: json['dateReportRemoved'] as String,
+    admitted: json['admitted'] as bool,
+    healthStatus: json['healthStatus'] as String,
+    removalType: json['removalType'] as String,
+    residence: json['residence'] == null
+        ? null
+        : Residence.fromJson(json['residence'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$_$_PatientToJson(_$_Patient instance) =>
     <String, dynamic>{
       'caseNumber': instance.caseNumber,
-      'caseNumberInt': instance.caseNumberInt,
       'sex': instance.sex,
       'age': instance.age,
-      'nationality': instance.nationality,
-      'travelHistory': instance.travelHistory,
-      'confirmedDate': instance.confirmedDate,
-      'admittedTo': instance.admittedTo,
-      'residenceCity': instance.residenceCity,
-      'residenceProv': instance.residenceProv,
-      'status': instance.status,
-      'symptoms': instance.symptoms,
+      'dateDeath': instance.dateDeath,
+      'dateRecovery': instance.dateRecovery,
+      'dateReportConfirmed': instance.dateReportConfirmed,
+      'dateReportRemoved': instance.dateReportRemoved,
+      'admitted': instance.admitted,
+      'healthStatus': instance.healthStatus,
+      'removalType': instance.removalType,
+      'residence': instance.residence,
     };

@@ -2,29 +2,28 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:ncov_tracker_ph/data/models/city.dart';
 
-import 'package:ncov_tracker_ph/data/models/region.dart';
-import 'package:ncov_tracker_ph/ui/home_page/bloc/home_page_bloc.dart';
+import '../../../data/models/city.dart';
+import '../../../data/models/region.dart';
+import '../../cases_page/bloc/cases_page_bloc.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final HomePageBloc homePageBloc;
+  final CasesPageBloc casesPageBloc;
   List<Region> regions = [];
   List<City> cities = [];
   SearchBloc({
-    this.homePageBloc,
+    this.casesPageBloc,
   }) {
-    homePageBloc.listen((state) {
-      if (state is HomePageSuccess) {
-        regions = state.patientsGroupedByRegion;
+    casesPageBloc.listen((state) {
+      if (state is CasesPageSuccess) {
+        regions = state.regions;
         add(CitiesSearched(query: ''));
       }
     });
   }
-
   @override
   SearchState get initialState => SearchInitial();
 
@@ -47,12 +46,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
                     event.query.toLowerCase(),
                   ))
               .toList();
-
+          cities.sort((a, b) => b.totalCount.compareTo(a.totalCount));
           yield SearchSuccess(searchResults: searchResults);
         } catch (e) {
           print(e);
         }
       } else {
+        cities.sort((a, b) => b.totalCount.compareTo(a.totalCount));
         yield SearchSuccess(searchResults: cities);
       }
     } else if (event is RegionPressed) {
@@ -61,6 +61,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
               region.name.toLowerCase() == event.region.toLowerCase())
           .first
           .citiesInfected;
+      cities.sort((a, b) => b.totalCount.compareTo(a.totalCount));
       yield SearchSuccess(searchResults: cities);
     }
   }

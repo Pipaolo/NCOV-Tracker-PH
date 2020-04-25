@@ -10,21 +10,19 @@ class RegionListWidget extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return SliverGrid(
-      delegate: SliverChildBuilderDelegate(
-        (context, i) {
-          final region = patientsGroupedByRegion[i];
-          return FadeInAnimationWidget(
-            delay: 1.0 + (i * 0.5),
-            child: RegionCardWidget(
-              region: region.name,
-              cities: region.citiesInfected,
-              totalCount: region.totalCount,
-            ),
-          );
-        },
-        childCount: patientsGroupedByRegion.length,
-      ),
+    return GridView.builder(
+      itemCount: patientsGroupedByRegion.length,
+      itemBuilder: (context, i) {
+        final region = patientsGroupedByRegion[i];
+        return FadeInAnimationWidget(
+          delay: 1.0 + (i * 0.5),
+          child: RegionCardWidget(
+            region: region.name,
+            cities: region.citiesInfected,
+            totalCount: region.totalCount,
+          ),
+        );
+      },
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
       ),

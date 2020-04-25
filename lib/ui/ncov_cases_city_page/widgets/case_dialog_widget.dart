@@ -46,14 +46,14 @@ class CaseDialogWidget extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Text(
-                          'Symptoms: ',
+                          'Health Status: ',
                           style: GoogleFonts.roboto(
                             fontSize: ScreenUtil().setSp(30),
                           ),
                         ),
                         Container(
                           child: Text(
-                            patient.symptoms,
+                            patient.healthStatus,
                             style: GoogleFonts.roboto(
                               fontSize: ScreenUtil().setSp(30),
                             ),
@@ -62,31 +62,13 @@ class CaseDialogWidget extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      'Nationality: ${patient.nationality}',
+                      'Residence: ${patient.residence.city}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),
                     ),
                     Text(
-                      'Residence: ${patient.residenceCity}',
-                      style: GoogleFonts.roboto(
-                        fontSize: ScreenUtil().setSp(30),
-                      ),
-                    ),
-                    Text(
-                      'Travel History: ${patient.travelHistory}',
-                      style: GoogleFonts.roboto(
-                        fontSize: ScreenUtil().setSp(30),
-                      ),
-                    ),
-                    Text(
-                      'Date Confirmation: ${patient.confirmedDate}',
-                      style: GoogleFonts.roboto(
-                        fontSize: ScreenUtil().setSp(30),
-                      ),
-                    ),
-                    Text(
-                      'Facility of Admission: ${patient.admittedTo}',
+                      'Date Confirmation: ${patient.dateReportConfirmed}',
                       style: GoogleFonts.roboto(
                         fontSize: ScreenUtil().setSp(30),
                       ),

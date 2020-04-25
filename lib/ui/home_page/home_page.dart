@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/bloc/connectivity_bloc.dart';
 import '../../core/bloc/notification_bloc/notification_bloc.dart';
 import '../../data/models/ncov_statistic_basic.dart';
-import '../../data/models/region.dart';
 import '../widgets/fade_in_animation_widget.dart';
 import '../widgets/no_connection_widget.dart';
 import 'bloc/home_page_bloc.dart';
@@ -77,8 +76,7 @@ class _HomePageState extends State<HomePage> {
             if (state is HomePageLoading) {
               return _buildLoading();
             } else if (state is HomePageSuccess) {
-              return _buildSuccess(state.ncovStatisticBasic,
-                  state.patientsGroupedByRegion, context);
+              return _buildSuccess(state.ncovStatisticBasic, context);
             } else if (state is HomePageError) {
               return _buildError(state.errorText, context);
             }
@@ -138,8 +136,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _buildSuccess(NcovStatisticBasic statisticBasic,
-      List<Region> patientsGroupedByRegion, BuildContext context) {
+  _buildSuccess(NcovStatisticBasic statisticBasic, BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async => BlocProvider.of<HomePageBloc>(context)
         ..add(
