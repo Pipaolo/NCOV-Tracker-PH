@@ -39,7 +39,26 @@ class InfoPage extends StatelessWidget {
                       TextSpan(
                         text: '\nPaolo Matthew Tolentino',
                         style: GoogleFonts.montserrat(
-                          fontSize: ScreenUtil().setSp(30),
+                          fontSize: ScreenUtil().setSp(25),
+                        ),
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SelectableText.rich(
+                  TextSpan(
+                    text: 'Contact: ',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(40),
+                      color: Colors.white,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: '\ntolentinopaolomatthew23@gmail.com',
+                        style: GoogleFonts.montserrat(
+                          fontSize: ScreenUtil().setSp(25),
                         ),
                       ),
                     ],
@@ -62,7 +81,7 @@ class InfoPage extends StatelessWidget {
                         text:
                             '\nThe app was built with a purpose of providing realtime updates about the cases of the Coronavirus in the Philippines.',
                         style: GoogleFonts.montserrat(
-                          fontSize: ScreenUtil().setSp(30),
+                          fontSize: ScreenUtil().setSp(25),
                         ),
                       ),
                     ],
@@ -82,7 +101,7 @@ class InfoPage extends StatelessWidget {
                         text:
                             '\nAll of the data that is being shown here is not mine nor do I claim it. See references below.',
                         style: GoogleFonts.montserrat(
-                          fontSize: ScreenUtil().setSp(30),
+                          fontSize: ScreenUtil().setSp(25),
                         ),
                       ),
                     ],
@@ -101,7 +120,7 @@ class InfoPage extends StatelessWidget {
                       TextSpan(
                         text: '\nhttps://github.com/Pipaolo/NCOV-Tracker-PH',
                         style: GoogleFonts.montserrat(
-                          fontSize: ScreenUtil().setSp(30),
+                          fontSize: ScreenUtil().setSp(25),
                         ),
                       ),
                     ],
@@ -121,7 +140,7 @@ class InfoPage extends StatelessWidget {
                         text:
                             '\nHyubs for creating an awesome api for keeping track of the COVID 19 in the Philippines.',
                         style: GoogleFonts.montserrat(
-                          fontSize: ScreenUtil().setSp(30),
+                          fontSize: ScreenUtil().setSp(25),
                         ),
                       ),
                     ],
@@ -140,7 +159,7 @@ class InfoPage extends StatelessWidget {
                       TextSpan(
                           text: '\nDepartment of Health: ',
                           style: GoogleFonts.montserrat(
-                            fontSize: ScreenUtil().setSp(30),
+                            fontSize: ScreenUtil().setSp(25),
                           ),
                           children: [
                             TextSpan(
@@ -154,7 +173,7 @@ class InfoPage extends StatelessWidget {
                         text:
                             '\n\nUniversity of The Philippines ENDCOV Website: ',
                         style: GoogleFonts.montserrat(
-                          fontSize: ScreenUtil().setSp(30),
+                          fontSize: ScreenUtil().setSp(25),
                         ),
                         children: [
                           TextSpan(
@@ -168,7 +187,7 @@ class InfoPage extends StatelessWidget {
                       TextSpan(
                           text: '\n\nGraphQL API for COVID-19 (Philippines): ',
                           style: GoogleFonts.montserrat(
-                            fontSize: ScreenUtil().setSp(30),
+                            fontSize: ScreenUtil().setSp(25),
                           ),
                           children: [
                             TextSpan(
