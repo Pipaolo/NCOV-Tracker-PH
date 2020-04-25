@@ -6,13 +6,14 @@ part 'ncov_statistic_basic.g.dart';
 @freezed
 abstract class NcovStatisticBasic with _$NcovStatisticBasic {
   const factory NcovStatisticBasic({
-    int totalDeaths,
-    int totalRecovered,
-    int totalTestsConducted,
-    int totalPUMs,
-    int totalPUIs,
-    int totalInfected,
-    int totalPUIsTested,
+    @required int totalDeaths,
+    @required int totalRecovered,
+    @required int totalTestsConducted,
+    @required int totalInfected,
+    @required int prevDeaths,
+    @required int prevRecovered,
+    @required int prevTestsConducted,
+    @required int prevInfected,
   }) = _NcovStatisticBasic;
 
   factory NcovStatisticBasic.fromJson(Map<String, dynamic> json) =>

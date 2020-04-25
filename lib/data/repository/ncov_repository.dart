@@ -4,6 +4,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:html/parser.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ncov_tracker_ph/data/models/cumulative_statistic.dart';
 
 import '../../interceptors/ncov_retry_interceptors.dart';
 import '../../retriers/dio_connectivity_request_trier.dart';
@@ -17,6 +18,9 @@ import '../models/region.dart';
 @lazySingleton
 class NcovRepository {
   final Dio dioClient;
+
+  static const String baseUrl = 'https://ncovph.com/graphql';
+
   NcovRepository({this.dioClient}) {
     dioClient.interceptors.add(NcovRetryOnConnectionChangeInterceptors(
       requestRetrier: DioConnectivityRequestRetrier(
@@ -24,13 +28,108 @@ class NcovRepository {
     ));
   }
 
+  Future<Map<String, List<CumulativeStatistic>>>
+      fetchCumulativeStatistics() async {
+    final response = await dioClient.post(baseUrl, data: {
+      'query': '''{cases {
+            
+              cumulativeConfirmed{
+                date   
+                  value
+                }
+              cumulativeDeaths{
+                date        
+                  value
+                }
+              cumulativeRecoveries{ 
+                date       
+                  value
+                }
+              },
+              testing {
+                cumulativeTestsConducted{   
+                  date          
+                  value
+                }
+              }
+              }''',
+    });
+    final body = response.data;
+    final List<CumulativeStatistic> cumulativeDeaths =
+        (body['data']['cases']['cumulativeDeaths'] as List<dynamic>)
+            .map((e) => CumulativeStatistic.fromJson(e))
+            .toList();
+    final List<CumulativeStatistic> cumulativeConfirmed =
+        (body['data']['cases']['cumulativeConfirmed'] as List<dynamic>)
+            .map((e) => CumulativeStatistic.fromJson(e))
+            .toList();
+    final List<CumulativeStatistic> cumulativeRecoveries =
+        (body['data']['cases']['cumulativeRecoveries'] as List<dynamic>)
+            .map((e) => CumulativeStatistic.fromJson(e))
+            .toList();
+    final List<CumulativeStatistic> cumulativeTestsConducted =
+        (body['data']['testing']['cumulativeTestsConducted'] as List<dynamic>)
+            .map((e) => CumulativeStatistic.fromJson(e))
+            .toList();
+    return {
+      'deaths': cumulativeDeaths,
+      'confirmed': cumulativeConfirmed,
+      'recoveries': cumulativeRecoveries,
+      'testsConducted': cumulativeTestsConducted,
+    };
+  }
+
   Future<NcovStatisticBasic> fetchBasicStatistics() async {
     try {
-      final basicStatistics = await dioClient
-          .get('https://ncov-tracker-ph-api.herokuapp.com/basic_stats')
-          .then((value) => value.data);
+      final response = await dioClient.post(baseUrl, data: {
+        "query": '''{cases {
+              countDeaths, 
+              countAdmitted, 
+              countRecoveries, 
+              countConfirmedCases
+              cumulativeConfirmed{   
+                  value
+                }
+              cumulativeDeaths{        
+                  value
+                }
+              cumulativeRecoveries{         
+                  value
+                }
+              },
+              testing {
+                countTestsConducted
+                cumulativeTestsConducted{                
+                  value
+                }
+              }
+              }''',
+      });
 
-      return NcovStatisticBasic.fromJson(basicStatistics);
+      final body = response.data;
+      final List<dynamic> cumulativeDeaths =
+          body['data']['cases']['cumulativeDeaths'];
+      final List<dynamic> cumulativeConfirmed =
+          body['data']['cases']['cumulativeConfirmed'];
+      final List<dynamic> cumulativeRecoveries =
+          body['data']['cases']['cumulativeRecoveries'];
+      final List<dynamic> cumulativeTestsConducted =
+          body['data']['testing']['cumulativeTestsConducted'];
+
+      return NcovStatisticBasic(
+        totalDeaths: body['data']['cases']['countDeaths'],
+        totalTestsConducted: body['data']['testing']['countTestsConducted'],
+        totalRecovered: body['data']['cases']['countRecoveries'],
+        totalInfected: body['data']['cases']['countConfirmedCases'],
+        prevDeaths: cumulativeDeaths[cumulativeDeaths.length - 2]['value'],
+        prevTestsConducted:
+            cumulativeTestsConducted[cumulativeTestsConducted.length - 2]
+                ['value'],
+        prevInfected: cumulativeConfirmed[cumulativeConfirmed.length - 2]
+            ['value'],
+        prevRecovered: cumulativeRecoveries[cumulativeRecoveries.length - 2]
+            ['value'],
+      );
     } on DioError catch (e) {
       throw SocketException(e.toString());
     } catch (e) {
@@ -39,57 +138,91 @@ class NcovRepository {
   }
 
   Future<List<GenderStatistic>> fetchGenderStatistics() async {
-    final genderStatistic = await dioClient
-        .get('https://ncov-tracker-ph-api.herokuapp.com/gender_stats')
-        .then((value) => value.data);
+    final response = await dioClient
+        .post(baseUrl, data: {"query": "{cases{countPerSex{female male}}}"});
+    final body = response.data;
 
-    return List<GenderStatistic>.from(
-        genderStatistic.map((data) => GenderStatistic.fromJson(data)).toList());
+    final genderStatistics = [
+      GenderStatistic(
+        gender: 'Female',
+        value: body['data']['cases']['countPerSex']['female'],
+      ),
+      GenderStatistic(
+        gender: 'Male',
+        value: body['data']['cases']['countPerSex']['male'],
+      ),
+    ];
+    return genderStatistics;
   }
 
-  Future<Map<String, List<AgeCategoryStatistic>>> fetchedAgeData() async {
+  Future<List<AgeCategoryStatistic>> fetchedAgeData() async {
     try {
-      final List<dynamic> rawAgeData = await dioClient
-          .get('https://ncov-tracker-ph-api.herokuapp.com/age_stats')
-          .then((value) => value.data);
+      final response = await dioClient.post(baseUrl, data: {
+        "query":
+            "{cases{distribAgeGroupSexConfirmedCases{ageGroup male female}}}"
+      });
+      final body = response.data;
 
-      final Map<String, List<AgeCategoryStatistic>> ageData = Map.fromIterable(
-        rawAgeData,
-        key: (data) => data.keys.first,
-        value: (data) {
-          final List<AgeCategoryStatistic> ageCateg = [];
-          for (var rawAge in data.values) {
-            List<AgeCategoryStatistic> ageCategStats =
-                List<AgeCategoryStatistic>.from(rawAge
-                    .map((f) => AgeCategoryStatistic(
-                          category: f['category'],
-                          sex: f['sex'],
-                          value: f['value'],
-                        ))
-                    .toList());
-            ageCateg.addAll(ageCategStats);
-          }
-          return ageCateg;
-        },
-      ).map((key, value) => MapEntry(key, value));
-
-      return ageData;
+      final List<dynamic> rawAgeData =
+          body['data']['cases']['distribAgeGroupSexConfirmedCases'];
+      return rawAgeData
+          .map(
+            (e) => AgeCategoryStatistic(
+              ageGroup: e['ageGroup'],
+              male: GenderStatistic(
+                gender: 'Male',
+                value: e['male'],
+              ),
+              female: GenderStatistic(
+                gender: 'Female',
+                value: e['female'],
+              ),
+            ),
+          )
+          .toList();
     } on DioError catch (e) {
       throw SocketException(e.toString());
     } catch (e) {
+      print(e);
       throw Exception(e.toString());
     }
   }
 
   Future<List<Region>> fetchPatientsDOH(int totalInfected) async {
+    final response = await dioClient.post(baseUrl, data: {
+      "query": '''{cases
+      {
+        confirmedCases(limit:50){
+          caseNumber
+          sex
+          age
+          dateDeath
+          dateRecovery
+          dateReportConfirmed
+          dateReportRemoved
+          admitted
+          healthStatus
+          removalType
+          residence{
+            region
+            province
+            city
+          }
+        }
+        }
+        }'''
+    });
+    final body = response.data;
+
+    print(body['data']['cases']['confirmedCases'].length);
     //Calculate how many iteration will be done to fetch data
     // due to the limitation of 2000 records per query or request
-    final List<dynamic> dataFromApi = await dioClient
-        .get('https://ncov-tracker-ph-api.herokuapp.com/patients')
-        .then((value) => value.data);
-    final patients = dataFromApi.map((e) => Region.fromJson(e)).toList();
+    // final List<dynamic> dataFromApi = await dioClient
+    //     .get('https://ncov-tracker-ph-api.herokuapp.com/patients')
+    //     .then((value) => value.data);
+    // final patients = dataFromApi.map((e) => Region.fromJson(e)).toList();
 
-    return patients;
+    return [];
   }
 
   Future<List<Hospital>> fetchHospitals() async {

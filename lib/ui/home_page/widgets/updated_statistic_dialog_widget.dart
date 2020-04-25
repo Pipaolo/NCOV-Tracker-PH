@@ -79,24 +79,6 @@ class UpdatedStatisticDialogWidget extends StatelessWidget {
                         decreasedColor: Colors.red,
                       ),
                       UpdatedStatisticsCardWidget(
-                        amountChanged: currentStatistics.totalPUIs -
-                            prevStatistics.totalPUIs,
-                        currentValue: currentStatistics.totalPUIs,
-                        prevValue: prevStatistics.totalPUIs,
-                        title: 'PUIs',
-                        increasedColor: Colors.red,
-                        decreasedColor: Colors.green,
-                      ),
-                      UpdatedStatisticsCardWidget(
-                        amountChanged: currentStatistics.totalPUMs -
-                            prevStatistics.totalPUMs,
-                        currentValue: currentStatistics.totalPUMs,
-                        prevValue: prevStatistics.totalPUMs,
-                        title: 'PUMs',
-                        increasedColor: Colors.red,
-                        decreasedColor: Colors.green,
-                      ),
-                      UpdatedStatisticsCardWidget(
                         amountChanged: currentStatistics.totalTestsConducted -
                             prevStatistics.totalTestsConducted,
                         currentValue: currentStatistics.totalTestsConducted,

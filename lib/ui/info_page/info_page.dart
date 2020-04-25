@@ -27,7 +27,7 @@ class InfoPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text.rich(
+                SelectableText.rich(
                   TextSpan(
                     text: 'Made By: ',
                     style: GoogleFonts.montserrat(
@@ -49,7 +49,7 @@ class InfoPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Text.rich(
+                SelectableText.rich(
                   TextSpan(
                     text: 'About The App ',
                     style: GoogleFonts.montserrat(
@@ -69,7 +69,7 @@ class InfoPage extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                Text.rich(
+                SelectableText.rich(
                   TextSpan(
                     text: 'Disclaimer:',
                     style: GoogleFonts.montserrat(
@@ -89,7 +89,46 @@ class InfoPage extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                Text.rich(
+                SelectableText.rich(
+                  TextSpan(
+                    text: 'Source Code:',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(40),
+                      color: Colors.white,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: '\nhttps://github.com/Pipaolo/NCOV-Tracker-PH',
+                        style: GoogleFonts.montserrat(
+                          fontSize: ScreenUtil().setSp(30),
+                        ),
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SelectableText.rich(
+                  TextSpan(
+                    text: 'Special Thanks to:',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(40),
+                      color: Colors.white,
+                    ),
+                    children: [
+                      TextSpan(
+                        text:
+                            '\nHyubs for creating an awesome api for keeping track of the COVID 19 in the Philippines.',
+                        style: GoogleFonts.montserrat(
+                          fontSize: ScreenUtil().setSp(30),
+                        ),
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SelectableText.rich(
                   TextSpan(
                     text: 'References:',
                     style: GoogleFonts.montserrat(
@@ -99,8 +138,7 @@ class InfoPage extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                          text:
-                              '\nDepartment of Health Coronavirus Tracker Website: ',
+                          text: '\nDepartment of Health: ',
                           style: GoogleFonts.montserrat(
                             fontSize: ScreenUtil().setSp(30),
                           ),
@@ -127,6 +165,19 @@ class InfoPage extends StatelessWidget {
                           ),
                         ],
                       ),
+                      TextSpan(
+                          text: '\n\nGraphQL API for COVID-19 (Philippines): ',
+                          style: GoogleFonts.montserrat(
+                            fontSize: ScreenUtil().setSp(30),
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'https://ncovph.com',
+                              style: GoogleFonts.montserrat(
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ]),
                     ],
                   ),
                   textAlign: TextAlign.center,

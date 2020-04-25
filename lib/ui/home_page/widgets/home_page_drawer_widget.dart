@@ -1,7 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ncov_tracker_ph/routes/router.gr.dart';
 import 'package:ncov_tracker_ph/ui/home_page/widgets/doh_emergency_dialog_widget.dart';
 import 'package:ncov_tracker_ph/ui/hospital_listings_page/bloc/hospital_bloc.dart';
@@ -26,6 +31,54 @@ class HomePageDrawerWidget extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue, Colors.blue.withOpacity(0.5)],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+              ),
+            ),
+            child: DrawerHeader(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SvgPicture.asset(
+                      'assets/images/medical.svg',
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
+                    const SizedBox(height: 10),
+                    AutoSizeText(
+                      'NCOV Tracker PH',
+                      style: GoogleFonts.montserrat(
+                        fontSize: ScreenUtil().setSp(40),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          ListTile(
+            leading: FaIcon(
+              FontAwesomeIcons.userInjured,
+              color: Colors.blueAccent,
+            ),
+            trailing: FaIcon(FontAwesomeIcons.angleRight),
+            title: Text('Cases'),
+            onTap: () {
+              Flushbar(
+                title: '🛠👷‍♀️ Under Development 👷‍♂️🛠',
+                message: 'This feature is coming soon!',
+                margin: const EdgeInsets.all(10),
+                borderRadius: 10,
+                reverseAnimationCurve: Curves.easeOut,
+                duration: Duration(seconds: 2),
+              )..show(context);
+            },
+          ),
           ListTile(
             leading: FaIcon(
               FontAwesomeIcons.hospital,

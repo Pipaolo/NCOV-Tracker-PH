@@ -71,10 +71,12 @@ class NotificationService {
         final NcovStatisticBasic currentStatistics = NcovStatisticBasic(
           totalDeaths: rawData['totalDeaths'],
           totalInfected: rawData['totalInfected'],
-          totalPUIs: rawData['totalPUIs'],
-          totalPUMs: rawData['totalPUMs'],
           totalRecovered: rawData['totalRecovered'],
           totalTestsConducted: rawData['totalTestsConducted'],
+          prevTestsConducted: null,
+          prevDeaths: null,
+          prevInfected: null,
+          prevRecovered: null,
         );
 
         if (currentStatistics.totalInfected != statistics.totalInfected) {

@@ -39,11 +39,10 @@ class AppWidget extends StatelessWidget {
             ),
           ),
           BlocProvider<GraphBloc>(
-            create: (context) => GraphBloc(
-              homePageBloc: BlocProvider.of<HomePageBloc>(context),
-              ncovRepository: RepositoryProvider.of<NcovRepository>(context),
-            ),
-          ),
+              create: (context) => GraphBloc(
+                    ncovRepository:
+                        RepositoryProvider.of<NcovRepository>(context),
+                  )..add(StatisticsFetched())),
           BlocProvider<SplashPageBloc>(
             create: (context) => SplashPageBloc()
               ..add(

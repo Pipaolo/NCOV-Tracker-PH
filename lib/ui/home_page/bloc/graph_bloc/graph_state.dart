@@ -17,10 +17,18 @@ class GraphLoading extends GraphState {
 class GraphSuccess extends GraphState {
   final List<BarChartGroupData> barChartData;
   final List<PieChartSectionData> pieChartData;
+  final Map<String, List<CumulativeStatistic>> rawCumulativeStats;
+  final Map<String, LineChartBarData> lineChartData;
 
-  GraphSuccess({this.barChartData, this.pieChartData});
+  GraphSuccess({
+    @required this.barChartData,
+    @required this.pieChartData,
+    @required this.rawCumulativeStats,
+    @required this.lineChartData,
+  });
   @override
-  List<Object> get props => [barChartData, this.pieChartData];
+  List<Object> get props =>
+      [barChartData, pieChartData, rawCumulativeStats, lineChartData];
 }
 
 class GraphError extends GraphState {

@@ -14,33 +14,26 @@ class BasicStatisticsWidget extends StatelessWidget {
     final List<Widget> widgets = [
       BasicDataCardWidget(
         title: 'Infected',
-        value: statisticBasic.totalInfected.toString(),
+        currentValue: statisticBasic.totalInfected,
+        prevValue: statisticBasic.prevInfected,
         svgPath: 'assets/images/infected.svg',
       ),
       BasicDataCardWidget(
         title: 'Recovered',
-        value: statisticBasic.totalRecovered.toString(),
+        currentValue: statisticBasic.totalRecovered,
+        prevValue: statisticBasic.prevRecovered,
         svgPath: 'assets/images/recovered.svg',
       ),
       BasicDataCardWidget(
         title: 'Deaths',
-        value: statisticBasic.totalDeaths.toString(),
+        currentValue: statisticBasic.totalDeaths,
+        prevValue: statisticBasic.prevDeaths,
         svgPath: 'assets/images/death.svg',
       ),
       BasicDataCardWidget(
-        title: 'PUIs',
-        value: statisticBasic.totalPUIs.toString(),
-        svgPath: 'assets/images/pui.svg',
-      ),
-      if (!statisticBasic.totalPUMs.toString().contains('null'))
-        BasicDataCardWidget(
-          title: 'PUMs',
-          value: statisticBasic.totalPUMs.toString(),
-          svgPath: 'assets/images/pums.svg',
-        ),
-      BasicDataCardWidget(
-        title: 'PUIs Tested',
-        value: statisticBasic.totalPUIsTested.toString(),
+        title: 'Tests Conducted',
+        currentValue: statisticBasic.totalTestsConducted,
+        prevValue: statisticBasic.prevTestsConducted,
         svgPath: 'assets/images/tests_conducted.svg',
       ),
     ];

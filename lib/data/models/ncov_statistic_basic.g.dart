@@ -12,10 +12,11 @@ _$_NcovStatisticBasic _$_$_NcovStatisticBasicFromJson(
     totalDeaths: json['totalDeaths'] as int,
     totalRecovered: json['totalRecovered'] as int,
     totalTestsConducted: json['totalTestsConducted'] as int,
-    totalPUMs: json['totalPUMs'] as int,
-    totalPUIs: json['totalPUIs'] as int,
     totalInfected: json['totalInfected'] as int,
-    totalPUIsTested: json['totalPUIsTested'] as int,
+    prevDeaths: json['prevDeaths'] as int,
+    prevRecovered: json['prevRecovered'] as int,
+    prevTestsConducted: json['prevTestsConducted'] as int,
+    prevInfected: json['prevInfected'] as int,
   );
 }
 
@@ -25,8 +26,9 @@ Map<String, dynamic> _$_$_NcovStatisticBasicToJson(
       'totalDeaths': instance.totalDeaths,
       'totalRecovered': instance.totalRecovered,
       'totalTestsConducted': instance.totalTestsConducted,
-      'totalPUMs': instance.totalPUMs,
-      'totalPUIs': instance.totalPUIs,
       'totalInfected': instance.totalInfected,
-      'totalPUIsTested': instance.totalPUIsTested,
+      'prevDeaths': instance.prevDeaths,
+      'prevRecovered': instance.prevRecovered,
+      'prevTestsConducted': instance.prevTestsConducted,
+      'prevInfected': instance.prevInfected,
     };

@@ -1,20 +1,22 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BasicDataCardWidget extends StatelessWidget {
   final String title;
   final String svgPath;
-  final String value;
+  final int currentValue;
+  final int prevValue;
   final Color color;
   const BasicDataCardWidget({
     Key key,
     @required this.title,
     @required this.svgPath,
-    @required this.value,
+    @required this.currentValue,
+    @required this.prevValue,
     this.color,
   }) : super(key: key);
 
@@ -26,6 +28,7 @@ class BasicDataCardWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SizedBox(
               width: double.infinity,
@@ -49,7 +52,7 @@ class BasicDataCardWidget extends StatelessWidget {
                   width: 10,
                 ),
                 AutoSizeText(
-                  value,
+                  currentValue.toString(),
                   style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.bold,
                     fontSize: ScreenUtil().setSp(70),
@@ -58,6 +61,24 @@ class BasicDataCardWidget extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                AutoSizeText(
+                  "+ ${(currentValue - prevValue)} ( ${(((currentValue - prevValue) / (prevValue)) * 100).toStringAsFixed(2)} )",
+                  style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w500,
+                    fontSize: ScreenUtil().setSp(30),
+                    color: (title.contains('Recovered'))
+                        ? Colors.green
+                        : Colors.red,
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),

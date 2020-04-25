@@ -8,31 +8,27 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:ncov_tracker_ph/data/models/age_category_statistic.dart';
+import 'package:ncov_tracker_ph/data/models/cumulative_statistic.dart';
 
 import '../../../../data/models/gender_statistic.dart';
 import '../../../../data/repository/ncov_repository.dart';
-import '../home_page_bloc.dart';
 
 part 'graph_event.dart';
 part 'graph_state.dart';
 
 class GraphBloc extends Bloc<GraphEvent, GraphState> {
-  final HomePageBloc homePageBloc;
   final NcovRepository ncovRepository;
 
-  final Color leftBarColor = const Color(0xff53fdd7);
-  final Color rightBarColor = const Color(0xffff5182);
-
+  static Color leftBarColor = const Color(0xff53fdd7);
+  static Color rightBarColor = const Color(0xffff5182);
+  static List<Color> gradientColors = [
+    const Color(0xff23b6e6),
+    const Color(0xff02d39a),
+  ];
   GraphBloc({
-    @required this.homePageBloc,
     @required this.ncovRepository,
-  }) {
-    homePageBloc.listen((state) {
-      if (state is HomePageSuccess) {
-        add(StatisticsFetched());
-      }
-    });
-  }
+  });
 
   @override
   GraphState get initialState => GraphInitial();
@@ -43,46 +39,94 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
   ) async* {
     if (event is StatisticsFetched) {
       yield GraphLoading();
-
-      final ageData = await ncovRepository.fetchedAgeData();
       final List<GenderStatistic> genderData =
           await ncovRepository.fetchGenderStatistics();
+      final ageData = await ncovRepository.fetchedAgeData();
+      final cumulativeStatistics =
+          await ncovRepository.fetchCumulativeStatistics();
+      final Map<String, LineChartBarData> lineChartData =
+          _generateLineChartData(cumulativeStatistics);
       final List<BarChartGroupData> chartData = _generateBarData(ageData);
-      final List<PieChartSectionData> pieChartData = _generatePieChartData(
-          groupBy(genderData, (GenderStatistic gender) => gender.gender));
-      yield GraphSuccess(barChartData: chartData, pieChartData: pieChartData);
+      final List<PieChartSectionData> pieChartData =
+          _generatePieChartData(genderData);
+      yield GraphSuccess(
+        barChartData: chartData,
+        pieChartData: pieChartData,
+        rawCumulativeStats: cumulativeStatistics,
+        lineChartData: lineChartData,
+      );
     }
   }
 
+  LineChartBarData _generateLineChartDataSingle(
+      List<CumulativeStatistic> rawCumulativeStats) {
+    return LineChartBarData(
+        colors: gradientColors,
+        spots: rawCumulativeStats
+            .map((e) => FlSpot(
+                rawCumulativeStats.indexOf(e).toDouble(), e.value.toDouble()))
+            .toList(),
+        isCurved: true,
+        barWidth: 5,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+            show: true,
+            colors: gradientColors.map((e) => e.withOpacity(0.3)).toList()));
+  }
+
+  Map<String, LineChartBarData> _generateLineChartData(
+      Map<String, List<CumulativeStatistic>> rawCumulativeStats) {
+    final testsConductedDataPoints =
+        _generateLineChartDataSingle(rawCumulativeStats['testsConducted']);
+    final recoveriesDataPoints =
+        _generateLineChartDataSingle(rawCumulativeStats['recoveries']);
+    final deathsDataPoints =
+        _generateLineChartDataSingle(rawCumulativeStats['deaths']);
+    final infectedDataPoints =
+        _generateLineChartDataSingle(rawCumulativeStats['confirmed']);
+
+    return {
+      'testsConducted': testsConductedDataPoints,
+      'recoveries': recoveriesDataPoints,
+      'deaths': deathsDataPoints,
+      'confirmed': infectedDataPoints
+    };
+  }
+
   List<PieChartSectionData> _generatePieChartData(
-      Map<String, List<GenderStatistic>> genderData) {
-    return genderData.entries.map((data) {
-      final value = data.value.fold(0, (prev, curr) => prev + curr.value);
+      List<GenderStatistic> genderData) {
+    return genderData.map((data) {
       return PieChartSectionData(
-        color: (data.key.contains('Female')) ? leftBarColor : rightBarColor,
-        value: value.toDouble(),
+        color: (data.gender.contains('Female')) ? leftBarColor : rightBarColor,
+        value: data.value.toDouble(),
         radius: 60,
-        title: value.toString(),
+        title: data.value.toString(),
       );
     }).toList();
   }
 
-  List<BarChartGroupData> _generateBarData(Map<String, dynamic> ageData) {
-    return ageData.entries.map((data) {
-      return BarChartGroupData(x: 0, barsSpace: 10, barRods: [
+  List<BarChartGroupData> _generateBarData(List<AgeCategoryStatistic> ageData) {
+    final List<BarChartGroupData> dataPoints = [];
+
+    int counter = 0;
+    for (final data in ageData) {
+      dataPoints.add(BarChartGroupData(x: counter, barsSpace: 2, barRods: [
         BarChartRodData(
-          y: data.value[0].value.toDouble() ?? 0.0,
+          y: data.female.value.toDouble() ?? 0.0,
           color: leftBarColor,
           borderRadius: BorderRadius.circular(10),
-          width: ScreenUtil().setWidth(20),
+          width: ScreenUtil().setWidth(12),
         ),
         BarChartRodData(
-          y: (data.value.length > 1) ? data.value[1].value.toDouble() : 0.0,
+          y: data.male.value.toDouble() ?? 0.0,
           color: rightBarColor,
           borderRadius: BorderRadius.circular(10),
-          width: ScreenUtil().setWidth(20),
+          width: ScreenUtil().setWidth(12),
         )
-      ]);
-    }).toList();
+      ]));
+      counter++;
+    }
+    return dataPoints;
   }
 }

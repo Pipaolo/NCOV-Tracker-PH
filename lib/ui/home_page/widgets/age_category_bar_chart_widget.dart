@@ -40,11 +40,11 @@ class _AgeCategoryBarChartWidgetState extends State<AgeCategoryBarChartWidget> {
                   Container(
                     height: 200,
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: BarChart(
                       BarChartData(
-                        maxY: 400,
-                        alignment: BarChartAlignment.spaceEvenly,
+                        maxY: 600,
+                        groupsSpace: 4,
+                        alignment: BarChartAlignment.center,
                         barTouchData: BarTouchData(
                           enabled: true,
                           allowTouchBarBackDraw: true,
@@ -81,38 +81,68 @@ class _AgeCategoryBarChartWidgetState extends State<AgeCategoryBarChartWidget> {
                           show: true,
                           bottomTitles: SideTitles(
                             showTitles: true,
-                            margin: 10,
                             textStyle: TextStyle(
-                              fontSize: ScreenUtil().setSp(
-                                20,
-                              ),
+                              fontSize: ScreenUtil()
+                                  .setSp(20, allowFontScalingSelf: true),
                               color: Colors.black,
                               wordSpacing: 10,
                             ),
-                            rotateAngle: 30,
-                            reservedSize: 30,
+                            margin: 10,
+                            rotateAngle: 90,
+                            reservedSize: 50,
                             getTitles: (double value) {
                               switch (value.toInt()) {
                                 case 0:
-                                  return '1-9';
+                                  return '0-4';
+                                  break;
                                 case 1:
-                                  return '10-19';
+                                  return '5-9';
+                                  break;
                                 case 2:
-                                  return '20-29';
+                                  return '10-14';
+                                  break;
                                 case 3:
-                                  return '30-39';
+                                  return '15-19';
+                                  break;
                                 case 4:
-                                  return '40-49';
+                                  return '20-24';
+                                  break;
                                 case 5:
-                                  return '50-59';
+                                  return '25-29';
+                                  break;
                                 case 6:
-                                  return '60-69';
+                                  return '30-34';
+                                  break;
                                 case 7:
-                                  return '70-79';
+                                  return '35-39';
+                                  break;
                                 case 8:
-                                  return '80-89';
+                                  return '40-44';
+                                  break;
                                 case 9:
-                                  return '90-99';
+                                  return '45-49';
+                                  break;
+                                case 10:
+                                  return '50-54';
+                                  break;
+                                case 11:
+                                  return '55-59';
+                                  break;
+                                case 12:
+                                  return '60-64';
+                                  break;
+                                case 13:
+                                  return '65-69';
+                                  break;
+                                case 14:
+                                  return '70-74';
+                                  break;
+                                case 15:
+                                  return '75-79';
+                                  break;
+                                case 16:
+                                  return '80+';
+                                  break;
                                 default:
                                   return '';
                               }
@@ -128,22 +158,21 @@ class _AgeCategoryBarChartWidgetState extends State<AgeCategoryBarChartWidget> {
                             getTitles: (double value) {
                               return value.toInt().toString();
                             },
-                            interval: 200,
-                            margin: 0,
+                            interval: 100,
+                            margin: 20,
                           ),
                         ),
                         gridData: FlGridData(
                           show: true,
-                          checkToShowHorizontalLine: (value) => value % 40 == 0,
-                          getDrawingHorizontalLine: (value) => const FlLine(
+                          checkToShowHorizontalLine: (value) => value % 50 == 0,
+                          getDrawingHorizontalLine: (value) => FlLine(
                             color: Color(0xffe7e8ec),
-                            strokeWidth: 2,
+                            strokeWidth: 1,
                           ),
                         ),
                         borderData: FlBorderData(
                           show: false,
                         ),
-                        groupsSpace: MediaQuery.of(context).size.width * 0.01,
                         barGroups: state.barChartData,
                       ),
                     ),

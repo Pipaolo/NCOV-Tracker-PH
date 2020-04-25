@@ -16,21 +16,23 @@ class _$NcovStatisticBasicTearOff {
   const _$NcovStatisticBasicTearOff();
 
   _NcovStatisticBasic call(
-      {int totalDeaths,
-      int totalRecovered,
-      int totalTestsConducted,
-      int totalPUMs,
-      int totalPUIs,
-      int totalInfected,
-      int totalPUIsTested}) {
+      {@required int totalDeaths,
+      @required int totalRecovered,
+      @required int totalTestsConducted,
+      @required int totalInfected,
+      @required int prevDeaths,
+      @required int prevRecovered,
+      @required int prevTestsConducted,
+      @required int prevInfected}) {
     return _NcovStatisticBasic(
       totalDeaths: totalDeaths,
       totalRecovered: totalRecovered,
       totalTestsConducted: totalTestsConducted,
-      totalPUMs: totalPUMs,
-      totalPUIs: totalPUIs,
       totalInfected: totalInfected,
-      totalPUIsTested: totalPUIsTested,
+      prevDeaths: prevDeaths,
+      prevRecovered: prevRecovered,
+      prevTestsConducted: prevTestsConducted,
+      prevInfected: prevInfected,
     );
   }
 }
@@ -42,10 +44,11 @@ mixin _$NcovStatisticBasic {
   int get totalDeaths;
   int get totalRecovered;
   int get totalTestsConducted;
-  int get totalPUMs;
-  int get totalPUIs;
   int get totalInfected;
-  int get totalPUIsTested;
+  int get prevDeaths;
+  int get prevRecovered;
+  int get prevTestsConducted;
+  int get prevInfected;
 
   Map<String, dynamic> toJson();
   $NcovStatisticBasicCopyWith<NcovStatisticBasic> get copyWith;
@@ -59,10 +62,11 @@ abstract class $NcovStatisticBasicCopyWith<$Res> {
       {int totalDeaths,
       int totalRecovered,
       int totalTestsConducted,
-      int totalPUMs,
-      int totalPUIs,
       int totalInfected,
-      int totalPUIsTested});
+      int prevDeaths,
+      int prevRecovered,
+      int prevTestsConducted,
+      int prevInfected});
 }
 
 class _$NcovStatisticBasicCopyWithImpl<$Res>
@@ -78,10 +82,11 @@ class _$NcovStatisticBasicCopyWithImpl<$Res>
     Object totalDeaths = freezed,
     Object totalRecovered = freezed,
     Object totalTestsConducted = freezed,
-    Object totalPUMs = freezed,
-    Object totalPUIs = freezed,
     Object totalInfected = freezed,
-    Object totalPUIsTested = freezed,
+    Object prevDeaths = freezed,
+    Object prevRecovered = freezed,
+    Object prevTestsConducted = freezed,
+    Object prevInfected = freezed,
   }) {
     return _then(_value.copyWith(
       totalDeaths:
@@ -92,14 +97,18 @@ class _$NcovStatisticBasicCopyWithImpl<$Res>
       totalTestsConducted: totalTestsConducted == freezed
           ? _value.totalTestsConducted
           : totalTestsConducted as int,
-      totalPUMs: totalPUMs == freezed ? _value.totalPUMs : totalPUMs as int,
-      totalPUIs: totalPUIs == freezed ? _value.totalPUIs : totalPUIs as int,
       totalInfected: totalInfected == freezed
           ? _value.totalInfected
           : totalInfected as int,
-      totalPUIsTested: totalPUIsTested == freezed
-          ? _value.totalPUIsTested
-          : totalPUIsTested as int,
+      prevDeaths: prevDeaths == freezed ? _value.prevDeaths : prevDeaths as int,
+      prevRecovered: prevRecovered == freezed
+          ? _value.prevRecovered
+          : prevRecovered as int,
+      prevTestsConducted: prevTestsConducted == freezed
+          ? _value.prevTestsConducted
+          : prevTestsConducted as int,
+      prevInfected:
+          prevInfected == freezed ? _value.prevInfected : prevInfected as int,
     ));
   }
 }
@@ -114,10 +123,11 @@ abstract class _$NcovStatisticBasicCopyWith<$Res>
       {int totalDeaths,
       int totalRecovered,
       int totalTestsConducted,
-      int totalPUMs,
-      int totalPUIs,
       int totalInfected,
-      int totalPUIsTested});
+      int prevDeaths,
+      int prevRecovered,
+      int prevTestsConducted,
+      int prevInfected});
 }
 
 class __$NcovStatisticBasicCopyWithImpl<$Res>
@@ -135,10 +145,11 @@ class __$NcovStatisticBasicCopyWithImpl<$Res>
     Object totalDeaths = freezed,
     Object totalRecovered = freezed,
     Object totalTestsConducted = freezed,
-    Object totalPUMs = freezed,
-    Object totalPUIs = freezed,
     Object totalInfected = freezed,
-    Object totalPUIsTested = freezed,
+    Object prevDeaths = freezed,
+    Object prevRecovered = freezed,
+    Object prevTestsConducted = freezed,
+    Object prevInfected = freezed,
   }) {
     return _then(_NcovStatisticBasic(
       totalDeaths:
@@ -149,14 +160,18 @@ class __$NcovStatisticBasicCopyWithImpl<$Res>
       totalTestsConducted: totalTestsConducted == freezed
           ? _value.totalTestsConducted
           : totalTestsConducted as int,
-      totalPUMs: totalPUMs == freezed ? _value.totalPUMs : totalPUMs as int,
-      totalPUIs: totalPUIs == freezed ? _value.totalPUIs : totalPUIs as int,
       totalInfected: totalInfected == freezed
           ? _value.totalInfected
           : totalInfected as int,
-      totalPUIsTested: totalPUIsTested == freezed
-          ? _value.totalPUIsTested
-          : totalPUIsTested as int,
+      prevDeaths: prevDeaths == freezed ? _value.prevDeaths : prevDeaths as int,
+      prevRecovered: prevRecovered == freezed
+          ? _value.prevRecovered
+          : prevRecovered as int,
+      prevTestsConducted: prevTestsConducted == freezed
+          ? _value.prevTestsConducted
+          : prevTestsConducted as int,
+      prevInfected:
+          prevInfected == freezed ? _value.prevInfected : prevInfected as int,
     ));
   }
 }
@@ -164,13 +179,22 @@ class __$NcovStatisticBasicCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_NcovStatisticBasic implements _NcovStatisticBasic {
   const _$_NcovStatisticBasic(
-      {this.totalDeaths,
-      this.totalRecovered,
-      this.totalTestsConducted,
-      this.totalPUMs,
-      this.totalPUIs,
-      this.totalInfected,
-      this.totalPUIsTested});
+      {@required this.totalDeaths,
+      @required this.totalRecovered,
+      @required this.totalTestsConducted,
+      @required this.totalInfected,
+      @required this.prevDeaths,
+      @required this.prevRecovered,
+      @required this.prevTestsConducted,
+      @required this.prevInfected})
+      : assert(totalDeaths != null),
+        assert(totalRecovered != null),
+        assert(totalTestsConducted != null),
+        assert(totalInfected != null),
+        assert(prevDeaths != null),
+        assert(prevRecovered != null),
+        assert(prevTestsConducted != null),
+        assert(prevInfected != null);
 
   factory _$_NcovStatisticBasic.fromJson(Map<String, dynamic> json) =>
       _$_$_NcovStatisticBasicFromJson(json);
@@ -182,17 +206,19 @@ class _$_NcovStatisticBasic implements _NcovStatisticBasic {
   @override
   final int totalTestsConducted;
   @override
-  final int totalPUMs;
-  @override
-  final int totalPUIs;
-  @override
   final int totalInfected;
   @override
-  final int totalPUIsTested;
+  final int prevDeaths;
+  @override
+  final int prevRecovered;
+  @override
+  final int prevTestsConducted;
+  @override
+  final int prevInfected;
 
   @override
   String toString() {
-    return 'NcovStatisticBasic(totalDeaths: $totalDeaths, totalRecovered: $totalRecovered, totalTestsConducted: $totalTestsConducted, totalPUMs: $totalPUMs, totalPUIs: $totalPUIs, totalInfected: $totalInfected, totalPUIsTested: $totalPUIsTested)';
+    return 'NcovStatisticBasic(totalDeaths: $totalDeaths, totalRecovered: $totalRecovered, totalTestsConducted: $totalTestsConducted, totalInfected: $totalInfected, prevDeaths: $prevDeaths, prevRecovered: $prevRecovered, prevTestsConducted: $prevTestsConducted, prevInfected: $prevInfected)';
   }
 
   @override
@@ -208,18 +234,21 @@ class _$_NcovStatisticBasic implements _NcovStatisticBasic {
             (identical(other.totalTestsConducted, totalTestsConducted) ||
                 const DeepCollectionEquality()
                     .equals(other.totalTestsConducted, totalTestsConducted)) &&
-            (identical(other.totalPUMs, totalPUMs) ||
-                const DeepCollectionEquality()
-                    .equals(other.totalPUMs, totalPUMs)) &&
-            (identical(other.totalPUIs, totalPUIs) ||
-                const DeepCollectionEquality()
-                    .equals(other.totalPUIs, totalPUIs)) &&
             (identical(other.totalInfected, totalInfected) ||
                 const DeepCollectionEquality()
                     .equals(other.totalInfected, totalInfected)) &&
-            (identical(other.totalPUIsTested, totalPUIsTested) ||
+            (identical(other.prevDeaths, prevDeaths) ||
                 const DeepCollectionEquality()
-                    .equals(other.totalPUIsTested, totalPUIsTested)));
+                    .equals(other.prevDeaths, prevDeaths)) &&
+            (identical(other.prevRecovered, prevRecovered) ||
+                const DeepCollectionEquality()
+                    .equals(other.prevRecovered, prevRecovered)) &&
+            (identical(other.prevTestsConducted, prevTestsConducted) ||
+                const DeepCollectionEquality()
+                    .equals(other.prevTestsConducted, prevTestsConducted)) &&
+            (identical(other.prevInfected, prevInfected) ||
+                const DeepCollectionEquality()
+                    .equals(other.prevInfected, prevInfected)));
   }
 
   @override
@@ -228,10 +257,11 @@ class _$_NcovStatisticBasic implements _NcovStatisticBasic {
       const DeepCollectionEquality().hash(totalDeaths) ^
       const DeepCollectionEquality().hash(totalRecovered) ^
       const DeepCollectionEquality().hash(totalTestsConducted) ^
-      const DeepCollectionEquality().hash(totalPUMs) ^
-      const DeepCollectionEquality().hash(totalPUIs) ^
       const DeepCollectionEquality().hash(totalInfected) ^
-      const DeepCollectionEquality().hash(totalPUIsTested);
+      const DeepCollectionEquality().hash(prevDeaths) ^
+      const DeepCollectionEquality().hash(prevRecovered) ^
+      const DeepCollectionEquality().hash(prevTestsConducted) ^
+      const DeepCollectionEquality().hash(prevInfected);
 
   @override
   _$NcovStatisticBasicCopyWith<_NcovStatisticBasic> get copyWith =>
@@ -245,13 +275,14 @@ class _$_NcovStatisticBasic implements _NcovStatisticBasic {
 
 abstract class _NcovStatisticBasic implements NcovStatisticBasic {
   const factory _NcovStatisticBasic(
-      {int totalDeaths,
-      int totalRecovered,
-      int totalTestsConducted,
-      int totalPUMs,
-      int totalPUIs,
-      int totalInfected,
-      int totalPUIsTested}) = _$_NcovStatisticBasic;
+      {@required int totalDeaths,
+      @required int totalRecovered,
+      @required int totalTestsConducted,
+      @required int totalInfected,
+      @required int prevDeaths,
+      @required int prevRecovered,
+      @required int prevTestsConducted,
+      @required int prevInfected}) = _$_NcovStatisticBasic;
 
   factory _NcovStatisticBasic.fromJson(Map<String, dynamic> json) =
       _$_NcovStatisticBasic.fromJson;
@@ -263,13 +294,15 @@ abstract class _NcovStatisticBasic implements NcovStatisticBasic {
   @override
   int get totalTestsConducted;
   @override
-  int get totalPUMs;
-  @override
-  int get totalPUIs;
-  @override
   int get totalInfected;
   @override
-  int get totalPUIsTested;
+  int get prevDeaths;
+  @override
+  int get prevRecovered;
+  @override
+  int get prevTestsConducted;
+  @override
+  int get prevInfected;
   @override
   _$NcovStatisticBasicCopyWith<_NcovStatisticBasic> get copyWith;
 }

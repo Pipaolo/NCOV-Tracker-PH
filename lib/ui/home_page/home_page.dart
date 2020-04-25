@@ -16,7 +16,7 @@ import 'widgets/age_category_bar_chart_widget.dart';
 import 'widgets/basic_statistics_widget.dart';
 import 'widgets/gender_pie_chart_widget.dart';
 import 'widgets/home_page_drawer_widget.dart';
-import 'widgets/region_list_widget.dart';
+import 'widgets/line_chart_carousel_widget.dart';
 import 'widgets/updated_statistic_dialog_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('NCOV Tracker PH'),
+          title: Text('Dashboard'),
         ),
         drawer: HomePageDrawerWidget(),
         body: Container(
@@ -197,26 +197,25 @@ class _HomePageState extends State<HomePage> {
                   delay: 3,
                   child: GenderPieChartWidget(),
                 ),
-                FadeInAnimationWidget(
-                  delay: 1,
-                  child: Center(
-                    child: Text(
-                      'Regions Infected',
-                      style: GoogleFonts.raleway(
-                        fontWeight: FontWeight.bold,
-                        fontSize: ScreenUtil().setSp(40),
-                      ),
-                    ),
-                  ),
-                ),
                 const SizedBox(
                   height: 20,
                 ),
+                FadeInAnimationWidget(
+                  delay: 3,
+                  child: Center(
+                    child: AutoSizeText(
+                      'Cumulative Count',
+                      style: GoogleFonts.raleway(
+                        fontWeight: FontWeight.bold,
+                        fontSize: ScreenUtil().setSp(36),
+                      ),
+                      maxLines: 1,
+                    ),
+                  ),
+                ),
+                LineChartCarouselWidget()
               ],
             ),
-          ),
-          RegionListWidget(
-            patientsGroupedByRegion: patientsGroupedByRegion,
           ),
         ],
       ),
