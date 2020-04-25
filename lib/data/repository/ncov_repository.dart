@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:html/parser.dart';
 import 'package:injectable/injectable.dart';
 
@@ -201,30 +200,6 @@ class NcovRepository {
     final int numberOfIterations = totalConfirmedCount ~/ 50;
     final List<Patient> patients = [];
 
-    final tempResponse = await dioClient.post(baseUrl, data: {
-      "query": '''{cases
-      {
-        confirmedCases(limit:50 offset:${0}){
-          caseNumber
-          sex
-          age
-          dateDeath
-          dateRecovery
-          dateReportConfirmed
-          dateReportRemoved
-          admitted
-          healthStatus
-          removalType
-          residence{
-            region
-            province
-            city
-          }
-        }
-        }
-        }'''
-    });
-
     for (int i = 0; i < numberOfIterations; i++) {
       final response = await dioClient.post(baseUrl, data: {
         "query": '''{cases
@@ -250,7 +225,7 @@ class NcovRepository {
         }'''
       });
       final List<dynamic> body =
-          tempResponse.data['data']['cases']['confirmedCases'];
+          response.data['data']['cases']['confirmedCases'];
       final List<Patient> patientsConverted =
           body.map((e) => Patient.fromJson(e)).toList();
       patients.addAll(patientsConverted);
