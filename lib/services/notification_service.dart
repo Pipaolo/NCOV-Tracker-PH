@@ -73,10 +73,10 @@ class NotificationService {
           totalInfected: rawData['totalInfected'],
           totalRecovered: rawData['totalRecovered'],
           totalTestsConducted: rawData['totalTestsConducted'],
-          prevTestsConducted: null,
-          prevDeaths: null,
-          prevInfected: null,
-          prevRecovered: null,
+          prevTestsConducted: rawData['prevTestsConducted'],
+          prevDeaths: rawData['prevDeaths'],
+          prevInfected: rawData['prevInfected'],
+          prevRecovered: rawData['prevRecovered'],
         );
 
         if (currentStatistics.totalInfected != statistics.totalInfected) {
