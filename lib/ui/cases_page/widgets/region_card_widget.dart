@@ -44,7 +44,7 @@ class RegionCardWidget extends StatelessWidget {
               Routes.citiesPageRoute,
               arguments: CitiesPageArguments(
                 cities: cities,
-                regionName: region,
+                regionName: region ?? 'Not Defined',
               ),
             );
           }
@@ -58,7 +58,7 @@ class RegionCardWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: AutoSizeText(
-                  region,
+                  region ?? 'Not Defined',
                   style: GoogleFonts.montserrat(
                     fontSize: ScreenUtil().setSp(40),
                   ),

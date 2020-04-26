@@ -3,6 +3,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ncov_tracker_ph/data/repository/hive_repository.dart';
 import 'package:ncov_tracker_ph/ui/cases_page/bloc/cases_page_bloc.dart';
 
 import '../core/bloc/connectivity_bloc.dart';
@@ -19,8 +20,15 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider<NcovRepository>(
-      create: (context) => NcovRepository(dioClient: Dio()),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<NcovRepository>(
+          create: (context) => NcovRepository(dioClient: Dio()),
+        ),
+        RepositoryProvider<HiveRepository>(
+          create: (context) => HiveRepository(),
+        ),
+      ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<ConnectivityBloc>(
@@ -37,6 +45,7 @@ class AppWidget extends StatelessWidget {
           BlocProvider<CasesPageBloc>(
             create: (context) => CasesPageBloc(
               ncovRepository: RepositoryProvider.of<NcovRepository>(context),
+              hiveRepository: RepositoryProvider.of<HiveRepository>(context),
             )..add(CasesFetched()),
           ),
           BlocProvider<SearchBloc>(
@@ -50,8 +59,9 @@ class AppWidget extends StatelessWidget {
                         RepositoryProvider.of<NcovRepository>(context),
                   )..add(StatisticsFetched())),
           BlocProvider<SplashPageBloc>(
-            create: (context) => SplashPageBloc()
-              ..add(
+            create: (context) => SplashPageBloc(
+              hiveRepository: RepositoryProvider.of<HiveRepository>(context),
+            )..add(
                 AppStarted(),
               ),
           ),

@@ -45,21 +45,22 @@ class Router extends RouterBase {
     final args = settings.arguments;
     switch (settings.name) {
       case Routes.splashPageRoute:
-        if (hasInvalidArgs<Key>(args)) {
-          return misTypedArgsRoute<Key>(args);
+        if (hasInvalidArgs<SplashPageArguments>(args)) {
+          return misTypedArgsRoute<SplashPageArguments>(args);
         }
-        final typedArgs = args as Key;
+        final typedArgs = args as SplashPageArguments ?? SplashPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SplashPage(key: typedArgs),
+          builder: (_) => SplashPage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.introductionPageRoute:
-        if (hasInvalidArgs<Key>(args)) {
-          return misTypedArgsRoute<Key>(args);
+        if (hasInvalidArgs<IntroductionPageArguments>(args)) {
+          return misTypedArgsRoute<IntroductionPageArguments>(args);
         }
-        final typedArgs = args as Key;
+        final typedArgs =
+            args as IntroductionPageArguments ?? IntroductionPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => IntroductionPage(key: typedArgs),
+          builder: (_) => IntroductionPage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.homePageRoute:
@@ -68,21 +69,21 @@ class Router extends RouterBase {
           settings: settings,
         );
       case Routes.mapPageRoute:
-        if (hasInvalidArgs<Key>(args)) {
-          return misTypedArgsRoute<Key>(args);
+        if (hasInvalidArgs<MapPageArguments>(args)) {
+          return misTypedArgsRoute<MapPageArguments>(args);
         }
-        final typedArgs = args as Key;
+        final typedArgs = args as MapPageArguments ?? MapPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => MapPage(key: typedArgs),
+          builder: (_) => MapPage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.casesPageRoute:
-        if (hasInvalidArgs<Key>(args)) {
-          return misTypedArgsRoute<Key>(args);
+        if (hasInvalidArgs<CasesPageArguments>(args)) {
+          return misTypedArgsRoute<CasesPageArguments>(args);
         }
-        final typedArgs = args as Key;
+        final typedArgs = args as CasesPageArguments ?? CasesPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => CasesPage(key: typedArgs),
+          builder: (_) => CasesPage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.citiesPageRoute:
@@ -98,21 +99,22 @@ class Router extends RouterBase {
           settings: settings,
         );
       case Routes.infoPageRoute:
-        if (hasInvalidArgs<Key>(args)) {
-          return misTypedArgsRoute<Key>(args);
+        if (hasInvalidArgs<InfoPageArguments>(args)) {
+          return misTypedArgsRoute<InfoPageArguments>(args);
         }
-        final typedArgs = args as Key;
+        final typedArgs = args as InfoPageArguments ?? InfoPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => InfoPage(key: typedArgs),
+          builder: (_) => InfoPage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.hospitalListingsPageRoute:
-        if (hasInvalidArgs<Key>(args)) {
-          return misTypedArgsRoute<Key>(args);
+        if (hasInvalidArgs<HospitalListingsPageArguments>(args)) {
+          return misTypedArgsRoute<HospitalListingsPageArguments>(args);
         }
-        final typedArgs = args as Key;
+        final typedArgs = args as HospitalListingsPageArguments ??
+            HospitalListingsPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => HospitalListingsPage(key: typedArgs),
+          builder: (_) => HospitalListingsPage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.hospitalPageRoute:
@@ -149,12 +151,48 @@ class Router extends RouterBase {
 // Arguments holder classes
 //***************************************************************************
 
+//SplashPage arguments holder class
+class SplashPageArguments {
+  final Key key;
+  SplashPageArguments({this.key});
+}
+
+//IntroductionPage arguments holder class
+class IntroductionPageArguments {
+  final Key key;
+  IntroductionPageArguments({this.key});
+}
+
+//MapPage arguments holder class
+class MapPageArguments {
+  final Key key;
+  MapPageArguments({this.key});
+}
+
+//CasesPage arguments holder class
+class CasesPageArguments {
+  final Key key;
+  CasesPageArguments({this.key});
+}
+
 //CitiesPage arguments holder class
 class CitiesPageArguments {
   final Key key;
   final List<City> cities;
   final String regionName;
   CitiesPageArguments({this.key, this.cities, this.regionName});
+}
+
+//InfoPage arguments holder class
+class InfoPageArguments {
+  final Key key;
+  InfoPageArguments({this.key});
+}
+
+//HospitalListingsPage arguments holder class
+class HospitalListingsPageArguments {
+  final Key key;
+  HospitalListingsPageArguments({this.key});
 }
 
 //HospitalPage arguments holder class
@@ -180,20 +218,22 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
   Future pushSplashPageRoute({
     Key key,
   }) =>
-      pushNamed(Routes.splashPageRoute, arguments: key);
+      pushNamed(Routes.splashPageRoute,
+          arguments: SplashPageArguments(key: key));
   Future pushIntroductionPageRoute({
     Key key,
   }) =>
-      pushNamed(Routes.introductionPageRoute, arguments: key);
+      pushNamed(Routes.introductionPageRoute,
+          arguments: IntroductionPageArguments(key: key));
   Future pushHomePageRoute() => pushNamed(Routes.homePageRoute);
   Future pushMapPageRoute({
     Key key,
   }) =>
-      pushNamed(Routes.mapPageRoute, arguments: key);
+      pushNamed(Routes.mapPageRoute, arguments: MapPageArguments(key: key));
   Future pushCasesPageRoute({
     Key key,
   }) =>
-      pushNamed(Routes.casesPageRoute, arguments: key);
+      pushNamed(Routes.casesPageRoute, arguments: CasesPageArguments(key: key));
   Future pushCitiesPageRoute({
     Key key,
     List<City> cities,
@@ -205,11 +245,12 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
   Future pushInfoPageRoute({
     Key key,
   }) =>
-      pushNamed(Routes.infoPageRoute, arguments: key);
+      pushNamed(Routes.infoPageRoute, arguments: InfoPageArguments(key: key));
   Future pushHospitalListingsPageRoute({
     Key key,
   }) =>
-      pushNamed(Routes.hospitalListingsPageRoute, arguments: key);
+      pushNamed(Routes.hospitalListingsPageRoute,
+          arguments: HospitalListingsPageArguments(key: key));
   Future pushHospitalPageRoute({
     Key key,
     Hospital hospital,

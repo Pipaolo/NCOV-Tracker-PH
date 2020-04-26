@@ -35,13 +35,13 @@ class NotificationService {
       importance: Importance.High,
       priority: Priority.High,
       enableLights: true,
-      style: AndroidNotificationStyle.BigText,
       styleInformation: BigTextStyleInformation(
-          'The number of cases in the Philippines has increase by: $totalInfectedAdded',
-          contentTitle: '<b>NOTICE:</b>',
-          htmlFormatBigText: true,
-          htmlFormatTitle: true,
-          htmlFormatContentTitle: true),
+        'The number of cases in the Philippines has increase by: $totalInfectedAdded',
+        contentTitle: '<b>NOTICE:</b>',
+        htmlFormatBigText: true,
+        htmlFormatTitle: true,
+        htmlFormatContentTitle: true,
+      ),
       category: 'status',
     );
     final platformChannelSpecifics =
@@ -63,29 +63,29 @@ class NotificationService {
 
       //Fetch Current Statistics
       print('NCOV TRACKER PH: Checking if cases');
-      final statistics = await ncovRepository.fetchBasicStatistics();
+      final currStatistics = await ncovRepository.fetchBasicStatistics();
+      final prevStatisticsRaw = box.get('currentStatistics');
 
       //Check if the current value is the same or not
-      if (box.get('currentStatistics') != null) {
-        final rawData = box.get('currentStatistics');
-        final NcovStatisticBasic currentStatistics = NcovStatisticBasic(
-          totalDeaths: rawData['totalDeaths'],
-          totalInfected: rawData['totalInfected'],
-          totalRecovered: rawData['totalRecovered'],
-          totalTestsConducted: rawData['totalTestsConducted'],
-          prevTestsConducted: rawData['prevTestsConducted'],
-          prevDeaths: rawData['prevDeaths'],
-          prevInfected: rawData['prevInfected'],
-          prevRecovered: rawData['prevRecovered'],
+      if (prevStatisticsRaw != null) {
+        final NcovStatisticBasic prevStatistics = NcovStatisticBasic(
+          totalDeaths: prevStatisticsRaw['totalDeaths'],
+          totalInfected: prevStatisticsRaw['totalInfected'],
+          totalRecovered: prevStatisticsRaw['totalRecovered'],
+          totalTestsConducted: prevStatisticsRaw['totalTestsConducted'],
+          prevTestsConducted: prevStatisticsRaw['prevTestsConducted'],
+          prevDeaths: prevStatisticsRaw['prevDeaths'],
+          prevInfected: prevStatisticsRaw['prevInfected'],
+          prevRecovered: prevStatisticsRaw['prevRecovered'],
         );
 
-        if (currentStatistics.totalInfected != statistics.totalInfected) {
-          box.put('currentStatistics', statistics.toJson());
-          box.put('prevStatistics', currentStatistics.toJson());
-          showNotification(statistics, currentStatistics);
+        if (currStatistics.totalInfected != prevStatistics.totalInfected) {
+          box.put('currentStatistics', currStatistics.toJson());
+          box.put('prevStatistics', prevStatistics.toJson());
+          showNotification(currStatistics, prevStatistics);
         }
       } else {
-        box.put('currentStatistics', statistics.toJson());
+        box.put('currentStatistics', currStatistics.toJson());
       }
     } on SocketException catch (e) {
       print(e);

@@ -66,7 +66,17 @@ class CasesPage extends StatelessWidget {
           CircularProgressIndicator(),
           const SizedBox(height: 10),
           Text(
-            'Fetching cases, please wait... \nThis may take while.',
+            'Fetching cases...',
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'This process will take some time if the app is opened once, because it is currently storing the data to the device itself.',
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Please don\'t turn off internet connection, if connection was interrupted please restart the app.',
             textAlign: TextAlign.center,
           )
         ],

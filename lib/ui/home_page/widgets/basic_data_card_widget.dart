@@ -22,6 +22,11 @@ class BasicDataCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final percentageIncreased = (prevValue != 0)
+        ? (((currentValue - prevValue) / (prevValue)) * 100).toStringAsFixed(2)
+        : 0;
+    final valueIncreased = (prevValue != 0) ? currentValue - prevValue : 0;
+
     return Card(
       child: Container(
         width: 400.w,
@@ -68,7 +73,7 @@ class BasicDataCardWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 AutoSizeText(
-                  "+ ${(currentValue - prevValue)} ( ${(((currentValue - prevValue) / (prevValue)) * 100).toStringAsFixed(2)} )",
+                  "+ $valueIncreased ( $percentageIncreased )",
                   style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.w500,
                     fontSize: ScreenUtil().setSp(30),

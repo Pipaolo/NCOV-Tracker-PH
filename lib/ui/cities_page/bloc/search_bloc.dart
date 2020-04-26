@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../data/models/city.dart';
 import '../../../data/models/region.dart';
@@ -10,6 +11,7 @@ import '../../cases_page/bloc/cases_page_bloc.dart';
 part 'search_event.dart';
 part 'search_state.dart';
 
+@injectable
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final CasesPageBloc casesPageBloc;
   List<Region> regions = [];

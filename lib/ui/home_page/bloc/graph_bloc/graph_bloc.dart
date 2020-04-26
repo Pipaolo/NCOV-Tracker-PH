@@ -7,6 +7,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:ncov_tracker_ph/data/models/age_category_statistic.dart';
 import 'package:ncov_tracker_ph/data/models/cumulative_statistic.dart';
@@ -17,6 +18,7 @@ import '../../../../data/repository/ncov_repository.dart';
 part 'graph_event.dart';
 part 'graph_state.dart';
 
+@injectable
 class GraphBloc extends Bloc<GraphEvent, GraphState> {
   final NcovRepository ncovRepository;
 

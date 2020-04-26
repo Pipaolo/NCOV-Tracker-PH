@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:supercharged/supercharged.dart';
 import 'package:simple_animations/simple_animations.dart';
-import 'package:simple_animations/simple_animations/multi_track_tween.dart';
+
+enum _AniProps { opacity, translateX }
 
 class FadeInAnimationWidget extends StatelessWidget {
   final Widget child;
@@ -13,29 +15,19 @@ class FadeInAnimationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tween = MultiTrackTween(
-      [
-        Track("opacity").add(
-          Duration(milliseconds: 500),
-          Tween(begin: 0.0, end: 1.0),
-        ),
-        Track('translateX').add(
-          Duration(milliseconds: 500),
-          Tween(begin: 130.0, end: 0.0),
-          curve: Curves.easeOut,
-        ),
-      ],
-    );
+    final tween = MultiTween<_AniProps>()
+      ..add(_AniProps.opacity, 0.0.tweenTo(1.0))
+      ..add(_AniProps.translateX, 130.0.tweenTo(0.0));
 
-    return ControlledAnimation(
-      delay: Duration(milliseconds: (300 * delay).round()),
-      duration: tween.duration,
+    return PlayAnimation<MultiTweenValues<_AniProps>>(
+      delay: (300 * delay).round().milliseconds,
+      duration: 500.milliseconds,
       tween: tween,
       child: child,
-      builderWithChild: (context, child, animation) => Opacity(
-        opacity: animation['opacity'],
+      builder: (context, child, value) => Opacity(
+        opacity: value.get(_AniProps.opacity),
         child: Transform.translate(
-          offset: Offset(animation['translateX'], 0),
+          offset: Offset(value.get(_AniProps.translateX), 0),
           child: child,
         ),
       ),
