@@ -10,7 +10,6 @@ import 'package:path_provider/path_provider.dart';
 
 import '../data/models/ncov_statistic_basic.dart';
 import '../data/repository/ncov_repository.dart';
-import '../injection.dart';
 import '../main.dart';
 import 'firebase_remote_config_service.dart';
 
@@ -60,9 +59,8 @@ class NotificationService {
       final appDocumentDir = await getApplicationDocumentsDirectory();
       Hive.init(appDocumentDir.path);
       Box box = await Hive.openBox('app');
-
       //Fetch Current Statistics
-      print('NCOV TRACKER PH: Checking if cases');
+      print('NCOV TRACKER PH: Checking if cases changed.');
       final currStatistics = await ncovRepository.fetchBasicStatistics();
       final prevStatisticsRaw = box.get('currentStatistics');
 
@@ -91,17 +89,14 @@ class NotificationService {
       print(e);
       print('No Internet Connection, cannot fetch current statistics');
     } catch (e) {
-      print('NCOV Tracker PH ERROR: ${e.toString()}');
+      print('NCOV Tracker PH ERROR: $e');
     }
   }
 
   Future<void> configureNotificationService() async {
-    final remoteService = await getIt<IFirebaseRemoteService>().remoteConfig;
-    final int repeatEveryHours =
-        int.tryParse(remoteService.getString('notificationDurationTimer')) ?? 6;
     await AndroidAlarmManager.initialize();
     await AndroidAlarmManager.periodic(
-      Duration(hours: repeatEveryHours),
+      Duration(hours: 1),
       0,
       sendCurrentCases,
       exact: true,
