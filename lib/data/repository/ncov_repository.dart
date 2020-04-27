@@ -215,14 +215,14 @@ class NcovRepository {
     });
     final int totalConfirmedCount = totalConfirmedCountResponse.data['data']
         ['cases']['countConfirmedCases'];
-    final int numberOfIterations = totalConfirmedCount ~/ 50;
+    final int numberOfIterations = totalConfirmedCount ~/ 500;
     final List<Patient> patients = [];
 
     for (int i = 0; i < numberOfIterations; i++) {
       final response = await dioClient.post(baseUrl, data: {
         "query": '''{cases
       {
-        confirmedCases(limit:50 offset:${i * 50}){
+        confirmedCases(limit:500 offset:${i * 50}){
           caseNumber
           sex
           age
