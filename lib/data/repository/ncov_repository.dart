@@ -222,7 +222,7 @@ class NcovRepository {
       final response = await dioClient.post(baseUrl, data: {
         "query": '''{cases
       {
-        confirmedCases(limit:500 offset:${i * 50}){
+        confirmedCases(limit:500 offset:${i * 500}){
           caseNumber
           sex
           age
