@@ -26,6 +26,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       yield NotificationShownState(
         currentStatistic: currentStatistic,
       );
+
       await Future.delayed(Duration(seconds: 10));
       yield NotificationIdleState();
     } else if (event is NotificationConfigured) {

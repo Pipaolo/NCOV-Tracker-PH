@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ncov_tracker_ph/ui/cases_page/bloc/cases_page_bloc.dart';
 
 import '../../../routes/router.gr.dart';
 import '../../hospital_listings_page/bloc/hospital_bloc.dart';
@@ -69,6 +70,7 @@ class HomePageDrawerWidget extends StatelessWidget {
             trailing: FaIcon(FontAwesomeIcons.angleRight),
             title: Text('Cases'),
             onTap: () {
+              context.bloc<CasesPageBloc>()..add(CasesFetched());
               ExtendedNavigator.of(context).pop();
               ExtendedNavigator.of(context).pushNamed(Routes.casesPageRoute);
               // Flushbar(

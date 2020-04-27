@@ -46,7 +46,7 @@ class AppWidget extends StatelessWidget {
             create: (context) => CasesPageBloc(
               ncovRepository: RepositoryProvider.of<NcovRepository>(context),
               hiveRepository: RepositoryProvider.of<HiveRepository>(context),
-            )..add(CasesFetched()),
+            ),
           ),
           BlocProvider<SearchBloc>(
             create: (context) => SearchBloc(

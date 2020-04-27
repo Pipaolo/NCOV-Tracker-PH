@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
+import '../models/ncov_statistic_basic.dart';
 import 'package:ncov_tracker_ph/data/models/patient.dart';
 import 'package:ncov_tracker_ph/data/models/residence.dart';
 
@@ -13,6 +14,33 @@ class HiveRepository {
     if (!isAppOpenedOnce) {
       box.put('isAppOpenedOnce', true);
     }
+  }
+
+  Future<NcovStatisticBasic> fetchCurrentStatistics() async {
+    final box = await Hive.openBox('app');
+
+    final currentStatistic = box.get('currentStatistics');
+
+    if (currentStatistic != null) {
+      return NcovStatisticBasic(
+        totalDeaths: currentStatistic['totalDeaths'],
+        totalInfected: currentStatistic['totalInfected'],
+        totalRecovered: currentStatistic['totalRecovered'],
+        totalTestsConducted: currentStatistic['totalTestsConducted'],
+        prevTestsConducted: currentStatistic['prevTestsConducted'],
+        prevDeaths: currentStatistic['prevDeaths'],
+        prevInfected: currentStatistic['prevInfected'],
+        prevRecovered: currentStatistic['prevRecovered'],
+      );
+    } else {
+      return null;
+    }
+  }
+
+  Future<void> storeCurrentStatistics(
+      NcovStatisticBasic currentStatistics) async {
+    final box = await Hive.openBox('app');
+    return box.put('currentStatistics', currentStatistics.toJson());
   }
 
   Future<bool> fetchAppState() async {

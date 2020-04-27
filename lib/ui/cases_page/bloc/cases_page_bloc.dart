@@ -31,14 +31,34 @@ class CasesPageBloc extends Bloc<CasesPageEvent, CasesPageState> {
     if (event is CasesFetched) {
       yield CasesPageLoading();
       try {
-        final isNewCasesUpdated = await ncovRepository.isNewCasesAdded();
-        final isStorageEmpty = await hiveRepository.isLocalStorageEmpty();
+        final currentStatisticFromApi =
+            await ncovRepository.fetchBasicStatistics();
+        final currentStatisticFromLocal =
+            await hiveRepository.fetchCurrentStatistics();
 
+        final isStorageEmpty = await hiveRepository.isLocalStorageEmpty();
         if (!isStorageEmpty) {
-          if (isNewCasesUpdated) {
-            final patientsFromNetwork = await ncovRepository.fetchPatients();
-            //After fetching the current cases from the internet store it in the local storage
-            await hiveRepository.storeCurrentCases(patientsFromNetwork);
+          //If there are no stored currentstatistics then store then compare.
+          if (currentStatisticFromLocal == null) {
+            await hiveRepository
+                .storeCurrentStatistics(currentStatisticFromApi);
+
+            final currentStatisticFromLocalUpdated =
+                await hiveRepository.fetchCurrentStatistics();
+
+            if (currentStatisticFromApi.totalInfected !=
+                currentStatisticFromLocalUpdated.totalInfected) {
+              final patientsFromNetwork = await ncovRepository.fetchPatients();
+              //After fetching the current cases from the internet store it in the local storage
+              await hiveRepository.storeCurrentCases(patientsFromNetwork);
+            }
+          } else {
+            if (currentStatisticFromApi.totalInfected !=
+                currentStatisticFromLocal.totalInfected) {
+              final patientsFromNetwork = await ncovRepository.fetchPatients();
+              //After fetching the current cases from the internet store it in the local storage
+              await hiveRepository.storeCurrentCases(patientsFromNetwork);
+            }
           }
         } else {
           final patientsFromNetwork = await ncovRepository.fetchPatients();

@@ -80,23 +80,6 @@ class NcovRepository {
     };
   }
 
-  Future<bool> isNewCasesAdded() async {
-    final response = await dioClient.post(baseUrl, data: {
-      'query': '''{
-        cases
-        {countConfirmedCases 
-        cumulativeConfirmed
-        {value}
-        }
-        }'''
-    });
-    final List<dynamic> prevCasesRaw =
-        response.data['data']['cases']['cumulativeConfirmed'];
-    final int currCases = response.data['data']['cases']['countConfirmedCases'];
-    final int prevCases = prevCasesRaw[prevCasesRaw.length - 2]['value'];
-    return (currCases != prevCases) ? true : false;
-  }
-
   Future<NcovStatisticBasic> fetchBasicStatistics() async {
     try {
       final response = await dioClient.post(baseUrl, data: {
