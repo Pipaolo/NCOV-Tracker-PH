@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ncov_tracker_ph/data/models/ncov_statistic_basic.dart';
-import 'package:ncov_tracker_ph/ui/home_page/widgets/updated_statistics_card_widget.dart';
+
+import 'basic_data_card_widget.dart';
 
 class UpdatedStatisticDialogWidget extends StatelessWidget {
   final NcovStatisticBasic currentStatistics;
@@ -25,6 +26,7 @@ class UpdatedStatisticDialogWidget extends StatelessWidget {
         ),
         child: Column(
           children: <Widget>[
+            const SizedBox(height: 10),
             Text(
               'Current Update',
               style: GoogleFonts.montserrat(
@@ -34,7 +36,7 @@ class UpdatedStatisticDialogWidget extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(10),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.blue,
@@ -48,44 +50,44 @@ class UpdatedStatisticDialogWidget extends StatelessWidget {
                         color: Colors.grey,
                       ),
                     ),
-                    scale: 0.5,
-                    viewportFraction: 1.25,
+                    scale: 0.50,
+                    viewportFraction: 0.95,
                     children: <Widget>[
-                      UpdatedStatisticsCardWidget(
-                        amountChanged: currentStatistics.totalInfected -
-                            prevStatistics.totalInfected,
-                        currentValue: currentStatistics.totalInfected,
-                        prevValue: prevStatistics.totalInfected,
-                        title: 'Infected',
-                        increasedColor: Colors.red,
-                        decreasedColor: Colors.green,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: BasicDataCardWidget(
+                          title: 'Infected',
+                          currentValue: currentStatistics.totalInfected,
+                          prevValue: currentStatistics.prevInfected,
+                          svgPath: 'assets/images/infected.svg',
+                        ),
                       ),
-                      UpdatedStatisticsCardWidget(
-                        amountChanged: currentStatistics.totalDeaths -
-                            prevStatistics.totalDeaths,
-                        currentValue: currentStatistics.totalDeaths,
-                        prevValue: prevStatistics.totalDeaths,
-                        title: 'Deaths',
-                        increasedColor: Colors.red,
-                        decreasedColor: Colors.green,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: BasicDataCardWidget(
+                          title: 'Recovered',
+                          currentValue: currentStatistics.totalRecovered,
+                          prevValue: currentStatistics.prevRecovered,
+                          svgPath: 'assets/images/recovered.svg',
+                        ),
                       ),
-                      UpdatedStatisticsCardWidget(
-                        amountChanged: currentStatistics.totalRecovered -
-                            prevStatistics.totalRecovered,
-                        currentValue: currentStatistics.totalRecovered,
-                        prevValue: prevStatistics.totalRecovered,
-                        title: 'Recovered',
-                        increasedColor: Colors.green,
-                        decreasedColor: Colors.red,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: BasicDataCardWidget(
+                          title: 'Deaths',
+                          currentValue: currentStatistics.totalDeaths,
+                          prevValue: currentStatistics.prevDeaths,
+                          svgPath: 'assets/images/death.svg',
+                        ),
                       ),
-                      UpdatedStatisticsCardWidget(
-                        amountChanged: currentStatistics.totalTestsConducted -
-                            prevStatistics.totalTestsConducted,
-                        currentValue: currentStatistics.totalTestsConducted,
-                        prevValue: prevStatistics.totalTestsConducted,
-                        title: 'Tests Conducted',
-                        increasedColor: Colors.green,
-                        decreasedColor: Colors.red,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: BasicDataCardWidget(
+                          title: 'Tests Conducted',
+                          currentValue: currentStatistics.totalTestsConducted,
+                          prevValue: currentStatistics.prevTestsConducted,
+                          svgPath: 'assets/images/tests_conducted.svg',
+                        ),
                       ),
                     ],
                   )),
