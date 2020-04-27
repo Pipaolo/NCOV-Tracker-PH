@@ -18,13 +18,12 @@ class NotificationService {
   final IFirebaseRemoteService firebaseRemoteService;
   final NcovRepository ncovRepository;
   NotificationService(this.ncovRepository, this.firebaseRemoteService);
-  static void showNotification(NcovStatisticBasic currentStatistic,
-      NcovStatisticBasic prevStatistic) async {
-    final dataToBePassed =
-        jsonEncode([currentStatistic.toJson(), prevStatistic.toJson()]);
-
+  static void showNotification(
+    NcovStatisticBasic currentStatistic,
+  ) async {
+    final dataToBePassed = jsonEncode(currentStatistic.toJson());
     final totalInfectedAdded =
-        currentStatistic.totalInfected - prevStatistic.totalInfected;
+        currentStatistic.totalInfected - currentStatistic.prevInfected;
     final androidChannelSpecifics = AndroidNotificationDetails(
       '0',
       'ncov_tracker_ph',
@@ -80,7 +79,7 @@ class NotificationService {
         if (currStatistics.totalInfected != prevStatistics.totalInfected) {
           box.put('currentStatistics', currStatistics.toJson());
           box.put('prevStatistics', prevStatistics.toJson());
-          showNotification(currStatistics, prevStatistics);
+          showNotification(currStatistics);
         }
       } else {
         box.put('currentStatistics', currStatistics.toJson());

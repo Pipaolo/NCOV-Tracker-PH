@@ -8,9 +8,7 @@ import 'basic_data_card_widget.dart';
 
 class UpdatedStatisticDialogWidget extends StatelessWidget {
   final NcovStatisticBasic currentStatistics;
-  final NcovStatisticBasic prevStatistics;
-  const UpdatedStatisticDialogWidget(
-      {Key key, this.currentStatistics, this.prevStatistics})
+  const UpdatedStatisticDialogWidget({Key key, this.currentStatistics})
       : super(key: key);
 
   @override

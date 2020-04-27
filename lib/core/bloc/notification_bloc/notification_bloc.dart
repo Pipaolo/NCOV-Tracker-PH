@@ -21,12 +21,10 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   ) async* {
     if (event is NotificationPressed) {
       final currentStatistic =
-          NcovStatisticBasic.fromJson(jsonDecode(event.updatedStatistics)[0]);
-      final prevStatistic =
-          NcovStatisticBasic.fromJson(jsonDecode(event.updatedStatistics)[1]);
+          NcovStatisticBasic.fromJson(jsonDecode(event.updatedStatistics));
+
       yield NotificationShownState(
         currentStatistic: currentStatistic,
-        prevStatistic: prevStatistic,
       );
       await Future.delayed(Duration(seconds: 10));
       yield NotificationIdleState();

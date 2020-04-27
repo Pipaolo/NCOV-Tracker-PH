@@ -34,7 +34,6 @@ class _HomePageState extends State<HomePage> {
             builder: (context) {
               return UpdatedStatisticDialogWidget(
                 currentStatistics: state.currentStatistic,
-                prevStatistics: state.prevStatistic,
               );
             },
           );
@@ -137,17 +136,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   _buildSuccess(NcovStatisticBasic statisticBasic, BuildContext context) {
-    Future.delayed(
-        Duration.zero,
-        () => showDialog(
-              context: context,
-              builder: (context) {
-                return UpdatedStatisticDialogWidget(
-                  currentStatistics: statisticBasic,
-                  prevStatistics: statisticBasic,
-                );
-              },
-            ));
     return RefreshIndicator(
       onRefresh: () async => BlocProvider.of<HomePageBloc>(context)
         ..add(
