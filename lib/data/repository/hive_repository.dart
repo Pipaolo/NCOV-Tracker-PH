@@ -16,7 +16,14 @@ class HiveRepository {
     }
   }
 
-  Future<NcovStatisticBasic> fetchCurrentStatistics() async {
+  Future<bool> isCurrentStatisticLocalStored() async {
+    final box = await Hive.openBox('app');
+    final currentStatistic = box.get('currentStatistics');
+
+    return (currentStatistic != null) ? true : false;
+  }
+
+  Future<NcovStatisticBasic> fetchCurrentStatisticsLocal() async {
     final box = await Hive.openBox('app');
 
     final currentStatistic = box.get('currentStatistics');

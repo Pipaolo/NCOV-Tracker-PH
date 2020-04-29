@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ncov_tracker_ph/data/models/ncov_statistic_basic.dart';
 import 'package:ncov_tracker_ph/data/models/region.dart';
 import 'package:ncov_tracker_ph/data/repository/hive_repository.dart';
 
@@ -31,38 +32,29 @@ class CasesPageBloc extends Bloc<CasesPageEvent, CasesPageState> {
     if (event is CasesFetched) {
       yield CasesPageLoading();
       try {
+        //Fetch Both statistics from local and web
         final currentStatisticFromApi =
             await ncovRepository.fetchBasicStatistics();
-        final currentStatisticFromLocal =
-            await hiveRepository.fetchCurrentStatistics();
-
         final isStorageEmpty = await hiveRepository.isLocalStorageEmpty();
+        //Check if there are differences in the results
         if (!isStorageEmpty) {
           //If there are no stored currentstatistics then store then compare.
-          if (currentStatisticFromLocal == null) {
+          final isCasesUpdated =
+              await isNewCasesUpdated(currentStatisticFromApi);
+
+          if (isCasesUpdated) {
+            final patientsFromNetwork = await ncovRepository.fetchPatients();
+            //After fetching the current cases from the internet store it in the local storage
+            await hiveRepository.storeCurrentCases(patientsFromNetwork);
+            //Update the currentStatistic that is stored locally
             await hiveRepository
                 .storeCurrentStatistics(currentStatisticFromApi);
-
-            final currentStatisticFromLocalUpdated =
-                await hiveRepository.fetchCurrentStatistics();
-
-            if (currentStatisticFromApi.totalInfected !=
-                currentStatisticFromLocalUpdated.totalInfected) {
-              final patientsFromNetwork = await ncovRepository.fetchPatients();
-              //After fetching the current cases from the internet store it in the local storage
-              await hiveRepository.storeCurrentCases(patientsFromNetwork);
-            }
-          } else {
-            if (currentStatisticFromApi.totalInfected !=
-                currentStatisticFromLocal.totalInfected) {
-              final patientsFromNetwork = await ncovRepository.fetchPatients();
-              //After fetching the current cases from the internet store it in the local storage
-              await hiveRepository.storeCurrentCases(patientsFromNetwork);
-            }
           }
         } else {
+          //If the storage is currently empty then store the current patients
+          await hiveRepository.storeCurrentStatistics(currentStatisticFromApi);
           final patientsFromNetwork = await ncovRepository.fetchPatients();
-          //After fetching the current cases from the internet store it in the local storage
+
           await hiveRepository.storeCurrentCases(patientsFromNetwork);
         }
 
@@ -75,6 +67,25 @@ class CasesPageBloc extends Bloc<CasesPageEvent, CasesPageState> {
       } catch (e) {
         yield CasesPageError(errorText: e.toString());
       }
+    }
+  }
+
+  Future<bool> isNewCasesUpdated(
+      NcovStatisticBasic currentStatisticFromApi) async {
+    final currentStatisticFromLocal =
+        await hiveRepository.fetchCurrentStatisticsLocal();
+
+    if (currentStatisticFromApi.totalInfected !=
+            currentStatisticFromLocal.totalInfected &&
+        currentStatisticFromApi.totalDeaths !=
+            currentStatisticFromLocal.totalDeaths &&
+        currentStatisticFromApi.totalRecovered !=
+            currentStatisticFromLocal.totalRecovered &&
+        currentStatisticFromApi.totalTestsConducted !=
+            currentStatisticFromLocal.totalTestsConducted) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
