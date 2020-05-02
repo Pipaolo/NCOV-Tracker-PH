@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'region.dart';
-//ignore_for_file:non_constant_identifier_names
+
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ncov_tracker_ph/data/models/city.dart';
-import 'package:ncov_tracker_ph/ui/cities_page/bloc/search_bloc.dart';
-import 'package:ncov_tracker_ph/ui/cities_page/widgets/city_card_widget.dart';
-import 'package:ncov_tracker_ph/ui/cities_page/widgets/search_bar_widget.dart';
+
+import '../../data/models/city.dart';
+import 'bloc/search_bloc.dart';
+import 'widgets/city_card_widget.dart';
+import 'widgets/search_bar_widget.dart';
 
 class CitiesPage extends StatelessWidget {
   final String regionName;

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 import 'package:ncov_tracker_ph/data/models/patient.dart';
+import 'package:ncov_tracker_ph/ui/ncov_cases_city_page/widgets/case_information_widget.dart';
 
 class CaseDialogWidget extends StatelessWidget {
   final Patient patient;
@@ -31,47 +33,23 @@ class CaseDialogWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      'Age: ${(patient.age == 0) ? 'For Validation' : patient.age}',
-                      style: GoogleFonts.roboto(
-                        fontSize: ScreenUtil().setSp(30),
-                      ),
+                    CaseInformationWidget(
+                      content:
+                          'Age: ${(patient.age == 0) ? 'For Validation' : patient.age}',
                     ),
-                    Text(
-                      'Sex: ${patient.sex}',
-                      style: GoogleFonts.roboto(
-                        fontSize: ScreenUtil().setSp(30),
-                      ),
+                    CaseInformationWidget(
+                      content: 'Sex: ${patient.sex}',
                     ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          'Health Status: ',
-                          style: GoogleFonts.roboto(
-                            fontSize: ScreenUtil().setSp(30),
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            patient.healthStatus,
-                            style: GoogleFonts.roboto(
-                              fontSize: ScreenUtil().setSp(30),
-                            ),
-                          ),
-                        ),
-                      ],
+                    CaseInformationWidget(
+                      content: 'Residence: ${patient.residence.city}',
                     ),
-                    Text(
-                      'Residence: ${patient.residence.city}',
-                      style: GoogleFonts.roboto(
-                        fontSize: ScreenUtil().setSp(30),
-                      ),
+                    CaseInformationWidget(
+                      content:
+                          'Date Confirmation: ${DateFormat('MMM dd, yyyy').format(DateTime.parse(patient.dateReportConfirmed))}',
                     ),
-                    Text(
-                      'Date Confirmation: ${patient.dateReportConfirmed}',
-                      style: GoogleFonts.roboto(
-                        fontSize: ScreenUtil().setSp(30),
-                      ),
+                    CaseInformationWidget(
+                      content:
+                          'Is admitted: ${(patient.admitted) ? 'yes' : 'no'}',
                     ),
                   ],
                 ),

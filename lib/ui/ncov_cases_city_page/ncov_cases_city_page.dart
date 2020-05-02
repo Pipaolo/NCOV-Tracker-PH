@@ -1,63 +1,79 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:ncov_tracker_ph/data/models/patient.dart';
-import 'package:ncov_tracker_ph/ui/ncov_cases_city_page/widgets/case_dialog_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class NcovCasesCityPage extends StatelessWidget {
+import '../../data/models/patient.dart';
+import 'bloc/filtered_cases_bloc.dart';
+import 'widgets/case_card_widget.dart';
+
+class NcovCasesCityPage extends StatelessWidget implements AutoRouteWrapper {
   final List<Patient> patients;
   final String city;
   const NcovCasesCityPage({Key key, this.patients, this.city})
       : super(key: key);
 
   @override
+  Widget wrappedRoute(context) => BlocProvider<FilteredCasesBloc>(
+        create: (context) => FilteredCasesBloc(cases: patients),
+        child: this,
+      );
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(city),
-        centerTitle: true,
-      ),
-      body: GridView.builder(
-        gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        itemCount: patients.length,
-        itemBuilder: (context, i) {
-          final Patient patient = patients[i];
-          return Card(
-            child: InkWell(
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return Dialog(
-                        backgroundColor: Colors.transparent,
-                        child: CaseDialogWidget(patient: patient),
-                      );
-                    });
+    return DefaultTabController(
+      length: 3,
+      initialIndex: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(city),
+          centerTitle: true,
+          bottom: TabBar(
+            onTap: (index) {
+              switch (index) {
+                case 0:
+                  context.bloc<FilteredCasesBloc>()
+                    ..add(CasesFilteredByRecovery());
+                  break;
+                case 1:
+                  context.bloc<FilteredCasesBloc>()
+                    ..add(CasesFilteredByDeath());
+                  break;
+                case 2:
+                  context.bloc<FilteredCasesBloc>()
+                    ..add(CasesFilteredByGeneral());
+                  break;
+              }
+            },
+            tabs: <Widget>[
+              Tab(
+                text: 'Recovered',
+              ),
+              Tab(
+                text: 'Died',
+              ),
+              Tab(
+                text: 'All',
+              ),
+            ],
+          ),
+        ),
+        body: BlocBuilder<FilteredCasesBloc, FilteredCasesState>(
+            builder: (context, state) {
+          if (state is FilteredCasesLoaded) {
+            return GridView.builder(
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+              itemCount: state.filteredCases.length,
+              itemBuilder: (context, i) {
+                final Patient patient = state.filteredCases[i];
+                return CaseCardWidget(
+                  patient: patient,
+                );
               },
-              child: Container(
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Case ID: ',
-                        style: GoogleFonts.raleway(
-                          fontSize: ScreenUtil().setSp(30),
-                        ),
-                      ),
-                      Text(
-                        patient.caseNumber,
-                        style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setSp(60),
-                        ),
-                      ),
-                    ],
-                  )),
-            ),
-          );
-        },
+            );
+          }
+          return Container();
+        }),
       ),
     );
   }

@@ -36,12 +36,12 @@ class CasesPageBloc extends Bloc<CasesPageEvent, CasesPageState> {
         final currentStatisticFromApi =
             await ncovRepository.fetchBasicStatistics();
         final isStorageEmpty = await hiveRepository.isLocalStorageEmpty();
+
         //Check if there are differences in the results
         if (!isStorageEmpty) {
           //If there are no stored currentstatistics then store then compare.
           final isCasesUpdated =
               await isNewCasesUpdated(currentStatisticFromApi);
-
           if (isCasesUpdated) {
             final patientsFromNetwork = await ncovRepository.fetchPatients();
             //After fetching the current cases from the internet store it in the local storage

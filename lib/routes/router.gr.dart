@@ -50,7 +50,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as SplashPageArguments ?? SplashPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SplashPage(key: typedArgs.key),
+          builder: (context) => SplashPage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.introductionPageRoute:
@@ -60,12 +60,12 @@ class Router extends RouterBase {
         final typedArgs =
             args as IntroductionPageArguments ?? IntroductionPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => IntroductionPage(key: typedArgs.key),
+          builder: (context) => IntroductionPage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.homePageRoute:
         return MaterialPageRoute<dynamic>(
-          builder: (_) => HomePage(),
+          builder: (context) => HomePage(),
           settings: settings,
         );
       case Routes.mapPageRoute:
@@ -74,7 +74,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as MapPageArguments ?? MapPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => MapPage(key: typedArgs.key),
+          builder: (context) => MapPage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.casesPageRoute:
@@ -83,7 +83,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as CasesPageArguments ?? CasesPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => CasesPage(key: typedArgs.key),
+          builder: (context) => CasesPage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.citiesPageRoute:
@@ -92,7 +92,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as CitiesPageArguments ?? CitiesPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => CitiesPage(
+          builder: (context) => CitiesPage(
               key: typedArgs.key,
               cities: typedArgs.cities,
               regionName: typedArgs.regionName),
@@ -104,7 +104,7 @@ class Router extends RouterBase {
         }
         final typedArgs = args as InfoPageArguments ?? InfoPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => InfoPage(key: typedArgs.key),
+          builder: (context) => InfoPage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.hospitalListingsPageRoute:
@@ -114,7 +114,7 @@ class Router extends RouterBase {
         final typedArgs = args as HospitalListingsPageArguments ??
             HospitalListingsPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => HospitalListingsPage(key: typedArgs.key),
+          builder: (context) => HospitalListingsPage(key: typedArgs.key),
           settings: settings,
         );
       case Routes.hospitalPageRoute:
@@ -124,7 +124,7 @@ class Router extends RouterBase {
         final typedArgs =
             args as HospitalPageArguments ?? HospitalPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) =>
+          builder: (context) =>
               HospitalPage(key: typedArgs.key, hospital: typedArgs.hospital),
           settings: settings,
         );
@@ -135,10 +135,11 @@ class Router extends RouterBase {
         final typedArgs =
             args as NcovCasesCityPageArguments ?? NcovCasesCityPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => NcovCasesCityPage(
-              key: typedArgs.key,
-              patients: typedArgs.patients,
-              city: typedArgs.city),
+          builder: (context) => NcovCasesCityPage(
+                  key: typedArgs.key,
+                  patients: typedArgs.patients,
+                  city: typedArgs.city)
+              .wrappedRoute(context),
           settings: settings,
         );
       default:

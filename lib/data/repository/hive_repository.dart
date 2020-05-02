@@ -89,8 +89,7 @@ class HiveRepository {
   Future<List<Patient>> fetchCurrentCasesFromLocal() async {
     final box = await Hive.openBox('patients');
     final List<dynamic> rawData = box.get('currentPatients');
-
-    return rawData
+    final List<Patient> patients = rawData
         .map((e) => Patient(
               caseNumber: e['caseNumber'] ?? "For Validation",
               sex: e['sex'] ?? "For Validation",
@@ -109,5 +108,8 @@ class HiveRepository {
               ),
             ))
         .toList();
+    patients
+        .sort((a, b) => b.dateReportConfirmed.compareTo(a.dateReportConfirmed));
+    return patients;
   }
 }
