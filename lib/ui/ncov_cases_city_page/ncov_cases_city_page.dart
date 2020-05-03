@@ -46,13 +46,85 @@ class NcovCasesCityPage extends StatelessWidget implements AutoRouteWrapper {
             },
             tabs: <Widget>[
               Tab(
-                text: 'Recovered',
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Recovered'),
+                    Container(
+                      child: Text(
+                        context
+                            .bloc<FilteredCasesBloc>()
+                            .cases
+                            .where(
+                              (element) => element.removalType
+                                  .toLowerCase()
+                                  .contains('recovered'),
+                            )
+                            .length
+                            .toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    // Chip(
+
+                    //   ),
+                    //   backgroundColor: Colors.blue,
+                    // ),
+                  ],
+                ),
               ),
               Tab(
-                text: 'Died',
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Died'),
+                    Container(
+                      child: Text(
+                        context
+                            .bloc<FilteredCasesBloc>()
+                            .cases
+                            .where(
+                              (element) => element.removalType
+                                  .toLowerCase()
+                                  .contains('died'),
+                            )
+                            .length
+                            .toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Tab(
-                text: 'All',
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text('All'),
+                    Container(
+                      child: Text(
+                        context
+                            .bloc<FilteredCasesBloc>()
+                            .cases
+                            .length
+                            .toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
