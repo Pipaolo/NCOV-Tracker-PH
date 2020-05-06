@@ -7,18 +7,16 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-import 'package:ncov_tracker_ph/data/models/age_category_statistic.dart';
-import 'package:ncov_tracker_ph/data/models/cumulative_statistic.dart';
 
+import '../../../../data/models/age_category_statistic.dart';
+import '../../../../data/models/cumulative_statistic.dart';
 import '../../../../data/models/gender_statistic.dart';
 import '../../../../data/repository/ncov_repository.dart';
 
 part 'graph_event.dart';
 part 'graph_state.dart';
 
-@injectable
 class GraphBloc extends Bloc<GraphEvent, GraphState> {
   final NcovRepository ncovRepository;
 
@@ -113,20 +111,26 @@ class GraphBloc extends Bloc<GraphEvent, GraphState> {
 
     int counter = 0;
     for (final data in ageData) {
-      dataPoints.add(BarChartGroupData(x: counter, barsSpace: 2, barRods: [
-        BarChartRodData(
-          y: data.female.value.toDouble() ?? 0.0,
-          color: leftBarColor,
-          borderRadius: BorderRadius.circular(10),
-          width: ScreenUtil().setWidth(12),
+      dataPoints.add(
+        BarChartGroupData(
+          x: counter,
+          barsSpace: 1,
+          barRods: [
+            BarChartRodData(
+              y: data.female.value.toDouble() ?? 0.0,
+              color: leftBarColor,
+              borderRadius: BorderRadius.circular(10),
+              width: ScreenUtil().setWidth(12),
+            ),
+            BarChartRodData(
+              y: data.male.value.toDouble() ?? 0.0,
+              color: rightBarColor,
+              borderRadius: BorderRadius.circular(10),
+              width: ScreenUtil().setWidth(12),
+            )
+          ],
         ),
-        BarChartRodData(
-          y: data.male.value.toDouble() ?? 0.0,
-          color: rightBarColor,
-          borderRadius: BorderRadius.circular(10),
-          width: ScreenUtil().setWidth(12),
-        )
-      ]));
+      );
       counter++;
     }
     return dataPoints;

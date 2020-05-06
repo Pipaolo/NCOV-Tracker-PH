@@ -12,8 +12,8 @@ class AgeGraphLegendWidget extends StatelessWidget {
       alignment: Alignment.topRight,
       child: Padding(
         padding: const EdgeInsets.only(
-          top: 20,
-          right: 20,
+          top: 10,
+          right: 10,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

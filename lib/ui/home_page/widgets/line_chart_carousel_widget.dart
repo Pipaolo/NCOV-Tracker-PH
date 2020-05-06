@@ -13,26 +13,27 @@ class LineChartCarouselWidget extends StatelessWidget {
     return BlocBuilder<GraphBloc, GraphState>(builder: (context, state) {
       if (state is GraphSuccess) {
         return Container(
-          padding: EdgeInsets.symmetric(
-            vertical: 20,
-          ),
-          height: ScreenUtil().setHeight(600),
+          height: ScreenUtil().uiHeightPx * 0.35,
+          width: double.infinity,
           child: Swiper(
-            viewportFraction: 0.89,
             scale: 0.5,
             curve: Curves.easeInOut,
+            fade: 0,
             itemCount: state.lineChartData.entries.length,
             itemBuilder: (context, i) {
               final chartTitle =
                   state.rawCumulativeStats.entries.elementAt(i).key;
               final lineChartData = state.lineChartData[chartTitle];
               return LineChartCardWidget(
+                index: i,
                 chartTitle: chartTitle,
                 lineChartBarData: lineChartData,
                 rawCumulativeStats: state.rawCumulativeStats[chartTitle],
               );
             },
             autoplay: true,
+            autoplayDelay: 15000,
+            duration: 1000,
             autoplayDisableOnInteraction: true,
             pagination: SwiperPagination(
               builder: DotSwiperPaginationBuilder(

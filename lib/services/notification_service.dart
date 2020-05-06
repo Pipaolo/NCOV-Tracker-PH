@@ -6,24 +6,27 @@ import 'package:dio/dio.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../data/models/ncov_statistic_basic.dart';
 import '../data/repository/ncov_repository.dart';
 import '../main.dart';
-import 'firebase_remote_config_service.dart';
 
 @injectable
 class NotificationService {
-  final IFirebaseRemoteService firebaseRemoteService;
   final NcovRepository ncovRepository;
-  NotificationService(this.ncovRepository, this.firebaseRemoteService);
+  NotificationService(this.ncovRepository);
   static void showNotification(
     NcovStatisticBasic currentStatistic,
   ) async {
     final dataToBePassed = jsonEncode(currentStatistic.toJson());
-    final totalInfectedAdded =
-        currentStatistic.totalInfected - currentStatistic.prevInfected;
+    // final totalInfectedAdded =
+    //     currentStatistic.totalInfected - currentStatistic.prevInfected;
+    final currentDate = DateFormat('MMMM dd, yyyy').format(DateTime.now());
+    final notificationContent =
+        'The number of cases in the Philippines has been updated: <br><b>As of $currentDate:</b><br> Number of Cases: ${currentStatistic.totalInfected}<br>Number of Deaths: ${currentStatistic.totalDeaths}<br>Number of Recoveries: ${currentStatistic.totalRecovered}<br>Number of Tests Conducted: ${currentStatistic.totalTestsConducted}';
+
     final androidChannelSpecifics = AndroidNotificationDetails(
       '0',
       'ncov_tracker_ph',
@@ -34,9 +37,10 @@ class NotificationService {
       priority: Priority.High,
       enableLights: true,
       styleInformation: BigTextStyleInformation(
-        'The number of cases in the Philippines has increase by: $totalInfectedAdded',
+        notificationContent,
         contentTitle: '<b>NOTICE:</b>',
         htmlFormatBigText: true,
+        htmlFormatContent: true,
         htmlFormatTitle: true,
         htmlFormatContentTitle: true,
       ),
@@ -47,7 +51,7 @@ class NotificationService {
     await notificationsPlugin.show(
         0,
         'NOTICE:',
-        'The number of cases in the Philippines has increase by: $totalInfectedAdded',
+        'The number of cases in the Philippines has been updated:',
         platformChannelSpecifics,
         payload: dataToBePassed);
   }

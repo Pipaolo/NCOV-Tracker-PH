@@ -29,7 +29,7 @@ class HospitalPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
                     child: Container(
-                      height: MediaQuery.of(context).size.height,
+                      padding: const EdgeInsets.only(bottom: 20),
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: Colors.blue,
@@ -53,28 +53,26 @@ class HospitalPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Expanded(
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: HospitalInfoWidget(
-                                    infoType: 'Address',
-                                    infoContents: hospital.address,
-                                  ),
+                          Column(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: HospitalInfoWidget(
+                                  infoType: 'Address',
+                                  infoContents: hospital.address,
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: HospitalInfoWidget(
-                                    infoType: 'Type',
-                                    infoContents: hospital.type,
-                                  ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: HospitalInfoWidget(
+                                  infoType: 'Type',
+                                  infoContents: hospital.type,
                                 ),
-                                _buildContactInfo(),
-                              ],
-                            ),
+                              ),
+                              _buildContactInfo(),
+                            ],
                           ),
                         ],
                       ),

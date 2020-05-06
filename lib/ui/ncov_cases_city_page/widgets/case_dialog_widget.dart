@@ -47,6 +47,16 @@ class CaseDialogWidget extends StatelessWidget {
                       content:
                           'Date Confirmation: ${DateFormat('MMM dd, yyyy').format(DateTime.parse(patient.dateReportConfirmed))}',
                     ),
+                    if (patient.healthStatus == 'RECOVERED')
+                      CaseInformationWidget(
+                        content:
+                            'Date Recovered: ${DateFormat('MMM dd, yyyy').format(DateTime.parse(patient.dateReportRemoved))}',
+                      ),
+                    if (patient.healthStatus == 'DIED')
+                      CaseInformationWidget(
+                        content:
+                            'Date Death: ${DateFormat('MMM dd, yyyy').format(DateTime.parse(patient.dateReportRemoved))}',
+                      ),
                     CaseInformationWidget(
                       content:
                           'Is admitted: ${(patient.admitted) ? 'yes' : 'no'}',

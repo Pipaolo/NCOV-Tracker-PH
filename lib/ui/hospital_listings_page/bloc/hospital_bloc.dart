@@ -2,17 +2,15 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-import 'package:ncov_tracker_ph/core/bloc/connectivity_bloc.dart';
 
+import '../../../core/bloc/connectivity_bloc.dart';
 import '../../../data/models/hospital.dart';
 import '../../../data/repository/ncov_repository.dart';
 
 part 'hospital_event.dart';
 part 'hospital_state.dart';
 
-@injectable
 class HospitalBloc extends Bloc<HospitalEvent, HospitalState> {
   final NcovRepository ncovRepository;
   final ConnectivityBloc connectivityBloc;

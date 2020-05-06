@@ -1,13 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ncov_tracker_ph/data/models/city.dart';
 
+import '../../../data/models/city.dart';
 import '../../../routes/router.gr.dart';
-import '../../cities_page/bloc/search_bloc.dart';
 
 class RegionCardWidget extends StatelessWidget {
   final String region;
@@ -38,8 +36,6 @@ class RegionCardWidget extends StatelessWidget {
               ),
             );
           } else {
-            BlocProvider.of<SearchBloc>(context)
-              ..add(RegionPressed(region: region));
             return ExtendedNavigator.of(context).pushNamed(
               Routes.citiesPageRoute,
               arguments: CitiesPageArguments(
@@ -60,7 +56,7 @@ class RegionCardWidget extends StatelessWidget {
                 child: AutoSizeText(
                   region ?? 'Not Defined',
                   style: GoogleFonts.montserrat(
-                    fontSize: ScreenUtil().setSp(40),
+                    fontSize: ScreenUtil().setSp(35),
                   ),
                   maxLines: 2,
                   textAlign: TextAlign.center,
@@ -71,10 +67,10 @@ class RegionCardWidget extends StatelessWidget {
               child: AutoSizeText(
                 totalCount.toString(),
                 style: GoogleFonts.montserrat(
-                  fontSize: ScreenUtil().setSp(70),
                   fontWeight: FontWeight.bold,
+                  fontSize: ScreenUtil().setSp(50),
                 ),
-                maxLines: 2,
+                maxLines: 1,
               ),
             ),
           ],

@@ -69,11 +69,6 @@ class NcovCasesCityPage extends StatelessWidget implements AutoRouteWrapper {
                         ),
                       ),
                     ),
-                    // Chip(
-
-                    //   ),
-                    //   backgroundColor: Colors.blue,
-                    // ),
                   ],
                 ),
               ),
@@ -132,16 +127,18 @@ class NcovCasesCityPage extends StatelessWidget implements AutoRouteWrapper {
         body: BlocBuilder<FilteredCasesBloc, FilteredCasesState>(
             builder: (context, state) {
           if (state is FilteredCasesLoaded) {
-            return GridView.builder(
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-              itemCount: state.filteredCases.length,
-              itemBuilder: (context, i) {
-                final Patient patient = state.filteredCases[i];
-                return CaseCardWidget(
-                  patient: patient,
-                );
-              },
+            return Scrollbar(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemCount: state.filteredCases.length,
+                itemBuilder: (context, i) {
+                  final Patient patient = state.filteredCases[i];
+                  return CaseCardWidget(
+                    patient: patient,
+                  );
+                },
+              ),
             );
           }
           return Container();

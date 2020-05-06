@@ -13,24 +13,28 @@ class BasicStatisticsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Widget> widgets = [
       BasicDataCardWidget(
+        isOpenedFromNotification: false,
         title: 'Infected',
         currentValue: statisticBasic.totalInfected,
         prevValue: statisticBasic.prevInfected,
         svgPath: 'assets/images/infected.svg',
       ),
       BasicDataCardWidget(
+        isOpenedFromNotification: false,
         title: 'Recovered',
         currentValue: statisticBasic.totalRecovered,
         prevValue: statisticBasic.prevRecovered,
         svgPath: 'assets/images/recovered.svg',
       ),
       BasicDataCardWidget(
+        isOpenedFromNotification: false,
         title: 'Deaths',
         currentValue: statisticBasic.totalDeaths,
         prevValue: statisticBasic.prevDeaths,
         svgPath: 'assets/images/death.svg',
       ),
       BasicDataCardWidget(
+        isOpenedFromNotification: false,
         title: 'Tests Conducted',
         currentValue: statisticBasic.totalTestsConducted,
         prevValue: statisticBasic.prevTestsConducted,

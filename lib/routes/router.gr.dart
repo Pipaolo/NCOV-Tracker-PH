@@ -93,9 +93,10 @@ class Router extends RouterBase {
         final typedArgs = args as CitiesPageArguments ?? CitiesPageArguments();
         return MaterialPageRoute<dynamic>(
           builder: (context) => CitiesPage(
-              key: typedArgs.key,
-              cities: typedArgs.cities,
-              regionName: typedArgs.regionName),
+                  key: typedArgs.key,
+                  cities: typedArgs.cities,
+                  regionName: typedArgs.regionName)
+              .wrappedRoute(context),
           settings: settings,
         );
       case Routes.infoPageRoute:

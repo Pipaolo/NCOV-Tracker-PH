@@ -33,26 +33,24 @@ class CasesPage extends StatelessWidget {
   }
 
   _buildHasConnection() {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('Cases'),
-        ),
-        body: Container(
-          alignment: Alignment.center,
-          child: BlocBuilder<CasesPageBloc, CasesPageState>(
-              builder: (context, state) {
-            if (state is CasesPageLoading) {
-              return _buildLoading();
-            } else if (state is CasesPageSuccess) {
-              return _buildSuccess(state.regions);
-            } else if (state is CasesPageError) {
-              return _buildError(state.errorText);
-            }
-            return Container();
-          }),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('Cases'),
+      ),
+      body: Container(
+        alignment: Alignment.center,
+        child: BlocBuilder<CasesPageBloc, CasesPageState>(
+            builder: (context, state) {
+          if (state is CasesPageLoading) {
+            return _buildLoading();
+          } else if (state is CasesPageSuccess) {
+            return _buildSuccess(state.regions);
+          } else if (state is CasesPageError) {
+            return _buildError(state.errorText);
+          }
+          return Container();
+        }),
       ),
     );
   }
@@ -71,7 +69,7 @@ class CasesPage extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'This process will take some time if the app is opened once, because it is currently storing the data to the device itself.',
+            'This process will take some time if the app is opened once.',
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 10),

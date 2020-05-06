@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ncov_tracker_ph/ui/widgets/custom_card_widget.dart';
 
 import '../../core/bloc/connectivity_bloc.dart';
 import '../../core/bloc/notification_bloc/notification_bloc.dart';
@@ -61,27 +62,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   _buildHasConnection() {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('Dashboard'),
-        ),
-        drawer: HomePageDrawerWidget(),
-        body: Container(
-          alignment: Alignment.center,
-          child: BlocBuilder<HomePageBloc, HomePageState>(
-              builder: (context, state) {
-            if (state is HomePageLoading) {
-              return _buildLoading();
-            } else if (state is HomePageSuccess) {
-              return _buildSuccess(state.ncovStatisticBasic, context);
-            } else if (state is HomePageError) {
-              return _buildError(state.errorText, context);
-            }
-            return Container();
-          }),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('Dashboard'),
+      ),
+      drawer: HomePageDrawerWidget(),
+      body: Container(
+        alignment: Alignment.center,
+        child:
+            BlocBuilder<HomePageBloc, HomePageState>(builder: (context, state) {
+          if (state is HomePageLoading) {
+            return _buildLoading();
+          } else if (state is HomePageSuccess) {
+            return _buildSuccess(state.ncovStatisticBasic, context);
+          } else if (state is HomePageError) {
+            return _buildError(state.errorText, context);
+          }
+          return Container();
+        }),
       ),
     );
   }
@@ -143,74 +142,76 @@ class _HomePageState extends State<HomePage> {
         ),
       child: CustomScrollView(
         slivers: <Widget>[
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                FadeInAnimationWidget(
-                  delay: 3,
-                  child: BasicStatisticsWidget(
-                    statisticBasic: statisticBasic,
-                  ),
-                ),
-                FadeInAnimationWidget(
-                  delay: 3,
-                  child: Center(
-                    child: AutoSizeText(
-                      'Confirmed Cases By Age Group',
-                      style: GoogleFonts.raleway(
-                        fontWeight: FontWeight.bold,
-                        fontSize: ScreenUtil().setSp(36),
-                      ),
-                      maxLines: 1,
+          SliverToBoxAdapter(
+            child: FadeInAnimationWidget(
+              delay: 3,
+              child: BasicStatisticsWidget(
+                statisticBasic: statisticBasic,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: FadeInAnimationWidget(
+              delay: 3,
+              child: CustomCardWidget(
+                childTitle: Center(
+                  child: AutoSizeText(
+                    'Confirmed Cases By Age Group',
+                    style: GoogleFonts.raleway(
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(36),
                     ),
+                    maxLines: 1,
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                FadeInAnimationWidget(
-                    delay: 3, child: AgeCategoryBarChartWidget()),
-                const SizedBox(
-                  height: 20,
-                ),
-                FadeInAnimationWidget(
-                  delay: 3,
-                  child: Center(
-                    child: AutoSizeText(
-                      'Confirmed Cases By Gender',
-                      style: GoogleFonts.raleway(
-                        fontWeight: FontWeight.bold,
-                        fontSize: ScreenUtil().setSp(36),
-                      ),
-                      maxLines: 1,
+                child: AgeCategoryBarChartWidget(),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: const SizedBox(
+              height: 20,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: FadeInAnimationWidget(
+              delay: 3,
+              child: CustomCardWidget(
+                childTitle: Center(
+                  child: AutoSizeText(
+                    'Confirmed Cases By Gender',
+                    style: GoogleFonts.raleway(
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(36),
                     ),
+                    maxLines: 1,
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                FadeInAnimationWidget(
-                  delay: 3,
-                  child: GenderPieChartWidget(),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                FadeInAnimationWidget(
-                  delay: 3,
-                  child: Center(
-                    child: AutoSizeText(
-                      'Cumulative Count',
-                      style: GoogleFonts.raleway(
-                        fontWeight: FontWeight.bold,
-                        fontSize: ScreenUtil().setSp(36),
-                      ),
-                      maxLines: 1,
+                child: GenderPieChartWidget(),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: const SizedBox(
+              height: 20,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: FadeInAnimationWidget(
+              delay: 3,
+              child: CustomCardWidget(
+                childTitle: Center(
+                  child: AutoSizeText(
+                    'Cumulative Count',
+                    style: GoogleFonts.raleway(
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(36),
                     ),
+                    maxLines: 1,
                   ),
                 ),
-                LineChartCarouselWidget()
-              ],
+                child: LineChartCarouselWidget(),
+              ),
             ),
           ),
         ],

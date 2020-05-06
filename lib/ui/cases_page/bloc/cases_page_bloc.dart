@@ -3,18 +3,16 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:injectable/injectable.dart';
-import 'package:ncov_tracker_ph/data/models/ncov_statistic_basic.dart';
-import 'package:ncov_tracker_ph/data/models/region.dart';
-import 'package:ncov_tracker_ph/data/repository/hive_repository.dart';
 
-import 'package:ncov_tracker_ph/data/repository/ncov_repository.dart';
-import 'package:ncov_tracker_ph/utils/sorter.dart';
+import '../../../data/models/ncov_statistic_basic.dart';
+import '../../../data/models/region.dart';
+import '../../../data/repository/hive_repository.dart';
+import '../../../data/repository/ncov_repository.dart';
+import '../../../utils/sorter.dart';
 
 part 'cases_page_event.dart';
 part 'cases_page_state.dart';
 
-@injectable
 class CasesPageBloc extends Bloc<CasesPageEvent, CasesPageState> {
   final NcovRepository ncovRepository;
   final HiveRepository hiveRepository;

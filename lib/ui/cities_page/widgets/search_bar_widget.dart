@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'package:ncov_tracker_ph/ui/cities_page/bloc/search_bloc.dart';
+import 'package:ncov_tracker_ph/ui/cities_page/bloc/cities_search/cities_search_bloc.dart';
 
 class SearchBarWidget extends StatefulWidget {
-  final String region;
-
-  const SearchBarWidget({Key key, this.region}) : super(key: key);
+  const SearchBarWidget({Key key}) : super(key: key);
   @override
   _SearchBarWidgetState createState() => _SearchBarWidgetState();
 }
@@ -18,9 +15,11 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
   List<String> suggestions = [];
 
   onFieldChanged() {
-    BlocProvider.of<SearchBloc>(context)
+    BlocProvider.of<CitiesSearchBloc>(context)
       ..add(
-        CitiesSearched(query: searchTextController.text, region: widget.region),
+        CitiesSearched(
+          queryName: searchTextController.text,
+        ),
       );
     setState(() {});
   }
@@ -61,7 +60,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           controller: searchTextController,
         ),
         suggestionsCallback: (string) async {
-          final tempSuggestions = BlocProvider.of<SearchBloc>(context)
+          final tempSuggestions = BlocProvider.of<CitiesSearchBloc>(context)
               .cities
               .map((city) => city.name)
               .toList();
@@ -78,9 +77,9 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           );
         },
         onSuggestionSelected: (suggestion) {
-          BlocProvider.of<SearchBloc>(context)
+          BlocProvider.of<CitiesSearchBloc>(context)
             ..add(
-              CitiesSearched(query: suggestion, region: widget.region),
+              CitiesSearched(queryName: suggestion),
             );
           searchTextController.text = suggestion;
         },

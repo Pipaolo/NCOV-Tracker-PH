@@ -1,3 +1,5 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -21,12 +23,12 @@ Future<void> main() async {
   getIt<NotificationService>().configureNotificationService();
 
   runApp(
-    BlocProvider<NotificationBloc>(
-      create: (context) => NotificationBloc()
-        ..add(
-          NotificationConfigured(),
-        ),
-      child: AppWidget(),
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => BlocProvider<NotificationBloc>(
+          create: (context) =>
+              NotificationBloc()..add(NotificationConfigured()),
+          child: AppWidget()),
     ),
   );
 }

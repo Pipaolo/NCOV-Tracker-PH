@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 class BasicDataCardWidget extends StatelessWidget {
   final String title;
   final String svgPath;
+  final bool isOpenedFromNotification;
   final int currentValue;
   final int prevValue;
   final Color color;
@@ -15,6 +16,7 @@ class BasicDataCardWidget extends StatelessWidget {
     Key key,
     @required this.title,
     @required this.svgPath,
+    @required this.isOpenedFromNotification,
     @required this.currentValue,
     @required this.prevValue,
     this.color,
@@ -29,8 +31,7 @@ class BasicDataCardWidget extends StatelessWidget {
 
     return Card(
       child: Container(
-        width: 400.w,
-        padding: const EdgeInsets.symmetric(vertical: 40),
+        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,26 +47,53 @@ class BasicDataCardWidget extends StatelessWidget {
                 maxLines: 1,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SvgPicture.asset(
-                  svgPath,
-                  width: 50,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                AutoSizeText(
-                  currentValue.toString(),
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.bold,
-                    fontSize: ScreenUtil().setSp(70),
-                    color: color ?? Colors.black,
+            if (!isOpenedFromNotification)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SvgPicture.asset(
+                    svgPath,
+                    width: 50,
                   ),
-                ),
-              ],
-            ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  AutoSizeText(
+                    currentValue.toString(),
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(70),
+                      color: color ?? Colors.black,
+                    ),
+                    textAlign: TextAlign.start,
+                    maxLines: 1,
+                  ),
+                ],
+              ),
+            if (isOpenedFromNotification)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: SvgPicture.asset(
+                      svgPath,
+                      width: 50,
+                    ),
+                  ),
+                  Expanded(
+                    child: AutoSizeText(
+                      currentValue.toString(),
+                      style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.bold,
+                        fontSize: ScreenUtil().setSp(70),
+                        color: color ?? Colors.black,
+                      ),
+                      textAlign: TextAlign.start,
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
+              ),
             const SizedBox(
               height: 5,
             ),
@@ -74,6 +102,7 @@ class BasicDataCardWidget extends StatelessWidget {
               children: <Widget>[
                 AutoSizeText(
                   "+ $valueIncreased ( $percentageIncreased )",
+                  maxLines: 1,
                   style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.w500,
                     fontSize: ScreenUtil().setSp(30),

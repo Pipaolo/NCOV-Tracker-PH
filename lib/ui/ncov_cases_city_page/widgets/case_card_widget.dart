@@ -47,7 +47,9 @@ class CaseCardWidget extends StatelessWidget {
                 ),
                 Chip(
                   label: Text(
-                    patient.removalType,
+                    (patient.removalType == 'For Validation')
+                        ? 'ACTIVE CASE'
+                        : patient.removalType,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,

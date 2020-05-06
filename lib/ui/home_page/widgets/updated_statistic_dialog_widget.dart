@@ -49,11 +49,11 @@ class UpdatedStatisticDialogWidget extends StatelessWidget {
                       ),
                     ),
                     scale: 0.50,
-                    viewportFraction: 0.95,
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: BasicDataCardWidget(
+                          isOpenedFromNotification: true,
                           title: 'Infected',
                           currentValue: currentStatistics.totalInfected,
                           prevValue: currentStatistics.prevInfected,
@@ -63,6 +63,7 @@ class UpdatedStatisticDialogWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: BasicDataCardWidget(
+                          isOpenedFromNotification: true,
                           title: 'Recovered',
                           currentValue: currentStatistics.totalRecovered,
                           prevValue: currentStatistics.prevRecovered,
@@ -72,6 +73,7 @@ class UpdatedStatisticDialogWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: BasicDataCardWidget(
+                          isOpenedFromNotification: true,
                           title: 'Deaths',
                           currentValue: currentStatistics.totalDeaths,
                           prevValue: currentStatistics.prevDeaths,
@@ -81,6 +83,7 @@ class UpdatedStatisticDialogWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: BasicDataCardWidget(
+                          isOpenedFromNotification: true,
                           title: 'Tests Conducted',
                           currentValue: currentStatistics.totalTestsConducted,
                           prevValue: currentStatistics.prevTestsConducted,
