@@ -38,6 +38,7 @@ class CasesPageBloc extends Bloc<CasesPageEvent, CasesPageState> {
         //Check if there are differences in the results
         if (!isStorageEmpty) {
           //If there are no stored currentstatistics then store then compare.
+
           final isCasesUpdated =
               await isNewCasesUpdated(currentStatisticFromApi);
           if (isCasesUpdated) {

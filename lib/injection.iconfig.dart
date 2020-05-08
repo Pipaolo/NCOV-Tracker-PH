@@ -14,7 +14,7 @@ import 'package:get_it/get_it.dart';
 
 void $initGetIt(GetIt g, {String environment}) {
   final injectableModule = _$InjectableModule();
-  g.registerLazySingleton<Dio>(() => injectableModule.dio);
+  g.registerFactory<Dio>(() => injectableModule.dio);
   g.registerLazySingleton<HiveRepository>(() => HiveRepository());
   g.registerLazySingleton<NcovRepository>(
       () => NcovRepository(dioClient: g<Dio>()));

@@ -1,32 +1,32 @@
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
+
 import '../models/ncov_statistic_basic.dart';
-import 'package:ncov_tracker_ph/data/models/patient.dart';
-import 'package:ncov_tracker_ph/data/models/residence.dart';
+import '../models/patient.dart';
+import '../models/residence.dart';
 
 @injectable
 @lazySingleton
 class HiveRepository {
   Future<void> storeAppState() async {
-    final box = await Hive.openBox('app_state');
+    final appStateBox = await Hive.openBox('app_state');
     final bool isAppOpenedOnce =
-        box.get('isAppOpenedOnce', defaultValue: false);
+        appStateBox.get('isAppOpenedOnce', defaultValue: false);
     if (!isAppOpenedOnce) {
-      box.put('isAppOpenedOnce', true);
+      appStateBox.put('isAppOpenedOnce', true);
     }
   }
 
   Future<bool> isCurrentStatisticLocalStored() async {
-    final box = await Hive.openBox('app');
-    final currentStatistic = box.get('currentStatistics');
+    final casesBox = await Hive.openBox('patients');
+    final currentStatistic = casesBox.get('currentStatistics');
 
     return (currentStatistic != null) ? true : false;
   }
 
   Future<NcovStatisticBasic> fetchCurrentStatisticsLocal() async {
-    final box = await Hive.openBox('app');
-
-    final currentStatistic = box.get('currentStatistics');
+    final casesBox = await Hive.openBox('patients');
+    final currentStatistic = casesBox.get('currentStatistics');
 
     if (currentStatistic != null) {
       return NcovStatisticBasic(
@@ -46,28 +46,29 @@ class HiveRepository {
 
   Future<void> storeCurrentStatistics(
       NcovStatisticBasic currentStatistics) async {
-    final box = await Hive.openBox('app');
-    return box.put('currentStatistics', currentStatistics.toJson());
+    final casesBox = await Hive.openBox('patients');
+    return casesBox.put('currentStatistics', currentStatistics.toJson());
   }
 
   Future<bool> fetchAppState() async {
-    final box = await Hive.openBox('app_state');
+    final appStateBox = await Hive.openBox('app_state');
     final bool isAppOpenedOnce =
-        box.get('isAppOpenedOnce', defaultValue: false);
+        appStateBox.get('isAppOpenedOnce', defaultValue: false);
 
     return isAppOpenedOnce;
   }
 
   Future<bool> isLocalStorageEmpty() async {
-    final box = await Hive.openBox('patients');
-    final List<dynamic> data = box.get('currentPatients', defaultValue: []);
+    final casesBox = await Hive.openBox('patients');
+    final List<dynamic> data =
+        casesBox.get('currentPatients', defaultValue: []);
 
     return (data.isEmpty) ? true : false;
   }
 
   Future<void> storeCurrentCases(List<Patient> patients) async {
-    final box = await Hive.openBox('patients');
-    await box.put(
+    final casesBox = await Hive.openBox('patients');
+    await casesBox.put(
         'currentPatients',
         patients
             .map((e) => {
@@ -87,8 +88,8 @@ class HiveRepository {
   }
 
   Future<List<Patient>> fetchCurrentCasesFromLocal() async {
-    final box = await Hive.openBox('patients');
-    final List<dynamic> rawData = box.get('currentPatients');
+    final casesBox = await Hive.openBox('patients');
+    final List<dynamic> rawData = casesBox.get('currentPatients');
     final List<Patient> patients = rawData
         .map((e) => Patient(
               caseNumber: e['caseNumber'] ?? "For Validation",
