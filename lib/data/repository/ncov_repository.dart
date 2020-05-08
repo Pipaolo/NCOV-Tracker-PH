@@ -234,6 +234,14 @@ class NcovRepository {
     return patients;
   }
 
+  Future<List<Patient>> fetchLatestPatietns() async {
+    final totalConfirmedCount = await dioClient.post(baseUrl, data: {
+      "query": '''{
+        cases{countConfirmedCases
+          }}''',
+    });
+  }
+
   Future<List<Hospital>> fetchHospitals() async {
     try {
       final response = await dioClient.get('https://endcov.ph/hospitals/');

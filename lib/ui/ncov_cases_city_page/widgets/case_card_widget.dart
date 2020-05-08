@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,11 +39,15 @@ class CaseCardWidget extends StatelessWidget {
                     fontSize: ScreenUtil().setSp(30),
                   ),
                 ),
-                Text(
-                  patient.caseNumber,
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.bold,
-                    fontSize: ScreenUtil().setSp(60),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: AutoSizeText(
+                    patient.caseNumber,
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(60),
+                    ),
+                    maxLines: 1,
                   ),
                 ),
                 Chip(

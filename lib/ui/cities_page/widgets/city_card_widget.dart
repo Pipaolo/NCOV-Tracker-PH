@@ -37,7 +37,7 @@ class CityCardWidget extends StatelessWidget {
                   style: GoogleFonts.montserrat(
                     fontSize: ScreenUtil().setSp(40),
                   ),
-                  maxLines: 2,
+                  maxLines: 1,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -46,7 +46,7 @@ class CityCardWidget extends StatelessWidget {
               child: AutoSizeText(
                 patients.length.toString(),
                 style: GoogleFonts.montserrat(
-                  fontSize: ScreenUtil().setSp(70),
+                  fontSize: ScreenUtil().setSp(60),
                   fontWeight: FontWeight.bold,
                 ),
                 maxLines: 2,
